@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Treatment Plan & Medication</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial;
+        background: #f4f6f9;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 220px;
+        height: 100vh;
+        background: #1e3a5f;
+        position: fixed;
+        color: white;
+        padding-top: 20px;
+    }
+
+    .sidebar h2 {
+        text-align: center;
+    }
+
+    .sidebar a {
+        display: block;
+        color: white;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    .sidebar a:hover {
+        background: #2d5c8a;
+    }
+
+    /* Main content */
+    .main {
+        margin-left: 220px;
+        padding: 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    input, select {
+        padding: 8px;
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    button {
+        padding: 8px 12px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #1e73be;
+        color: white;
+    }
+
+    .btn-danger {
+        background: red;
+        color: white;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background: #1e73be;
+        color: white;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Hospital</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">Admission</a>
+    <a href="#">EHR Records</a>
+    <a href="#">Lab Orders</a>
+    <a href="#"><b>Treatment</b></a>
+    <a href="#">Pharmacy</a>
+    <a href="#">Billing</a>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+
+    <h2>Treatment Plan & Medication Management</h2>
+
+    <!-- Form -->
+    <div class="card">
+        <h3>Add Treatment</h3>
+
+        <form id="treatmentForm">
+
+            <label>Patient</label>
+            <select id="patient">
+                <option>Rakesh Patel</option>
+                <option>Anil Kumar</option>
+            </select>
+
+            <label>Date</label>
+            <input type="date" id="date" required>
+
+            <label>Treatment Description</label>
+            <input type="text" id="treatment" required>
+
+            <label>Medication</label>
+            <input type="text" id="medicine">
+
+            <button class="btn-primary" type="submit">Add Treatment</button>
+        </form>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+        <h3>Treatment Records</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Treatment</th>
+                    <th>Medication</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- JavaScript -->
+<script>
+let count = 1;
+
+document.getElementById("treatmentForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let patient = document.getElementById("patient").value;
+    let date = document.getElementById("date").value;
+    let treatment = document.getElementById("treatment").value;
+    let medicine = document.getElementById("medicine").value;
+
+    let row = `
+        <tr>
+            <td>T${count++}</td>
+            <td>${patient}</td>
+            <td>${treatment}</td>
+            <td>${medicine}</td>
+            <td>${date}</td>
+            <td>
+                <button onclick="deleteRow(this)" class="btn-danger">Delete</button>
+            </td>
+        </tr>
+    `;
+
+    document.getElementById("tableBody").innerHTML += row;
+
+    document.getElementById("treatmentForm").reset();
+});
+
+function deleteRow(btn) {
+    btn.parentElement.parentElement.remove();
+}
+</script>
+
+</body>
+</html>
