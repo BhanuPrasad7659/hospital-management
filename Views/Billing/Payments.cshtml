@@ -1,0 +1,290 @@
+@model BillingViewModel
+@inject CogMediHospitalManagementSystem.Services.HospitalService _hospitalService
+@{
+    ViewData["Title"] = "Payments & Discharge Portal";
+    var patientsList = ViewBag.PatientsList as List<Patient> ?? new List<Patient>();
+    var selectedPatient = ViewBag.SelectedPatient as Patient;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/billing/payments.css" asp-append-version="true" />
+}
+
+<div class="payments-page-container">
+    <div class="page-title-section">
+        <h2>Payments & Discharge Clearance</h2>
+        <p>Generate clinical statements, process card/cash payments, and clear patients for discharge.</p>
+    </div>
+
+    <!-- Active Patient Selector Bar -->
+    <div class="filter-bar-card">
+        <form method="get" action="/billing/payments" class="filter-form">
+            <div class="filter-row">
+                <label for="patientId">Active Case Selection:</label>
+                <select name="patientId" onchange="this.form.submit()">
+                    <option value="">-- Select Patient Account --</option>
+                    @foreach (var pat in patientsList)
+                    {
+                        <!option value="@pat.PatientId" @(selectedPatient?.PatientId == pat.PatientId ? "selected" : "")>
+                            @pat.Name (@pat.PatientId) - Status: @pat.Status
+                        </!option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="payments-grid">
+        <!-- LEFT PANEL: BILLING & UNIFIED DISCHARGE AREA -->
+        <div class="statement-panel">
+            @if (selectedPatient != null && Model != null)
+            {
+                <div class="statement-card">
+                    <!-- Invoice Sheet Header -->
+                    <div class="statement-header">
+                        <div class="invoice-brand">
+                            <i data-lucide="activity"></i>
+                            <div>
+                                <h4>CogMedi Hospital</h4>
+                                <span>Hyderabad, Telangana, India</span>
+                            </div>
+                        </div>
+                        <div class="invoice-meta">
+                            @if (Model.Status == "PAID")
+                            {
+                                <span class="badge badge-success">INVOICE PAID</span>
+                            }
+                            else if (Model.Status == "PENDING")
+                            {
+                                <span class="badge badge-warning">INVOICE PENDING</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-info">UNBILLED CASE</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="patient-summary-box">
+                        <div class="ps-column">
+                            <span>Patient Name</span>
+                            <strong>@selectedPatient.Name</strong>
+                        </div>
+                        <div class="ps-column">
+                            <span>Patient ID</span>
+                            <strong>@selectedPatient.PatientId</strong>
+                        </div>
+                        <div class="ps-column">
+                            <span>Age / Gender</span>
+                            <strong>@selectedPatient.Age yrs / @selectedPatient.Gender</strong>
+                        </div>
+                        <div class="ps-column">
+                            <span>Clinical Status</span>
+                            <strong class="text-warning">@selectedPatient.Status</strong>
+                        </div>
+                    </div>
+
+                    <!-- CONDITIONAL: NO BILL GENERATED YET -->
+                    @if (Model.Status == "NONE")
+                    {
+                        <div class="bill-generator-section">
+                            <div class="section-title">
+                                <i data-lucide="file-plus-2"></i>
+                                <h5>Generate Statement of Charges</h5>
+                            </div>
+                            <form asp-action="GenerateBill" asp-controller="Billing" method="post">
+                                <input type="hidden" name="patientId" value="@Model.PatientId" />
+                                
+                                <div class="charges-form-grid">
+                                    <div class="form-group">
+                                        <label for="consultationFee">Consultation Fee (₹)</label>
+                                        <input type="number" name="consultationFee" value="@Model.ConsultationFee" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="labCharges">Diagnostic Lab Charges (₹)</label>
+                                        <input type="number" name="labCharges" value="@Model.LabCharges" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="medicineCharges">Pharmacy Medicine Charges (₹)</label>
+                                        <input type="number" name="medicineCharges" value="@Model.MedicineCharges" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roomCharges">Room & Ward Allocation Charges (₹)</label>
+                                        <input type="number" name="roomCharges" value="@Model.RoomCharges" required />
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-block" style="margin-top: 15px;">
+                                    <i data-lucide="file-text"></i> Compile & Generate Invoice
+                                </button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- BILL DISPLAY SHEET -->
+                        <div class="bill-invoice-sheet">
+                            <div class="section-title">
+                                <i data-lucide="receipt"></i>
+                                <h5>Invoice Details (@Model.BillingRecordId)</h5>
+                            </div>
+                            
+                            <ul class="invoice-items">
+                                <li>
+                                    <span>Physician Consultation Fee</span>
+                                    <strong>₹@Model.ConsultationFee.ToString("F2")</strong>
+                                </li>
+                                <li>
+                                    <span>Diagnostic Laboratory Charges</span>
+                                    <strong>₹@Model.LabCharges.ToString("F2")</strong>
+                                </li>
+                                <li>
+                                    <span>Prescribed Pharmacy Charges</span>
+                                    <strong>₹@Model.MedicineCharges.ToString("F2")</strong>
+                                </li>
+                                <li>
+                                    <span>Room Rent & Ward Service Charges</span>
+                                    <strong>₹@Model.RoomCharges.ToString("F2")</strong>
+                                </li>
+                                <li class="total-row">
+                                    <span>Total Statement Charges</span>
+                                    <strong>₹@Model.TotalAmount.ToString("F2")</strong>
+                                </li>
+                            </ul>
+
+                            <!-- ACTION FOR PENDING BILLS -->
+                            @if (Model.Status == "PENDING")
+                            {
+                                <div class="payment-actions">
+                                    <form asp-action="CollectPayment" asp-controller="Billing" method="post">
+                                        <input type="hidden" name="billingRecordId" value="@Model.BillingRecordId" />
+                                        <button type="submit" class="btn btn-warning btn-block btn-lg">
+                                            <i data-lucide="wallet"></i> Collect Payment & Settle Invoice (₹@Model.TotalAmount)
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                            
+                            <!-- ACTION FOR PAID BILLS: THE UNIFIED DISCHARGE BUTTON -->
+                            @if (Model.Status == "PAID")
+                            {
+                                <div class="divider"></div>
+                                
+                                <div class="discharge-rbac-section">
+                                    <div class="section-title text-success">
+                                        <i data-lucide="log-out"></i>
+                                        <h5>Unified Discharge Clearance Panel</h5>
+                                    </div>
+
+                                    @if (!Model.IsDischarged && selectedPatient.Status == "ADMITTED")
+                                    {
+                                        <!-- DISCHARGE FORM - RENDERS IMMEDIATELY UNDER PAID BILL -->
+                                        <p class="rbac-notice">The bill is settled in full. Clear the patient for discharge below.</p>
+                                        
+                                        <form asp-action="DischargePatient" asp-controller="Billing" method="post">
+                                            <input type="hidden" name="patientId" value="@Model.PatientId" />
+                                            
+                                            <div class="form-group">
+                                                <label for="remarks">Clinical Discharge Remarks / Exit Notes</label>
+                                                <input type="text" name="remarks" placeholder="e.g. Recovered completely. Discharged in stable condition." required />
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-success btn-block btn-lg">
+                                                <i data-lucide="shield-check"></i> Authorize & Discharge Patient
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <!-- DISCHARGED STATE CONFIRMATION -->
+                                        <div class="discharge-cleared-box">
+                                            <div class="d-icon"><i data-lucide="check-circle-2"></i></div>
+                                            <div class="d-info">
+                                                <h4>Patient Discharged Successfully</h4>
+                                                <p>Exit timeline cleared. Patient is set to <strong>DISCHARGED</strong> in the database.</p>
+                                                @if (!string.IsNullOrEmpty(Model.DischargeRemarks))
+                                                {
+                                                    <span class="d-remarks">Remarks: <em>@Model.DischargeRemarks</em></span>
+                                                }
+                                            </div>
+                                        </div>
+                                        
+                                        <button class="btn btn-outline btn-block" onclick="alert('Discharge Summary Document (PDF) generated and printed! (Mock demo)')">
+                                            <i data-lucide="printer"></i> Print Discharge Summary Sheet
+                                        </button>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="empty-state-card">
+                    <i data-lucide="wallet" class="empty-icon"></i>
+                    <h4>Select Patient Account</h4>
+                    <p>Select a patient profile from the selection dropdown above or the directory table on the right to manage their financial statement and discharge clearance.</p>
+                </div>
+            }
+        </div>
+
+        <!-- RIGHT PANEL: PATIENTS FINANCIAL DIRECTORY -->
+        <div class="directory-panel">
+            <div class="table-card">
+                <div class="card-header">
+                    <i data-lucide="folder-kanban" class="card-icon text-info"></i>
+                    <h4>Patient Accounts & Discharges Log</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Status</th>
+                                    <th>Bill Status</th>
+                                    <th class="text-right">Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pat in patientsList)
+                                {
+                                    var bill = _hospitalService.GetBillingForPatient(pat.PatientId);
+                                    <tr>
+                                        <td>
+                                            <div class="pat-name">@pat.Name</div>
+                                            <div class="pat-id">ID: @pat.PatientId</div>
+                                        </td>
+                                        <td>
+                                            <span class="badge @(pat.Status == "ADMITTED" ? "badge-warning" : pat.Status == "DISCHARGED" ? "badge-success" : "badge-info")">
+                                                @pat.Status
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @if (bill == null)
+                                            {
+                                                <span class="badge badge-outline">Unbilled</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge @(bill.Status == "PAID" ? "badge-success" : "badge-warning")">
+                                                    @bill.Status
+                                                </span>
+                                            }
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="/billing/payments?patientId=@pat.PatientId" class="btn btn-outline btn-xs">
+                                                Select <i data-lucide="chevron-right" class="icon-tiny"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

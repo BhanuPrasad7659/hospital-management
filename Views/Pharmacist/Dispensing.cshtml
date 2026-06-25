@@ -1,0 +1,149 @@
+@model List<PharmacyRecord>
+@{
+    ViewData["Title"] = "Pharmacy Drug Dispensing Portal";
+    var patients = ViewBag.Patients as List<Patient> ?? new List<Patient>();
+    var stock = ViewBag.MedicineStock as Dictionary<string, int> ?? new Dictionary<string, int>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pharmacist/dispensing.css" asp-append-version="true" />
+}
+
+<div class="dispensing-container">
+    <div class="page-title-section">
+        <h2>Pharmacy Drug Dispensing Portal</h2>
+        <p>Inspect physician prescriptions, dispense drugs, and manage medicine inventory levels.</p>
+    </div>
+
+    <div class="dispensing-grid">
+        <!-- LEFT PANEL: DISPENSING QUEUE -->
+        <div class="queue-panel">
+            <div class="table-card">
+                <div class="card-header">
+                    <i data-lucide="clipboard-list" class="card-icon text-primary"></i>
+                    <h4>Prescription Dispensing Queue</h4>
+                    <span class="badge badge-primary">@Model.Count Total Orders</span>
+                </div>
+                <div class="card-body">
+                    @if (Model.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Ref ID</th>
+                                        <th>Patient Name</th>
+                                        <th>Medicine Name</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Dispensing Details</th>
+                                        <th class="text-right">Dispense Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var record in Model)
+                                    {
+                                        var pat = patients.FirstOrDefault(p => p.PatientId == record.PatientId);
+                                        <tr>
+                                            <td><strong>@record.PharmacyRecordId</strong></td>
+                                            <td>
+                                                <div class="pat-name">@(pat?.Name ?? "Patient")</div>
+                                                <div class="pat-id">ID: @record.PatientId</div>
+                                            </td>
+                                            <td>
+                                                <span class="med-name-tag"><i data-lucide="pill" class="icon-tiny"></i> @record.MedicineName</span>
+                                            </td>
+                                            <td><strong>@record.Quantity</strong> units</td>
+                                            <td>
+                                                <span class="badge @(record.Status == "DISPENSED" ? "badge-success" : "badge-warning")">
+                                                    @record.Status
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if (record.Status == "DISPENSED")
+                                                {
+                                                    <div class="dispensed-meta">
+                                                        <span>Date: @record.DispensedDate?.ToString("dd-MM-yyyy")</span>
+                                                        <span>By: @record.PharmacistName</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted-italic">Awaiting dispensing</span>
+                                                }
+                                            </td>
+                                            <td class="text-right">
+                                                @if (record.Status == "PENDING")
+                                                {
+                                                    <form asp-action="Dispense" asp-controller="Pharmacist" method="post" class="inline-form">
+                                                        <input type="hidden" name="recordId" value="@record.PharmacyRecordId" />
+                                                        <button type="submit" class="btn btn-primary btn-xs">
+                                                            <i data-lucide="check" class="icon-tiny"></i> Dispense Now
+                                                        </button>
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-success-bold"><i data-lucide="check-circle" class="icon-tiny"></i> Handed Over</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i data-lucide="pill-bottle" class="empty-icon"></i>
+                            <p>No active prescriptions awaiting dispensing.</p>
+                            <span class="subtext">Physicians must prescribe medications in their Treatment plans to populate this queue.</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: MEDICINE STOCK -->
+        <div class="stock-panel">
+            <div class="stock-card">
+                <div class="card-header">
+                    <i data-lucide="box" class="card-icon text-info"></i>
+                    <h4>Medicine Stock Inventory</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Medicine Name</th>
+                                <th class="text-right">Stock Level</th>
+                                <th class="text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var kvp in stock)
+                            {
+                                var isLow = kvp.Value < 100;
+                                <tr>
+                                    <td><strong>@kvp.Key</strong></td>
+                                    <td class="text-right">@kvp.Value units</td>
+                                    <td class="text-right">
+                                        @if (isLow)
+                                        {
+                                            <span class="badge badge-danger">Low Stock</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-success">In Stock</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

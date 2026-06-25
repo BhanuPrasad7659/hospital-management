@@ -1,0 +1,89 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Pharmacy Inventory Dashboard";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pharmacist/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    <!-- Welcome Header -->
+    <div class="dashboard-header">
+        <div class="header-text">
+            <h2>Welcome, @Model.UserDisplayName</h2>
+            <p>Pharmacy Dispensary Desk - Monitor stocks and dispense prescribed medicines.</p>
+        </div>
+        <div class="header-date">
+            <i data-lucide="calendar"></i>
+            <span>@DateTime.Now.ToString("dd MMMM, yyyy")</span>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Total Medicine Stock</span>
+                <h3>@Model.TotalPatients Units</h3>
+                <p class="card-subtext">Currently in pharmacy racks</p>
+            </div>
+            <div class="metric-icon primary"><i data-lucide="package"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Dispensed Today</span>
+                <h3>@Model.ActiveCases</h3>
+                <p class="card-subtext">Prescriptions checked out</p>
+            </div>
+            <div class="metric-icon success"><i data-lucide="check-square"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Pending Prescriptions</span>
+                <h3>@Model.ActiveTreatments</h3>
+                <p class="card-subtext">Awaiting drug dispensing</p>
+            </div>
+            <div class="metric-icon warning"><i data-lucide="hourglass"></i></div>
+        </div>
+    </div>
+
+    <!-- Quick Actions & Timeline -->
+    <div class="details-grid-pharmacist">
+        <div class="action-card">
+            <h4>Quick Dispensary Actions</h4>
+            <div class="action-buttons">
+                <a href="/pharmacist/dispensing" class="btn btn-primary btn-lg btn-block">
+                    <i data-lucide="pill"></i> Open Drug Dispensing Panel
+                </a>
+                <a href="/settings" class="btn btn-outline btn-lg btn-block">
+                    <i data-lucide="archive"></i> Inventory Management
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="activity-card">
+            <div class="card-header">
+                <i data-lucide="history" class="card-icon text-info"></i>
+                <h4>Recent Pharmacy Activities</h4>
+            </div>
+            <div class="card-body">
+                <ul class="activity-timeline">
+                    @foreach (var log in Model.RecentActivities)
+                    {
+                        <li>
+                            <div class="activity-bullet"></div>
+                            <div class="activity-content">
+                                <p>@log</p>
+                                <span>Recent</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,194 @@
+@model ReportViewModel
+@{
+    ViewData["Title"] = "Hospital Performance Reports & Analytics";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/reports/reports.css" asp-append-version="true" />
+}
+
+<div class="reports-container">
+    <div class="page-title-section">
+        <h2>Performance Reports & Analytics</h2>
+        <p>Analyze key hospital performance indicators, financial revenues, and clinical throughput.</p>
+    </div>
+
+    <!-- Analytics Counters -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Total Revenue</span>
+                <h3>₹@Model.TotalRevenue.ToString("N0")</h3>
+                <p class="card-subtext">Settled accounts</p>
+            </div>
+            <div class="metric-icon success"><i data-lucide="indian-rupee"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Total Admissions</span>
+                <h3>@Model.TotalAdmissions</h3>
+                <p class="card-subtext">In-patient entries</p>
+            </div>
+            <div class="metric-icon warning"><i data-lucide="bed-double"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Diagnostic Scans</span>
+                <h3>@Model.TotalLabTests</h3>
+                <p class="card-subtext">Lab orders processed</p>
+            </div>
+            <div class="metric-icon primary"><i data-lucide="microscope"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Dispensed Rxs</span>
+                <h3>@Model.TotalDispensedMedicines</h3>
+                <p class="card-subtext">Pharmacy drug checkouts</p>
+            </div>
+            <div class="metric-icon info"><i data-lucide="pill"></i></div>
+        </div>
+    </div>
+
+    <!-- Export Action Card -->
+    <div class="export-card">
+        <div class="export-text">
+            <h4>Export Raw Hospital Data Records</h4>
+            <p>Download comprehensive logs containing patient demographics, EHR history lines, lab results, and financial bills.</p>
+        </div>
+        <div class="export-buttons">
+            <button class="btn btn-outline" onclick="triggerExport('PDF')">
+                <i data-lucide="file-text" class="text-danger"></i> Export as PDF Document
+            </button>
+            <button class="btn btn-outline" onclick="triggerExport('Excel')">
+                <i data-lucide="sheet" class="text-success"></i> Export as Excel Spreadsheet
+            </button>
+            <button class="btn btn-outline" onclick="triggerExport('CSV')">
+                <i data-lucide="file-code" class="text-primary"></i> Export as CSV Data Log
+            </button>
+        </div>
+    </div>
+
+    <!-- Charts Layout Grid -->
+    <div class="charts-grid-reports">
+        <!-- Monthly Revenue Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h4>Financial Revenue Trends</h4>
+                <span>6-Month Flow</span>
+            </div>
+            <div class="chart-body">
+                <canvas id="reportsRevenueChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Admissions by Department -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h4>Admissions by Department</h4>
+                <span>Patient Distribution</span>
+            </div>
+            <div class="chart-body">
+                <canvas id="reportsDeptChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Lab Test Volumes -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h4>Diagnostic Test Volumes</h4>
+                <span>Laboratory Loads</span>
+            </div>
+            <div class="chart-body">
+                <canvas id="reportsLabChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function triggerExport(format) {
+            alert(format + ' export triggered successfully! Compiling data sheets for download... (Mock demo)');
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Monthly Revenue Chart (Line)
+            const ctxRevenue = document.getElementById('reportsRevenueChart').getContext('2d');
+            new Chart(ctxRevenue, {
+                type: 'line',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.MonthlyRevenueLabels)),
+                    datasets: [{
+                        label: 'Revenue (₹)',
+                        data: @Html.Raw(Json.Serialize(Model.MonthlyRevenueValues)),
+                        borderColor: '#0284c7',
+                        backgroundColor: 'rgba(2, 132, 199, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 2. Admissions by Department (Bar)
+            const ctxDept = document.getElementById('reportsDeptChart').getContext('2d');
+            new Chart(ctxDept, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.DepartmentLabels)),
+                    datasets: [{
+                        label: 'Admissions Count',
+                        data: @Html.Raw(Json.Serialize(Model.DepartmentValues)),
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 3. Lab Test Volumes (Horizontal Bar)
+            const ctxLab = document.getElementById('reportsLabChart').getContext('2d');
+            new Chart(ctxLab, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.LabTestLabels)),
+                    datasets: [{
+                        label: 'Tests Conducted',
+                        data: @Html.Raw(Json.Serialize(Model.LabTestValues)),
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: '#f1f5f9' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+}

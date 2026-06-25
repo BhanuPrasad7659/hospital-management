@@ -1,0 +1,126 @@
+@using System.Security.Claims
+
+<aside class="app-sidebar" id="appSidebar">
+    <!-- Sidebar Branding -->
+    <a href="/" class="sidebar-brand" style="text-decoration: none;">
+        <div class="brand-logo">
+            <i data-lucide="activity" class="brand-icon"></i>
+        </div>
+        <div class="brand-text">
+            <h3>CogMedi</h3>
+            <span>Smart Healthcare</span>
+        </div>
+    </a>
+    
+    <!-- Navigation Links -->
+    <nav class="sidebar-nav">
+        <ul>
+            <!-- Dashboard Link (Dynamic routing based on Role) -->
+            @if (User.IsInRole("admin"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/admin/dashboard") == true ? "active" : "")">
+                    <a href="/admin/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+            }
+            else if (User.IsInRole("receptionist"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/receptionist/dashboard") == true ? "active" : "")">
+                    <a href="/receptionist/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+            }
+            else if (User.IsInRole("doctor"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/dashboard") == true ? "active" : "")">
+                    <a href="/doctor/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+            }
+            else if (User.IsInRole("laboratory"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/lab/dashboard") == true ? "active" : "")">
+                    <a href="/lab/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+            }
+            else if (User.IsInRole("pharmacist") || User.IsInRole("pharmiacist"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/pharmacist/dashboard") == true ? "active" : "")">
+                    <a href="/pharmacist/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+            }
+            else if (User.IsInRole("billing discharge"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/billing/dashboard") == true ? "active" : "")">
+                    <a href="/billing/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+            }
+
+            <!-- Admission Module (receptionist and admin) -->
+            @if (User.IsInRole("admin") || User.IsInRole("receptionist"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/receptionist/admission") == true ? "active" : "")">
+                    <a href="/receptionist/admission"><i data-lucide="user-plus"></i> <span>Admission</span></a>
+                </li>
+            }
+
+            <!-- EHR Records (doctor and admin) -->
+            @if (User.IsInRole("admin") || User.IsInRole("doctor"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/ehr") == true ? "active" : "")">
+                    <a href="/doctor/ehr"><i data-lucide="folder-heart"></i> <span>EHR Records</span></a>
+                </li>
+            }
+
+            <!-- Lab Orders (laboratory and admin only - REMOVED doctor!) -->
+            @if (User.IsInRole("admin") || User.IsInRole("laboratory"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/lab/orders") == true ? "active" : "")">
+                    <a href="/lab/orders"><i data-lucide="test-tube-2"></i> <span>Lab Orders</span></a>
+                </li>
+            }
+
+            <!-- Treatment (doctor and admin) -->
+            @if (User.IsInRole("admin") || User.IsInRole("doctor"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/treatment") == true ? "active" : "")">
+                    <a href="/doctor/treatment"><i data-lucide="stethoscope"></i> <span>Treatment</span></a>
+                </li>
+            }
+
+            <!-- Pharmacy (pharmacist and admin) -->
+            @if (User.IsInRole("admin") || User.IsInRole("pharmacist") || User.IsInRole("pharmiacist"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/pharmacist/dispensing") == true ? "active" : "")">
+                    <a href="/pharmacist/dispensing"><i data-lucide="pill"></i> <span>Pharmacy</span></a>
+                </li>
+            }
+
+            <!-- Billing & Discharge (billing discharge and admin) -->
+            @if (User.IsInRole("admin") || User.IsInRole("billing discharge"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/billing/payments") == true ? "active" : "")">
+                    <a href="/billing/payments"><i data-lucide="credit-card"></i> <span>Billing & Discharge</span></a>
+                </li>
+            }
+
+            <!-- Reports Section (admin, billing discharge) -->
+            @if (User.IsInRole("admin") || User.IsInRole("billing discharge"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/reports") == true ? "active" : "")">
+                    <a href="/reports"><i data-lucide="bar-chart-3"></i> <span>Reports</span></a>
+                </li>
+            }
+
+            <!-- Global Settings (All Auth Users) -->
+            <li class="@(Context.Request.Path.Value?.Contains("/settings") == true ? "active" : "")">
+                <a href="/settings"><i data-lucide="settings"></i> <span>Settings</span></a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+        <a href="/auth/logout" class="logout-btn">
+            <i data-lucide="log-out"></i>
+            <span>Sign Out</span>
+        </a>
+    </div>
+</aside>

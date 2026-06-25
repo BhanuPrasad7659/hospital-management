@@ -1,0 +1,216 @@
+@{
+    ViewData["Title"] = "System Settings & Profile";
+    var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Staff";
+    var name = User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value ?? "Employee";
+    var username = User.Identity?.Name ?? "user";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/settings/settings.css" asp-append-version="true" />
+}
+
+<div class="settings-page-container">
+    <div class="page-title-section">
+        <h2>System Settings & Profile</h2>
+        <p>Manage hospital profile configurations, update notification parameters, and secure credentials.</p>
+    </div>
+
+    <div class="settings-layout">
+        <!-- LEFT COLUMN: TABS SELECTOR PANEL -->
+        <aside class="settings-sidebar">
+            <ul class="settings-tabs">
+                <li class="tab-item active" onclick="switchSettingsTab(event, 'hospital-tab')">
+                    <i data-lucide="building"></i> Hospital Details
+                </li>
+                <li class="tab-item" onclick="switchSettingsTab(event, 'profile-tab')">
+                    <i data-lucide="user"></i> User Profile
+                </li>
+                <li class="tab-item" onclick="switchSettingsTab(event, 'notifications-tab')">
+                    <i data-lucide="bell-ring"></i> Notification Alerts
+                </li>
+                <li class="tab-item" onclick="switchSettingsTab(event, 'security-tab')">
+                    <i data-lucide="shield-check"></i> Portal Security
+                </li>
+            </ul>
+        </aside>
+
+        <!-- RIGHT COLUMN: TAB CONTENT DISPLAY PANEL -->
+        <main class="settings-content-panel">
+            <!-- TAB 1: HOSPITAL DETAILS -->
+            <div class="settings-tab-content active" id="hospital-tab">
+                <div class="card-header">
+                    <h4>Hospital Branding Details</h4>
+                    <p>Configure general contact credentials displayed on public pages and invoice headers.</p>
+                </div>
+                <form asp-action="SaveHospital" asp-controller="Settings" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Hospital Name</label>
+                            <input type="text" name="hospitalName" value="CogMedi Multispeciality Hospital" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Tagline / Motto</label>
+                            <input type="text" name="tagline" value="Smart Healthcare. Better Care." required />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contact Phone</label>
+                                <input type="tel" name="contact" value="+91 9876543210" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Official Email</label>
+                                <input type="email" name="email" value="info@cogmedi.com" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Physical Address</label>
+                            <input type="text" name="address" value="CogMedi Multispeciality Hospital, Hyderabad, Telangana, India" required />
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Save Hospital Config</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- TAB 2: USER PROFILE -->
+            <div class="settings-tab-content" id="profile-tab">
+                <div class="card-header">
+                    <h4>Employee Profile Credentials</h4>
+                    <p>Your official employment profile details verified by the hospital registrar.</p>
+                </div>
+                <div class="card-body">
+                    <div class="profile-card-box">
+                        <div class="pc-avatar">
+                            @{
+                                var initials = string.Join("", name.Split(' ').Select(n => n[0])).ToUpper();
+                                if (initials.Length > 2) initials = initials.Substring(0, 2);
+                                @initials
+                            }
+                        </div>
+                        <div class="pc-details">
+                            <h3>@name</h3>
+                            <span class="badge badge-primary">@role</span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-details-grid">
+                        <div class="pd-item">
+                            <span>Hospital Username</span>
+                            <strong>@username</strong>
+                        </div>
+                        <div class="pd-item">
+                            <span>Department Security Authorization</span>
+                            <strong>Level 2 (@role)</strong>
+                        </div>
+                        <div class="pd-item">
+                            <span>Account Status</span>
+                            <strong class="text-success"><i data-lucide="check" class="icon-tiny"></i> Active Employee</strong>
+                        </div>
+                        <div class="pd-item">
+                            <span>Terminal Login Timestamp</span>
+                            <strong>@DateTime.Now.ToString("dd-MM-yyyy hh:mm tt")</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: NOTIFICATIONS -->
+            <div class="settings-tab-content" id="notifications-tab">
+                <div class="card-header">
+                    <h4>Notification Alert Parameters</h4>
+                    <p>Configure automated system communication channels for patients and medical staff.</p>
+                </div>
+                <div class="card-body">
+                    <div class="toggles-list">
+                        <div class="toggle-item">
+                            <div class="ti-text">
+                                <h5>Patient Registration SMS Alert</h5>
+                                <p>Sends welcome SMS and Patient ID upon registration.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-item">
+                            <div class="ti-text">
+                                <h5>Diagnostic Lab Test Ready Email</h5>
+                                <p>Alerts physician immediately when laboratory test reports are uploaded.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-item">
+                            <div class="ti-text">
+                                <h5>Billing Clearance Notification</h5>
+                                <p>Alerts admissions desk when patient invoice payment status changes to PAID.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" onclick="alert('Notification settings updated!')"><i data-lucide="save"></i> Save Notification Alert Rules</button>
+                </div>
+            </div>
+
+            <!-- TAB 4: SECURITY -->
+            <div class="settings-tab-content" id="security-tab">
+                <div class="card-header">
+                    <h4>Change Portal Password</h4>
+                    <p>Update your authentication password to maintain security standards.</p>
+                </div>
+                <form asp-action="ChangePassword" asp-controller="Settings" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input type="password" name="currentPassword" placeholder="Enter current password" required />
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" name="newPassword" placeholder="Minimum 8 characters" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <input type="password" name="confirmPassword" placeholder="Retype new password" required />
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary"><i data-lucide="key"></i> Save New Password</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function switchSettingsTab(event, tabId) {
+            // Remove active class from all tab items
+            const tabs = document.querySelectorAll('.settings-tabs .tab-item');
+            tabs.forEach(t => t.classList.remove('active'));
+
+            // Remove active class from all tab contents
+            const contents = document.querySelectorAll('.settings-tab-content');
+            contents.forEach(c => c.classList.remove('active'));
+
+            // Add active class to clicked tab item
+            event.currentTarget.classList.add('active');
+
+            // Add active class to targeted tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Reinitialize lucide icons just in case
+            lucide.createIcons();
+        }
+    </script>
+}

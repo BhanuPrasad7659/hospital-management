@@ -1,0 +1,466 @@
+@{
+    ViewData["Title"] = "Smart Clinical Management Portal";
+    ViewData["HideShell"] = true;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home/home.css" asp-append-version="true" />
+}
+
+<div class="public-landing">
+    <!-- Top Announcement Alert Banner -->
+    <div class="top-announcement-banner">
+        <div class="tab-container">
+            <span class="tab-badge">SYSTEM STABLE</span>
+            <p>CogMedi Smart Engine is operating at 100% capacity with real-time thread-safe synchronization. <a href="#portals">Access Entrance Portals Below &rarr;</a></p>
+        </div>
+    </div>
+
+    <!-- Header/Navigation Bar -->
+    <header class="public-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <i data-lucide="activity" class="brand-icon"></i>
+                <div class="logo-text">
+                    <h1>CogMedi</h1>
+                    <span>Smart Healthcare. Better Care.</span>
+                </div>
+            </div>
+            <nav class="public-nav">
+                <a href="#portals">Portals</a>
+                <a href="#journey">Integrated Care Loop</a>
+                <a href="#testimonials">Reviews</a>
+                <a href="#portals" class="btn btn-primary btn-sm nav-login-btn">
+                    <i data-lucide="log-in"></i> Access Portals
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-glow-1"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="hero-badge"><i data-lucide="activity" class="icon-sm"></i> Smart Hospital Management Hub</span>
+                <h1>Digital Healthcare.<br/><span class="gradient-text">Smart Operations.</span></h1>
+                <p>Welcome to CogMedi Hospital Management System—a state-of-the-art, role-based operational suite. Built with a thread-safe, real-time central database, it seamlessly connects admissions, EHR patient charts, pharmacy dispensing, diagnostics, and billing in a single, unified care loop.</p>
+                <div class="hero-actions">
+                    <a href="#portals" class="btn btn-primary btn-lg">
+                        Access Employee Portals <i data-lucide="arrow-right"></i>
+                    </a>
+                    <a href="#journey" class="btn btn-outline btn-lg">
+                        Explore Care Loop
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <!-- Live Dashboard Visual Mockup -->
+                <div class="mockup-wrapper">
+                    <div class="live-dashboard-mockup">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <span class="mockup-dot red"></span>
+                                <span class="mockup-dot yellow"></span>
+                                <span class="mockup-dot green"></span>
+                            </div>
+                            <div class="mockup-title">CogMedi Live Engine</div>
+                            <div class="mockup-dots"><i data-lucide="refresh-cw" style="width: 11px; color: #64748b;"></i></div>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mockup-row">
+                                <div class="mockup-card">
+                                    <span>Active Admissions</span>
+                                    <h4 class="blue">12 Cases</h4>
+                                </div>
+                                <div class="mockup-card">
+                                    <span>Pending Labs</span>
+                                    <h4 class="orange">3 Orders</h4>
+                                </div>
+                            </div>
+                            <div class="mockup-row">
+                                <div class="mockup-card">
+                                    <span>Today's Revenue</span>
+                                    <h4 class="green">₹3.85 Lakhs</h4>
+                                </div>
+                                <div class="mockup-card">
+                                    <span>System Health</span>
+                                    <h4 class="purple">100% Stable</h4>
+                                </div>
+                            </div>
+                            <div class="mockup-list">
+                                <h5>Active Admissions Queue</h5>
+                                <div class="mockup-item">
+                                    <div class="mockup-item-info">
+                                        <div class="mockup-avatar">RP</div>
+                                        <div>
+                                            <strong>Rakesh Patel</strong>
+                                            <div style="color: #64748b; font-size: 9px;">General Ward - Bed G-18</div>
+                                        </div>
+                                    </div>
+                                    <span class="mockup-status blue">ADMITTED</span>
+                                </div>
+                                <div class="mockup-item">
+                                    <div class="mockup-item-info">
+                                        <div class="mockup-avatar">PP</div>
+                                        <div>
+                                            <strong>Priya Patel</strong>
+                                            <div style="color: #64748b; font-size: 9px;">ICU - Bed ICU-03</div>
+                                        </div>
+                                    </div>
+                                    <span class="mockup-status blue">ADMITTED</span>
+                                </div>
+                                <div class="mockup-item">
+                                    <div class="mockup-item-info">
+                                        <div class="mockup-avatar">AS</div>
+                                        <div>
+                                            <strong>Amit Sharma</strong>
+                                            <div style="color: #64748b; font-size: 9px;">Discharged Home</div>
+                                        </div>
+                                    </div>
+                                    <span class="mockup-status green">DISCHARGED</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon"><i data-lucide="users-2"></i></div>
+                <div class="stat-info">
+                    <h3>5,000+</h3>
+                    <p>Patients Healed</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i data-lucide="heart-pulse"></i></div>
+                <div class="stat-info">
+                    <h3>200+</h3>
+                    <p>Specialist Doctors</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i data-lucide="building-2"></i></div>
+                <div class="stat-info">
+                    <h3>20+</h3>
+                    <p>Departments</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i data-lucide="shield-check"></i></div>
+                <div class="stat-info">
+                    <h3>24/7</h3>
+                    <p>Continuous Care</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mid-Page Promotion Banner (Ecosystem Callout) -->
+    <section class="mid-promo-banner">
+        <div class="mpb-overlay"></div>
+        <div class="mpb-container">
+            <div class="mpb-content">
+                <h2>A Unified Clinician Ecosystem</h2>
+                <p>Connecting registrars, practitioners, lab analysts, pharmacists, and finance officers in a single, high-speed coordination loop. No communication delays, zero paper friction, and absolute operational clarity.</p>
+                <div class="mpb-badges">
+                    <div class="mpb-badge"><i data-lucide="shield-check"></i> Claims Audited</div>
+                    <div class="mpb-badge"><i data-lucide="refresh-cw"></i> Real-time Sync</div>
+                    <div class="mpb-badge"><i data-lucide="zap"></i> Zero Friction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Employee Entrance Portal Hub (UNIFIED Brand Blue Theme) -->
+    <section class="portal-hub-section" id="portals">
+        <div class="section-header">
+            <span class="section-label" style="color: #0284c7; font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Operational Portals</span>
+            <h2>Access your Operational Department</h2>
+            <p>Select your assigned clinical or administrative role below to securely log in to your specialized dashboard using our password-less authentication hub.</p>
+        </div>
+
+        <div class="portal-grid">
+            <!-- ADMIN CARD -->
+            <div class="portal-card">
+                <div>
+                    <div class="portal-icon-box"><i data-lucide="shield-alert"></i></div>
+                    <h3>admin</h3>
+                    <p>Configure operational settings, update employee registries, audit activity logs, and view hospital analytics.</p>
+                </div>
+                <a href="/login/admin" class="portal-link">
+                    Open Admin Portal <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- RECEPTIONIST CARD -->
+            <div class="portal-card">
+                <div>
+                    <div class="portal-icon-box"><i data-lucide="user-plus"></i></div>
+                    <h3>receptionist</h3>
+                    <p>Register new patient profiles, manage bed allocations, allocate wards, and oversee hospital admissions.</p>
+                </div>
+                <a href="/login/receptionist" class="portal-link">
+                    Open Admissions <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- DOCTOR CARD -->
+            <div class="portal-card">
+                <div>
+                    <div class="portal-icon-box"><i data-lucide="heart-pulse"></i></div>
+                    <h3>doctor</h3>
+                    <p>Access electronic health records (EHR), diagnose conditions, prescribe medications, and manage patient care plans.</p>
+                </div>
+                <a href="/login/doctor" class="portal-link">
+                    Open Clinic Desk <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- LABORATORY CARD -->
+            <div class="portal-card">
+                <div>
+                    <div class="portal-icon-box"><i data-lucide="microscope"></i></div>
+                    <h3>laboratory</h3>
+                    <p>Manage pending diagnostic orders, process biological samples, and upload test reports directly to patient charts.</p>
+                </div>
+                <a href="/login/laboratory" class="portal-link">
+                    Open Diagnostics <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- PHARMIACIST CARD -->
+            <div class="portal-card">
+                <div>
+                    <div class="portal-icon-box"><i data-lucide="pill"></i></div>
+                    <h3>pharmiacist</h3>
+                    <p>Inspect incoming medication prescriptions, track medicine stock inventories, and dispense drugs to outpatients.</p>
+                </div>
+                <a href="/login/pharmiacist" class="portal-link">
+                    Open Dispensary <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- BILLING DISCHARGE CARD -->
+            <div class="portal-card">
+                <div>
+                    <div class="portal-icon-box"><i data-lucide="receipt"></i></div>
+                    <h3>billing discharge</h3>
+                    <p>Compile statements of charges, process invoice payments, collect fees, and authorize patient discharge clearances.</p>
+                </div>
+                <a href="/login/billing" class="portal-link">
+                    Open Billing Desk <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Care Loop Timeline Section ("The Integrated Care Journey") -->
+    <section class="journey-section" id="journey">
+        <div class="section-header">
+            <span class="section-label" style="color: #0284c7; font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Demonstration Walkthrough</span>
+            <h2>The Integrated Care Journey</h2>
+            <p>Explore the seamless, end-to-end patient workflow showing how CogMedi's role-based operational modules collaborate to deliver flawless clinical operations.</p>
+        </div>
+
+        <div class="timeline-container">
+            <!-- Step 1 -->
+            <div class="timeline-step">
+                <div class="timeline-badge">1</div>
+                <div class="timeline-content">
+                    <div class="timeline-meta">
+                        <span class="timeline-role receptionist">receptionist</span>
+                        <span class="timeline-step-name">Front Desk Entry</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h4>Register Profile & Admit Patient</h4>
+                        <p>The receptionist registers a patient profile (demographics, contact, address) and admits them to a designated ward and bed (e.g. Ward G-18), instantly updating their clinical status to <strong>ADMITTED</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-step">
+                <div class="timeline-badge">2</div>
+                <div class="timeline-content">
+                    <div class="timeline-meta">
+                        <span class="timeline-role doctor">doctor</span>
+                        <span class="timeline-step-name">Clinical Exam</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h4>Create EHR & Formulate Care Course</h4>
+                        <p>The doctor reviews the admitted patient queue, conducts an examination, records clinical diagnoses in the EHR timeline, and prescribes medications (e.g. Paracetamol) and usage instructions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="timeline-step">
+                <div class="timeline-badge">3</div>
+                <div class="timeline-content">
+                    <div class="timeline-meta">
+                        <span class="timeline-role laboratory">laboratory</span>
+                        <span class="timeline-step-name">Diagnostics</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h4>Diagnostic Testing & Reports</h4>
+                        <p>The laboratory technician checks incoming test requests, processes samples, uploads biological test findings directly to the patient's EHR file, and marks the lab orders as <strong>COMPLETED</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="timeline-step">
+                <div class="timeline-badge">4</div>
+                <div class="timeline-content">
+                    <div class="timeline-meta">
+                        <span class="timeline-role pharmiacist">pharmiacist</span>
+                        <span class="timeline-step-name">Dispensary</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h4>Dispense Prescribed Medications</h4>
+                        <p>The pharmiacist views the active prescription queue (automatically routed from the doctor's treatment plans), dispenses the items, and the system automatically deducts quantities from the stock inventory.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="timeline-step">
+                <div class="timeline-badge">5</div>
+                <div class="timeline-content">
+                    <div class="timeline-meta">
+                        <span class="timeline-role billing">billing discharge</span>
+                        <span class="timeline-step-name">Financial Checkout</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h4>Compile Invoice & Collect Fee</h4>
+                        <p>The billing officer compiles statements of charges (auto-aggregating consultation fees, room rent, drug bills, and lab tests) and collects the payment, setting the invoice status to <strong>PAID</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="timeline-step">
+                <div class="timeline-badge">6</div>
+                <div class="timeline-content">
+                    <div class="timeline-meta">
+                        <span class="timeline-role billing">billing discharge</span>
+                        <span class="timeline-step-name">Patient Exit</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h4>Unified Patient Discharge</h4>
+                        <p>Immediately upon payment collection, the unified discharge clearance card renders. The billing officer enters exit remarks, and sets the patient's final operational status to <strong>DISCHARGED</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="section-header">
+            <span class="section-label" style="color: #0284c7; font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Real Feedback</span>
+            <h2>What Our Patients Say</h2>
+            <p>Read true reviews from patients who experienced our care and seamless digital coordination.</p>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="rating">
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                </div>
+                <p>"The billing and discharge process was incredibly fast. I paid my bill at the counter and was discharged instantly, getting my summary report immediately. Exceptional system!"</p>
+                <div class="patient-info">
+                    <div class="patient-avatar">AS</div>
+                    <div class="patient-details">
+                        <h5>Amit Sharma</h5>
+                        <span>Laparoscopic Patient</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="rating">
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                </div>
+                <p>"Doctors here have instant access to my previous EHR files. When they prescribed Amoxicillin, the pharmacy already had the order ready when I walked down. Truly smart healthcare."</p>
+                <div class="patient-info">
+                    <div class="patient-avatar">PP</div>
+                    <div class="patient-details">
+                        <h5>Priya Patel</h5>
+                        <span>Pneumonia Recoveree</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="rating">
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                    <i data-lucide="star" class="star-fill"></i>
+                </div>
+                <p>"Admirable transparency. The lab test result was linked straight to the physician's screen. Very professional medical staff, and the facility is absolutely top-tier."</p>
+                <div class="patient-info">
+                    <div class="patient-avatar">RK</div>
+                    <div class="patient-details">
+                        <h5>Rajesh Kumar</h5>
+                        <span>Hypertension Patient</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA Banner Section -->
+    <section class="bottom-cta-banner">
+        <div class="bcb-container">
+            <h2>Empowering Smarter Healthcare, Today</h2>
+            <p>Integrate your hospital operations with the CogMedi ecosystem. Flawless patient tracking, quick billing, and unified EHR charts await your clinical team.</p>
+            <a href="#portals" class="btn btn-primary btn-lg bcb-btn">
+                Launch Employee Portals <i data-lucide="arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Public Footer -->
+    <footer class="public-footer">
+        <div class="pf-container">
+            <div class="pf-brand">
+                <div class="pf-logo">
+                    <i data-lucide="activity"></i>
+                    <h3>CogMedi Hospital</h3>
+                </div>
+                <p>Digital Healthcare Management Made Easy. Empowering physicians, coordinating clinical departments, and caring for patients with state-of-the-art software systems.</p>
+            </div>
+            <div class="pf-links">
+                <h4>Quick Links</h4>
+                <a href="#portals">Employee Portals</a>
+                <a href="#journey">Integrated Care Loop</a>
+                <a href="#testimonials">Reviews</a>
+            </div>
+            <div class="pf-contact">
+                <h4>Contact Us</h4>
+                <p><i data-lucide="map-pin"></i> CogMedi Multispeciality Hospital, Hyderabad, Telangana, India</p>
+                <p><i data-lucide="phone"></i> +91 9876543210</p>
+                <p><i data-lucide="mail"></i> info@cogmedi.com</p>
+            </div>
+        </div>
+        <div class="pf-bottom">
+            <p>&copy; @DateTime.Now.Year CogMedi Hospital. Smart Healthcare. Better Care. All rights reserved.</p>
+        </div>
+    </footer>
+</div>
