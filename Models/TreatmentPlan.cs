@@ -13,5 +13,6 @@ namespace CogMediHospitalManagementSystem.Models
         public string Instructions { get; set; } = string.Empty; // e.g., "Take twice a day after meals"
         public DateTime PrescribedDate { get; set; } = DateTime.Now;
         public string DoctorName { get; set; } = string.Empty;
+        public string? OrderTest { get; set; } // Optional: If filled, triggers lab order creation
     }
 }

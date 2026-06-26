@@ -5,7 +5,7 @@ using CogMediHospitalManagementSystem.ViewModels;
 
 namespace CogMediHospitalManagementSystem.Controllers
 {
-    [Authorize(Roles = "laboratory")]
+    [Authorize(Roles = "admin,laboratory")]
     public class LabController : Controller
     {
         private readonly HospitalService _hospitalService;

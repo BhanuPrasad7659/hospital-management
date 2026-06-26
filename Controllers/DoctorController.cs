@@ -122,8 +122,22 @@ namespace CogMediHospitalManagementSystem.Controllers
             plan.DoctorName = User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value ?? "Dr. Harsha Vardhan";
             _hospitalService.CreateTreatmentPlan(plan);
 
+            // If OrderTest is filled, create a lab order
+            if (!string.IsNullOrWhiteSpace(plan.OrderTest))
+            {
+                var order = new LabOrder
+                {
+                    PatientId = plan.PatientId,
+                    TestName = plan.OrderTest,
+                    DoctorName = plan.DoctorName
+                };
+                _hospitalService.CreateLabOrder(order);
+            }
+
             TempData["SuccessMessage"] = "Treatment plan prescribed successfully!";
             return RedirectToAction("Treatment", new { patientId = plan.PatientId });
         }
+
+        // Lab test ordering is now handled in AddTreatment. The AddLabOrder action has been removed.
     }
 }

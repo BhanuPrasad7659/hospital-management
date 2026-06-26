@@ -97,6 +97,11 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="OrderTest">Order Test (Lab)</label>
+                            <input asp-for="OrderTest" type="text" placeholder="e.g. CBC, X-Ray, MRI" />
+                            <small class="text-muted-small">If filled, a lab order will be created for this patient.</small>
+                        </div>
 
                     </div>
                     
@@ -108,6 +113,9 @@
                 </form>
             </div>
         </div>
+
+
+        <!-- LAB ORDER FORM REMOVED: Lab test ordering is now part of the Treatment form above. -->
 
         <!-- RIGHT COLUMN: TREATMENT PLAN HISTORY -->
         <div class="history-panel">
