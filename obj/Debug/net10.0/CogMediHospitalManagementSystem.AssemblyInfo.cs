@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CogMediHospitalManagementSystem")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d07894e245cd3182f5d9adc1d7b78fe18fc2309")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c0a065df6055c56434961309781ad1420790129b")]
 [assembly: System.Reflection.AssemblyProductAttribute("CogMediHospitalManagementSystem")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CogMediHospitalManagementSystem")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

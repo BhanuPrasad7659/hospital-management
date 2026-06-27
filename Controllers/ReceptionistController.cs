@@ -6,7 +6,7 @@ using CogMediHospitalManagementSystem.ViewModels;
 
 namespace CogMediHospitalManagementSystem.Controllers
 {
-    [Authorize(Roles = "receptionist")]
+    [Authorize(Roles = "admin,receptionist")]
     public class ReceptionistController : Controller
     {
         private readonly HospitalService _hospitalService;

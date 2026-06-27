@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CogMediHospitalManagementSystem.Controllers
 {
-    [Authorize(Roles = "billing discharge")]
+    [Authorize(Roles = "admin,billing discharge")]
     public class BillingController : Controller
     {
         private readonly HospitalService _hospitalService;

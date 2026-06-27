@@ -71,5 +71,35 @@ namespace CogMediHospitalManagementSystem.Controllers
             }
             return RedirectToAction("Dashboard");
         }
+
+        [Route("admin/admission")]
+        public IActionResult Admission()
+        {
+            return View();
+        }
+
+        [Route("admin/ehr")]
+        public IActionResult Ehr()
+        {
+            return View();
+        }
+
+        [Route("admin/treatment")]
+        public IActionResult Treatment()
+        {
+            return View();
+        }
+
+        [Route("admin/pharmacy")]
+        public IActionResult Pharmacy()
+        {
+            return View();
+        }
+
+        [Route("admin/billing")]
+        public IActionResult Billing()
+        {
+            return View();
+        }
     }
 }

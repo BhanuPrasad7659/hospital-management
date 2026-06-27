@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\2506808\\OneDrive - Cognizant\\Desktop\\Project - Hospital Management System\\hospital-management\\CogMediHospitalManagementSystem.csproj",
+      "projectUniqueName": "C:\\Users\\2506808\\OneDrive - Cognizant\\Desktop\\Project\\hospital-management\\CogMediHospitalManagementSystem.csproj",
       "projectName": "CogMediHospitalManagementSystem",
-      "projectPath": "C:\\Users\\2506808\\OneDrive - Cognizant\\Desktop\\Project - Hospital Management System\\hospital-management\\CogMediHospitalManagementSystem.csproj",
+      "projectPath": "C:\\Users\\2506808\\OneDrive - Cognizant\\Desktop\\Project\\hospital-management\\CogMediHospitalManagementSystem.csproj",
       "packagesPath": "C:\\Users\\2506808\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\2506808\\OneDrive - Cognizant\\Desktop\\Project - Hospital Management System\\hospital-management\\obj\\",
+      "outputPath": "C:\\Users\\2506808\\OneDrive - Cognizant\\Desktop\\Project\\hospital-management\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
