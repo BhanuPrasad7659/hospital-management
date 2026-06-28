@@ -1,0 +1,177 @@
+/* ==========================================
+   COGMEDI PORTAL SELECTION CARD LAYOUT
+   ========================================== */
+
+.roles-selection-page {
+    min-height: 100vh;
+    background-color: var(--secondary);
+    background-image: radial-gradient(circle at 30% 30%, rgba(2, 132, 199, 0.1) 0%, transparent 60%);
+    color: white;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Back Link */
+.top-bar {
+    max-width: 1200px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+.back-home-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+}
+.back-home-link:hover {
+    color: white;
+    transform: translateX(-4px);
+}
+
+/* Header */
+.roles-header {
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 50px;
+}
+.hospital-logo {
+    display: inline-flex;
+    background-color: var(--primary);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    color: white;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+.hospital-logo i { width: 28px; height: 28px; }
+.roles-header h2 {
+    color: white;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+.roles-header p {
+    color: #94a3b8;
+    font-size: 15px;
+}
+
+/* Roles Grid */
+.roles-grid {
+    max-width: 1200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+}
+
+/* Reusable Role Card styling */
+.role-card {
+    background-color: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(8px);
+}
+.role-card:hover {
+    transform: translateY(-6px);
+    background-color: rgba(30, 41, 59, 0.9);
+}
+
+.role-icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.role-icon-wrapper i { width: 24px; height: 24px; color: white; }
+
+.role-card h3 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+.role-card p {
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+/* Card Themes (Custom glows and accents) */
+.admin-theme .role-icon-wrapper { background-color: #ef4444; }
+.admin-theme:hover { border-color: #ef4444; box-shadow: 0 10px 20px rgba(239, 68, 68, 0.15); }
+
+.receptionist-theme .role-icon-wrapper { background-color: #06b6d4; }
+.receptionist-theme:hover { border-color: #06b6d4; box-shadow: 0 10px 20px rgba(6, 182, 212, 0.15); }
+
+.doctor-theme .role-icon-wrapper { background-color: #3b82f6; }
+.doctor-theme:hover { border-color: #3b82f6; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.15); }
+
+.lab-theme .role-icon-wrapper { background-color: #8b5cf6; }
+.lab-theme:hover { border-color: #8b5cf6; box-shadow: 0 10px 20px rgba(139, 92, 246, 0.15); }
+
+.pharmacist-theme .role-icon-wrapper { background-color: #10b981; }
+.pharmacist-theme:hover { border-color: #10b981; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.15); }
+
+.billing-theme .role-icon-wrapper { background-color: #f59e0b; }
+.billing-theme:hover { border-color: #f59e0b; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.15); }
+
+/* Buttons inside cards */
+.btn-role {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    font-size: 13.5px;
+    width: 100%;
+}
+.btn-role:hover {
+    background-color: white;
+    color: var(--secondary);
+}
+
+/* Footer */
+.roles-footer {
+    text-align: center;
+    max-width: 600px;
+}
+.roles-footer p {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+.roles-footer span {
+    font-size: 11px;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .roles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 600px) {
+    .roles-grid {
+        grid-template-columns: 1fr;
+    }
+}

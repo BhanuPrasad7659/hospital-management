@@ -1,0 +1,161 @@
+@model List<LabOrder>
+@{
+    ViewData["Title"] = "Laboratory Diagnostic Orders";
+    var patients = ViewBag.Patients as List<Patient> ?? new List<Patient>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/lab/orders.css" asp-append-version="true" />
+}
+
+<div class="lab-orders-container">
+    <div class="page-title-section">
+        <h2>Laboratory Diagnostic Orders</h2>
+        <p>Process physician diagnostic requests, manage sample testing, and record clinical results.</p>
+    </div>
+
+    <div class="table-card">
+        <div class="card-header">
+            <i data-lucide="test-tube-2" class="card-icon text-primary"></i>
+            <h4>Diagnostic Test Queue</h4>
+            <span class="badge badge-primary">@Model.Count Total Orders</span>
+        </div>
+        <div class="card-body">
+            @if (Model.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Patient Name</th>
+                                <th>Test Ordered</th>
+                                <th>Prescribed By</th>
+                                <th>Order Date</th>
+                                <th>Status</th>
+                                <th>Diagnostic Findings</th>
+                                <th class="text-right">Process Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                var pat = patients.FirstOrDefault(p => p.PatientId == order.PatientId);
+                                <tr>
+                                    <td><strong>@order.LabOrderId</strong></td>
+                                    <td>
+                                        <div class="pat-name">@(pat?.Name ?? "Unknown Patient")</div>
+                                        <div class="pat-id">ID: @order.PatientId</div>
+                                    </td>
+                                    <td>
+                                        <span class="test-name-tag"><i data-lucide="file-text" class="icon-tiny"></i> @order.TestName</span>
+                                    </td>
+                                    <td>@order.DoctorName</td>
+                                    <td>@order.OrderDate.ToString("dd-MM-yyyy hh:mm tt")</td>
+                                    <td>
+                                        <span class="badge @(order.Status == "COMPLETED" ? "badge-success" : order.Status == "IN_PROGRESS" ? "badge-info" : "badge-warning")">
+                                            @order.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if (order.Status == "COMPLETED")
+                                        {
+                                            <div class="result-text-box">
+                                                <p>@order.Result</p>
+                                                <span>Analyst: @order.TechnicianName</span>
+                                            </div>
+                                        }
+                                        else if (order.Status == "IN_PROGRESS")
+                                        {
+                                            <span class="text-info-italic"><i data-lucide="loader" class="icon-tiny spin"></i> Processing sample...</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted-italic">Awaiting sample collect</span>
+                                        }
+                                    </td>
+                                    <td class="text-right">
+                                        @if (order.Status == "ORDERED")
+                                        {
+                                            <form asp-action="StartTest" asp-controller="Lab" method="post">
+                                                <input type="hidden" name="orderId" value="@order.LabOrderId" />
+                                                <button type="submit" class="btn btn-info btn-xs">
+                                                    <i data-lucide="play" class="icon-tiny"></i> Start Processing
+                                                </button>
+                                            </form>
+                                        }
+                                        else if (order.Status == "IN_PROGRESS")
+                                        {
+                                            <button type="button" class="btn btn-success btn-xs" onclick="openResultModal('@order.LabOrderId', '@(pat?.Name ?? "Patient")', '@order.TestName')">
+                                                <i data-lucide="upload-cloud" class="icon-tiny"></i> Upload Results
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-success-bold"><i data-lucide="check-circle" class="icon-tiny"></i> Completed</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i data-lucide="flask" class="empty-icon"></i>
+                    <p>No laboratory diagnostic orders found.</p>
+                    <span class="subtext">Physicians must order lab tests from the Treatment page to populate this queue.</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- UPLOAD RESULT MODAL DIALOG (CSS Light Modal) -->
+<div class="modal" id="resultModal">
+    <div class="modal-overlay" onclick="closeResultModal()"></div>
+    <div class="modal-card">
+        <div class="modal-header">
+            <h4>Upload Diagnostic Findings</h4>
+            <button class="modal-close" onclick="closeResultModal()">&times;</button>
+        </div>
+        <form asp-action="CompleteTest" asp-controller="Lab" method="post">
+            <div class="modal-body">
+                <input type="hidden" name="orderId" id="modalOrderId" />
+                
+                <div class="modal-patient-info">
+                    <p>Patient: <strong id="modalPatientName"></strong></p>
+                    <p>Diagnostic Test: <strong id="modalTestName"></strong></p>
+                </div>
+                
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="result">Diagnostic Test Report Findings</label>
+                    <textarea name="result" id="modalResultInput" rows="5" placeholder="Enter test counts, observed pathologies, or scan interpretations (e.g. Hemoglobin 14.2 g/dL (Normal), Chest scan clear)..." required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeResultModal()">Cancel</button>
+                <button type="submit" class="btn btn-success"><i data-lucide="check"></i> Submit Test Report</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openResultModal(orderId, patName, testName) {
+            document.getElementById('modalOrderId').value = orderId;
+            document.getElementById('modalPatientName').innerText = patName;
+            document.getElementById('modalTestName').innerText = testName;
+            document.getElementById('modalResultInput').value = '';
+            
+            document.getElementById('resultModal').classList.add('active');
+        }
+
+        function closeResultModal() {
+            document.getElementById('resultModal').classList.remove('active');
+        }
+    </script>
+}

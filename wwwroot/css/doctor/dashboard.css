@@ -1,0 +1,23 @@
+/* ==========================================
+   DOCTOR CLINIC DASHBOARD STYLING
+   ========================================== */
+
+@import "../admin/dashboard.css";
+
+/* Specific grid for doctor dashboard details */
+.details-grid-doctor {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 20px;
+}
+
+.actions-cell a {
+    margin-left: 6px;
+    font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+    .details-grid-doctor {
+        grid-template-columns: 1fr;
+    }
+}

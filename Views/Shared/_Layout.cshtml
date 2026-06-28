@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CogMedi Hospital Management System</title>
+    
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Common Styling -->
+    <link rel="stylesheet" href="~/css/common/theme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/common/layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/common/sidebar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/common/navbar.css" asp-append-version="true" />
+    
+    <!-- Page Specific Styling (rendered dynamically) -->
+    @await RenderSectionAsync("Styles", required: false)
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Chart.js CDN (for Dashboards & Reports) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    @if (User.Identity?.IsAuthenticated == true && ViewData["HideShell"] == null)
+    {
+        <!-- Authenticated Dashboard Layout Shell -->
+        <div class="app-container">
+            <!-- Sidebar Navigation -->
+            @await Html.PartialAsync("_Sidebar")
+            
+            <!-- Main Display Canvas -->
+            <div class="main-canvas" id="mainCanvas">
+                <!-- Top Navigation Navbar -->
+                @await Html.PartialAsync("_TopNavbar")
+                
+                <!-- Main Content Pane -->
+                <main class="content-pane">
+                    <!-- Toast Alerts for Success/Error -->
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible" id="successAlert">
+                            <i data-lucide="check-circle" class="alert-icon"></i>
+                            <span class="alert-text">@TempData["SuccessMessage"]</span>
+                            <button class="alert-close" onclick="closeAlert('successAlert')">&times;</button>
+                        </div>
+                    }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible" id="errorAlert">
+                            <i data-lucide="alert-triangle" class="alert-icon"></i>
+                            <span class="alert-text">@TempData["ErrorMessage"]</span>
+                            <button class="alert-close" onclick="closeAlert('errorAlert')">&times;</button>
+                        </div>
+                    }
+                    
+                    @RenderBody()
+                </main>
+                
+                <!-- Footer -->
+                @await Html.PartialAsync("_Footer")
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Public Layout Shell (Landing, Role Selection, Login) -->
+        <div class="public-container">
+            <!-- Toast Alerts for Public screens -->
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-floating" id="pubSuccessAlert">
+                    <i data-lucide="check-circle" class="alert-icon"></i>
+                    <span>@TempData["SuccessMessage"]</span>
+                    <button onclick="closeAlert('pubSuccessAlert')">&times;</button>
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-floating" id="pubErrorAlert">
+                    <i data-lucide="alert-triangle" class="alert-icon"></i>
+                    <span>@TempData["ErrorMessage"]</span>
+                    <button onclick="closeAlert('pubErrorAlert')">&times;</button>
+                </div>
+            }
+            
+            @RenderBody()
+        </div>
+    }
+
+    <!-- Common Utilities JS -->
+    <script src="~/js/common/utilities.js" asp-append-version="true"></script>
+    <script src="~/js/common/sidebar.js" asp-append-version="true"></script>
+    <script src="~/js/common/navbar.js" asp-append-version="true"></script>
+
+    <!-- Page Specific Scripts -->
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Initialize Lucide Icons on load -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            lucide.createIcons();
+            
+            // Auto-fade alerts after 5 seconds
+            setTimeout(function() {
+                const sAlert = document.getElementById('successAlert');
+                const eAlert = document.getElementById('errorAlert');
+                const psAlert = document.getElementById('pubSuccessAlert');
+                const peAlert = document.getElementById('pubErrorAlert');
+                if(sAlert) sAlert.style.opacity = '0';
+                if(eAlert) eAlert.style.opacity = '0';
+                if(psAlert) psAlert.style.opacity = '0';
+                if(peAlert) peAlert.style.opacity = '0';
+            }, 5000);
+        });
+        
+        function closeAlert(id) {
+            const alert = document.getElementById(id);
+            if(alert) alert.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+/* ==========================================
+   REUSABLE CLINICAL PORTAL LOGIN BASE SHEET
+   ========================================== */
+
+/* Page Background Container */
+.login-page {
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: var(--secondary);
+    background-image: linear-gradient(rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.35)),
+                      url('/images/login-bg.png');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+}
+
+.login-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1;
+}
+
+.login-card-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 440px;
+    animation: loginSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Login Card */
+.login-card {
+    background-color: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+/* Card Header */
+.login-card-header {
+    background: linear-gradient(135deg, var(--secondary) 0%, #1e293b 100%);
+    padding: 30px;
+    text-align: center;
+    color: white;
+    border-bottom: 4px solid var(--accent);
+}
+.logo-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent);
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-round);
+    color: white;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+.logo-circle i { width: 28px; height: 28px; }
+
+.hospital-branding h2 {
+    font-family: var(--font-header);
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+}
+.hospital-branding span {
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+/* Card Body & Forms */
+.login-card-body {
+    padding: 30px;
+}
+.login-card-body label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.input-icon {
+    width: 15px;
+    height: 15px;
+    color: var(--text-muted);
+}
+.form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    font-size: 13px;
+}
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.checkbox-group label {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0;
+}
+.forgot-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+}
+.btn-primary:hover {
+    background-color: var(--accent);
+    filter: brightness(0.9);
+}
+
+/* Demo Quick Access */
+.demo-helper {
+    margin-top: 24px;
+    border-top: 1px dashed var(--border);
+    padding-top: 20px;
+}
+.demo-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.demo-helper .btn-secondary {
+    background-color: var(--primary-light);
+    border: 1px solid rgba(2, 132, 199, 0.15);
+    color: var(--primary);
+    font-size: 12.5px;
+    font-weight: 600;
+}
+.demo-helper .btn-secondary:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Card Footer */
+.login-card-footer {
+    padding: 16px 30px;
+    background-color: #fafbfc;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+.login-card-footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: var(--transition-smooth);
+}
+.login-card-footer a:hover {
+    color: var(--accent);
+    transform: translateX(-2px);
+}
+
+@keyframes loginSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

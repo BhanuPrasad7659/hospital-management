@@ -1,0 +1,90 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "System Administrator Login";
+    ViewData["HideShell"] = true;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth/admin-login.css" asp-append-version="true" />
+}
+
+<div class="login-page admin-theme">
+    <div class="login-bg-overlay"></div>
+    <div class="login-card-container">
+        <div class="login-card">
+            <!-- Card Header -->
+            <div class="login-card-header">
+                <a href="/" style="text-decoration: none; color: white; display: flex; flex-direction: column; align-items: center;">
+                    <div class="logo-circle">
+                        <i data-lucide="shield-alert" class="icon-lg"></i>
+                    </div>
+                    <div class="hospital-branding">
+                        <h2>CogMedi Hospital</h2>
+                        <span>System Administrator Portal</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Form Body -->
+            <div class="login-card-body">
+                <form asp-action="AdminLogin" asp-controller="Auth" method="post" id="loginForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger-summary"></div>
+                    
+                    <input type="hidden" asp-for="Role" value="admin" />
+
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label asp-for="Username"><i data-lucide="user" class="input-icon"></i> Username</label>
+                        <input asp-for="Username" type="text" placeholder="Enter admin username" required id="usernameInput" />
+                        <small class="text-muted-small" style="display:block; margin-top:4px;">Any username and password will be accepted.</small>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label asp-for="Password"><i data-lucide="lock" class="input-icon"></i> Password</label>
+                        <input asp-for="Password" type="password" placeholder="Enter password (any value accepted)" required id="passwordInput" />
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="form-row" style="margin-bottom: 20px;">
+                        <div class="checkbox-group">
+                            <input asp-for="RememberMe" type="checkbox" id="rememberMe" />
+                            <label for="rememberMe">Remember Me</label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Action -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Secure Login <i data-lucide="shield-check"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Demo Quick login helper -->
+                <div class="demo-helper">
+                    <span class="demo-label">Interview / Demo Quick Access:</span>
+                    <button type="button" class="btn btn-secondary btn-block" onclick="triggerDemoLogin()">
+                        <i data-lucide="zap"></i> Auto-Fill & Login (admin)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="login-card-footer">
+                <a href="/Home/Roles"><i data-lucide="chevron-left" class="icon-sm"></i> Back to Portals</a>
+                <span>Secure SSL 256-Bit</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function triggerDemoLogin() {
+            document.getElementById('usernameInput').value = 'admin';
+            document.getElementById('passwordInput').value = 'admin123';
+            document.getElementById('loginForm').submit();
+        }
+    </script>
+}
