@@ -1,0 +1,80 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Lab Diagnostic Dashboard";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/lab/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    <!-- Welcome Header -->
+    <div class="dashboard-header">
+        <div class="header-text">
+            <h2>Welcome, @Model.UserDisplayName</h2>
+            <p>Diagnostic Laboratory Unit - Process test requests and upload reports.</p>
+        </div>
+        <div class="header-date">
+            <i data-lucide="calendar"></i>
+            <span>@DateTime.Now.ToString("dd MMMM, yyyy")</span>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Pending Lab Orders</span>
+                <h3>@Model.PendingLabOrders</h3>
+                <p class="card-subtext">Biological samples awaiting test</p>
+            </div>
+            <div class="metric-icon warning"><i data-lucide="beaker"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Completed Tests</span>
+                <h3>@Model.CompletedLabOrders</h3>
+                <p class="card-subtext">Diagnostic findings uploaded</p>
+            </div>
+            <div class="metric-icon success"><i data-lucide="clipboard-check"></i></div>
+        </div>
+    </div>
+
+    <!-- Quick Actions & Activities -->
+    <div class="details-grid-lab">
+        <div class="action-card">
+            <h4>Quick Laboratory Actions</h4>
+            <div class="action-buttons">
+                <a href="/lab/orders" class="btn btn-primary btn-lg btn-block">
+                    <i data-lucide="test-tube-2"></i> View Diagnostic Test Queue
+                </a>
+                <a href="/settings" class="btn btn-outline btn-lg btn-block">
+                    <i data-lucide="sliders"></i> Equipment Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent activities -->
+        <div class="activity-card">
+            <div class="card-header">
+                <i data-lucide="history" class="card-icon text-info"></i>
+                <h4>Recent Diagnostic Processes</h4>
+            </div>
+            <div class="card-body">
+                <ul class="activity-timeline">
+                    @foreach (var log in Model.RecentActivities)
+                    {
+                        <li>
+                            <div class="activity-bullet"></div>
+                            <div class="activity-content">
+                                <p>@log</p>
+                                <span>Recent</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

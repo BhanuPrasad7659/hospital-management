@@ -1,0 +1,254 @@
+/* ==========================================
+   BILLING STATEMENT & DISCHARGE CLEARANCE STYLING
+   ========================================== */
+
+.payments-page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.page-title-section h2 { font-size: 24px; font-weight: 800; }
+.page-title-section p { font-size: 13.5px; color: var(--text-muted); }
+
+/* Selector Bar */
+.filter-bar-card {
+    background-color: var(--surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-sm);
+}
+.filter-form {
+    display: flex;
+    align-items: center;
+}
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+.filter-row label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--secondary);
+    white-space: nowrap;
+}
+.filter-row select {
+    max-width: 400px;
+    font-family: var(--font-primary);
+    font-size: 13.5px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+}
+
+/* Split Grid */
+.payments-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* Invoice statement card */
+.statement-card {
+    background-color: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+.statement-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 30px;
+    border-bottom: 1px solid var(--border);
+    background-color: #fafbfc;
+}
+.invoice-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary);
+}
+.invoice-brand h4 {
+    font-size: 16px;
+    font-weight: 700;
+}
+.invoice-brand span {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+.invoice-brand i { width: 28px; height: 28px; }
+
+/* Patient demographic block */
+.patient-summary-box {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 30px;
+}
+.ps-column {
+    display: flex;
+    flex-direction: column;
+}
+.ps-column span {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+.ps-column strong {
+    font-size: 13.5px;
+    color: var(--secondary);
+    margin-top: 2px;
+}
+
+/* Charge Form/Fields */
+.bill-generator-section, .bill-invoice-sheet {
+    padding: 30px;
+}
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    color: var(--secondary);
+}
+.section-title h5 {
+    font-size: 15px;
+    font-weight: 700;
+}
+.section-title i { width: 18px; }
+
+.charges-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Receipt items */
+.invoice-items {
+    list-style: none;
+    margin-bottom: 24px;
+}
+.invoice-items li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13.5px;
+}
+.invoice-items li.total-row {
+    border-top: 2px solid var(--secondary);
+    border-bottom: 2px solid var(--secondary);
+    padding: 16px 0;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--secondary);
+}
+.invoice-items li span {
+    color: var(--text-muted);
+}
+
+/* Pay actions */
+.payment-actions {
+    margin-top: 20px;
+}
+
+/* Unified Discharge Clearance section styling (Merged RBAC) */
+.discharge-rbac-section {
+    background-color: var(--success-light);
+    border: 1px solid #a7f3d0;
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin-top: 30px;
+}
+.rbac-notice {
+    font-size: 12.5px;
+    color: #065f46;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.discharge-cleared-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: white;
+    border: 1px solid #a7f3d0;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+}
+.d-icon i {
+    width: 32px;
+    height: 32px;
+    color: var(--success);
+}
+.d-info h4 {
+    font-size: 14px;
+    color: var(--success);
+}
+.d-info p {
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+.d-remarks {
+    display: block;
+    font-size: 11.5px;
+    color: var(--text-main);
+    background-color: var(--background);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    margin-top: 6px;
+    border-left: 3px solid var(--success);
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--border);
+    margin: 30px 0;
+}
+
+.empty-state-card {
+    background-color: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+.empty-state-card h4 {
+    font-size: 16px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+.empty-state-card p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1200px) {
+    .payments-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 600px) {
+    .charges-form-grid {
+        grid-template-columns: 1fr;
+    }
+    .patient-summary-box {
+        grid-template-columns: 1fr 1fr;
+    }
+}

@@ -1,0 +1,329 @@
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\bin\Debug\net10.0\appsettings.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\bin\Debug\net10.0\CogMediHospitalManagementSystem.staticwebassets.runtime.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\bin\Debug\net10.0\CogMediHospitalManagementSystem.staticwebassets.endpoints.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\bin\Debug\net10.0\CogMediHospitalManagementSystem.exe
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\bin\Debug\net10.0\CogMediHospitalManagementSystem.deps.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\bin\Debug\net10.0\CogMediHospitalManagementSystem.runtimeconfig.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\bin\Debug\net10.0\CogMediHospitalManagementSystem.dll
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\bin\Debug\net10.0\CogMediHospitalManagementSystem.pdb
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.AssemblyInfoInputs.cache
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.AssemblyInfo.cs
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.csproj.CoreCompileInputs.cache
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.RazorAssemblyInfo.cache
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.RazorAssemblyInfo.cs
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\scopedcss\bundle\CogMediHospitalManagementSystem.styles.css
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\2xh0bi632e-{0}-hkh8leohi6-hkh8leohi6.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\yjbmk76jko-{0}-17a51iloym-17a51iloym.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\xdtmc7c6k0-{0}-17a51iloym-17a51iloym.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\ypxb9jicn5-{0}-17a51iloym-17a51iloym.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\4gzuz4lxdz-{0}-17a51iloym-17a51iloym.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\8kd37htahv-{0}-17a51iloym-17a51iloym.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\laysy1mmaz-{0}-17a51iloym-17a51iloym.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\z1ety7ueo1-{0}-y9j0k0ypd8-y9j0k0ypd8.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\7dsztg88zw-{0}-mcqif6k1oc-mcqif6k1oc.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\fmnq2cla7y-{0}-qlc5iuzl1a-qlc5iuzl1a.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\qq98ywi87c-{0}-hf0st0u49m-hf0st0u49m.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\7wbj8j5isf-{0}-k4gkroijm9-k4gkroijm9.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\72xur02rwr-{0}-2phmor9p7z-2phmor9p7z.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\3b885vtuvm-{0}-czdkxzfsbq-czdkxzfsbq.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\skrrj98gwd-{0}-np2z9z2g06-np2z9z2g06.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\7aywdtccnv-{0}-ku57p1k7bn-ku57p1k7bn.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\sbsf3bh8j1-{0}-w5izb0magk-w5izb0magk.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\4nq54soyo1-{0}-9c7eo6vhi4-9c7eo6vhi4.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\7y7uefj9uh-{0}-it47axj2g7-it47axj2g7.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\x4y9mv9mos-{0}-3kpd66eq1c-3kpd66eq1c.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\q5doz8j6w4-{0}-t05skznslz-t05skznslz.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\owhh86ykrv-{0}-ye365q3uon-ye365q3uon.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\7b5uh9mqq8-{0}-aaocb1e1jj-aaocb1e1jj.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\97h8uothk2-{0}-c3mr2b7j46-c3mr2b7j46.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\pp5kyn5pqe-{0}-fg9z12fs05-fg9z12fs05.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\6enoskabg7-{0}-pjqxhe6fru-pjqxhe6fru.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\hqecswffga-{0}-jigwfczaov-jigwfczaov.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\cngspama3y-{0}-aoycjzkw9t-aoycjzkw9t.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\10bvbfa6dz-{0}-bo1vxgnjb1-bo1vxgnjb1.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\gomp8p2ucb-{0}-z6l6h3ai0l-z6l6h3ai0l.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\t7cjssermi-{0}-4fu8hyilqd-4fu8hyilqd.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\jd4cpjq8jc-{0}-6z7kcdbxev-6z7kcdbxev.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\nwk6nbe693-{0}-151qhtkn28-151qhtkn28.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\pdpwhobdsn-{0}-86196xd1ka-86196xd1ka.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\a0gmk1jcxi-{0}-nsqmizyf9f-nsqmizyf9f.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\v041xisc1e-{0}-9z034wmhij-9z034wmhij.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\xurgcq3emr-{0}-1akl31sc62-1akl31sc62.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\j7azs5um19-{0}-qk87teppbu-qk87teppbu.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\gxrjce167s-{0}-vh4v8fuhwh-vh4v8fuhwh.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\qvmj0yss9n-{0}-f9us5h733u-f9us5h733u.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\7suicob0vm-{0}-d17x5ku6ky-d17x5ku6ky.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\8am6r7pm54-{0}-184kob9be0-184kob9be0.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\8b31n6gs4y-{0}-rg57cuzduv-rg57cuzduv.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\3jqa69eotr-{0}-vhbfrml1i6-vhbfrml1i6.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\x9bpx1gpfw-{0}-vu8anps45z-vu8anps45z.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\auocm4lwhc-{0}-fwyumqfxws-fwyumqfxws.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\61my0m6pub-{0}-8coen0kqq5-8coen0kqq5.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\v1q5autz5o-{0}-p0aadqeekt-p0aadqeekt.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\suaswfzw8g-{0}-vk5n6ropvz-vk5n6ropvz.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\d2roo59hxy-{0}-uev5ftgvj8-uev5ftgvj8.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\vxmnua9xii-{0}-11pnt1ncnf-11pnt1ncnf.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\compressed\a9swntt2f9-{0}-aj3b800z5o-aj3b800z5o.gz
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.dll
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\refint\CogMediHospitalManagementSystem.dll
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.pdb
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\CogMediHospitalManagementSystem.genruntimeconfig.cache
+C:\Users\bhanu\OneDrive\Desktop\cogmed hospital\obj\Debug\net10.0\ref\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\bin\Debug\net10.0\appsettings.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.staticwebassets.runtime.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.staticwebassets.endpoints.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.exe
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.deps.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.runtimeconfig.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.pdb
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.AssemblyInfoInputs.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.AssemblyInfo.cs
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.csproj.CoreCompileInputs.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.RazorAssemblyInfo.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.RazorAssemblyInfo.cs
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.sourcelink.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\scopedcss\bundle\CogMediHospitalManagementSystem.styles.css
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\2xh0bi632e-{0}-s9h07kn2wg-s9h07kn2wg.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\yjbmk76jko-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\xdtmc7c6k0-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\ypxb9jicn5-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\4gzuz4lxdz-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\8kd37htahv-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\laysy1mmaz-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\z1ety7ueo1-{0}-bh5xvo09x5-bh5xvo09x5.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\7dsztg88zw-{0}-ergk45qf0q-ergk45qf0q.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\fmnq2cla7y-{0}-32kik07d1h-32kik07d1h.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\qq98ywi87c-{0}-3oeokszgmz-3oeokszgmz.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\7wbj8j5isf-{0}-uafztsaqy0-uafztsaqy0.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\72xur02rwr-{0}-qx4i5ipae1-qx4i5ipae1.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\3b885vtuvm-{0}-amn843xswi-amn843xswi.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\skrrj98gwd-{0}-0olwtghbh6-0olwtghbh6.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\7aywdtccnv-{0}-ppwld24068-ppwld24068.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\sbsf3bh8j1-{0}-iaf74v4dc7-iaf74v4dc7.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\4nq54soyo1-{0}-b4q4vm2fbj-b4q4vm2fbj.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\7y7uefj9uh-{0}-l1zazv0v0t-l1zazv0v0t.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\x4y9mv9mos-{0}-4bhb36isb5-4bhb36isb5.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\q5doz8j6w4-{0}-swtynsubt9-swtynsubt9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\owhh86ykrv-{0}-uxinyjjz2o-uxinyjjz2o.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\7b5uh9mqq8-{0}-2n8qt47mql-2n8qt47mql.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\97h8uothk2-{0}-bjc50x3uju-bjc50x3uju.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\pp5kyn5pqe-{0}-x0mn0pojw9-x0mn0pojw9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\6enoskabg7-{0}-sg2vvxcrn8-sg2vvxcrn8.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\hqecswffga-{0}-s1hkj5ra4s-s1hkj5ra4s.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\cngspama3y-{0}-f05lvgp6i7-f05lvgp6i7.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\10bvbfa6dz-{0}-dpvqsh7nxe-dpvqsh7nxe.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\gomp8p2ucb-{0}-g1wvim7z5u-g1wvim7z5u.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\t7cjssermi-{0}-hp8mnn5ctd-hp8mnn5ctd.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\jd4cpjq8jc-{0}-9prod4vquu-9prod4vquu.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\nwk6nbe693-{0}-v777s3du6c-v777s3du6c.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\pdpwhobdsn-{0}-pz0vd27k7w-pz0vd27k7w.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\a0gmk1jcxi-{0}-i3p8kbnpoq-i3p8kbnpoq.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\v041xisc1e-{0}-vfhv9kvygf-vfhv9kvygf.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\xurgcq3emr-{0}-ksg41nqzkl-ksg41nqzkl.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\j7azs5um19-{0}-1z7axr39eu-1z7axr39eu.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\gxrjce167s-{0}-azh9v8mi98-azh9v8mi98.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\qvmj0yss9n-{0}-v1yd8n4ws9-v1yd8n4ws9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\7suicob0vm-{0}-tthm71qhd9-tthm71qhd9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\8am6r7pm54-{0}-9rfudb6akf-9rfudb6akf.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\8b31n6gs4y-{0}-hxw6qhnnp3-hxw6qhnnp3.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\3jqa69eotr-{0}-60bcyjjb6x-60bcyjjb6x.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\x9bpx1gpfw-{0}-0r06j3xfbc-0r06j3xfbc.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\auocm4lwhc-{0}-s76zzt9o2a-s76zzt9o2a.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\61my0m6pub-{0}-b7jlgme3tv-b7jlgme3tv.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\v1q5autz5o-{0}-w0le3bpgga-w0le3bpgga.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\suaswfzw8g-{0}-x2q67vpoy4-x2q67vpoy4.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\d2roo59hxy-{0}-cqgiliq4y9-cqgiliq4y9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\vxmnua9xii-{0}-6ox25j78el-6ox25j78el.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\compressed\a9swntt2f9-{0}-r7g5nh6wjg-r7g5nh6wjg.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\refint\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.pdb
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.genruntimeconfig.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project - Hospital Management System\hospital-management\obj\Debug\net10.0\ref\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\bin\Debug\net10.0\appsettings.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.staticwebassets.runtime.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.staticwebassets.endpoints.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.exe
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.deps.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.runtimeconfig.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\bin\Debug\net10.0\CogMediHospitalManagementSystem.pdb
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.AssemblyInfoInputs.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.AssemblyInfo.cs
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.csproj.CoreCompileInputs.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.RazorAssemblyInfo.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.RazorAssemblyInfo.cs
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\scopedcss\bundle\CogMediHospitalManagementSystem.styles.css
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\2xh0bi632e-{0}-s9h07kn2wg-s9h07kn2wg.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\yjbmk76jko-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\xdtmc7c6k0-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\ypxb9jicn5-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\4gzuz4lxdz-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\8kd37htahv-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\laysy1mmaz-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\z1ety7ueo1-{0}-bh5xvo09x5-bh5xvo09x5.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\7dsztg88zw-{0}-ergk45qf0q-ergk45qf0q.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\fmnq2cla7y-{0}-32kik07d1h-32kik07d1h.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\qq98ywi87c-{0}-3oeokszgmz-3oeokszgmz.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\7wbj8j5isf-{0}-uafztsaqy0-uafztsaqy0.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\72xur02rwr-{0}-qx4i5ipae1-qx4i5ipae1.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\3b885vtuvm-{0}-amn843xswi-amn843xswi.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\skrrj98gwd-{0}-0olwtghbh6-0olwtghbh6.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\7aywdtccnv-{0}-ppwld24068-ppwld24068.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\sbsf3bh8j1-{0}-iaf74v4dc7-iaf74v4dc7.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\4nq54soyo1-{0}-b4q4vm2fbj-b4q4vm2fbj.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\7y7uefj9uh-{0}-l1zazv0v0t-l1zazv0v0t.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\x4y9mv9mos-{0}-4bhb36isb5-4bhb36isb5.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\q5doz8j6w4-{0}-swtynsubt9-swtynsubt9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\owhh86ykrv-{0}-uxinyjjz2o-uxinyjjz2o.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\7b5uh9mqq8-{0}-2n8qt47mql-2n8qt47mql.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\97h8uothk2-{0}-bjc50x3uju-bjc50x3uju.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\pp5kyn5pqe-{0}-x0mn0pojw9-x0mn0pojw9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\6enoskabg7-{0}-sg2vvxcrn8-sg2vvxcrn8.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\hqecswffga-{0}-s1hkj5ra4s-s1hkj5ra4s.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\cngspama3y-{0}-f05lvgp6i7-f05lvgp6i7.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\10bvbfa6dz-{0}-dpvqsh7nxe-dpvqsh7nxe.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\gomp8p2ucb-{0}-g1wvim7z5u-g1wvim7z5u.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\t7cjssermi-{0}-hp8mnn5ctd-hp8mnn5ctd.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\jd4cpjq8jc-{0}-9prod4vquu-9prod4vquu.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\nwk6nbe693-{0}-v777s3du6c-v777s3du6c.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\pdpwhobdsn-{0}-pz0vd27k7w-pz0vd27k7w.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\a0gmk1jcxi-{0}-i3p8kbnpoq-i3p8kbnpoq.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\v041xisc1e-{0}-vfhv9kvygf-vfhv9kvygf.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\xurgcq3emr-{0}-ksg41nqzkl-ksg41nqzkl.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\j7azs5um19-{0}-1z7axr39eu-1z7axr39eu.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\gxrjce167s-{0}-azh9v8mi98-azh9v8mi98.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\qvmj0yss9n-{0}-v1yd8n4ws9-v1yd8n4ws9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\7suicob0vm-{0}-tthm71qhd9-tthm71qhd9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\8am6r7pm54-{0}-9rfudb6akf-9rfudb6akf.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\8b31n6gs4y-{0}-hxw6qhnnp3-hxw6qhnnp3.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\3jqa69eotr-{0}-60bcyjjb6x-60bcyjjb6x.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\x9bpx1gpfw-{0}-0r06j3xfbc-0r06j3xfbc.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\auocm4lwhc-{0}-s76zzt9o2a-s76zzt9o2a.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\61my0m6pub-{0}-b7jlgme3tv-b7jlgme3tv.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\v1q5autz5o-{0}-w0le3bpgga-w0le3bpgga.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\suaswfzw8g-{0}-x2q67vpoy4-x2q67vpoy4.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\d2roo59hxy-{0}-cqgiliq4y9-cqgiliq4y9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\vxmnua9xii-{0}-6ox25j78el-6ox25j78el.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\compressed\a9swntt2f9-{0}-r7g5nh6wjg-r7g5nh6wjg.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\refint\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.pdb
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\CogMediHospitalManagementSystem.genruntimeconfig.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\obj\Debug\net10.0\ref\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.AssemblyInfoInputs.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.AssemblyInfo.cs
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.csproj.CoreCompileInputs.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.RazorAssemblyInfo.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.RazorAssemblyInfo.cs
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\refint\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.pdb
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\bin\Debug\net10.0\appsettings.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\bin\Debug\net10.0\CogMediHospitalManagementSystem.staticwebassets.endpoints.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\bin\Debug\net10.0\CogMediHospitalManagementSystem.staticwebassets.runtime.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\bin\Debug\net10.0\CogMediHospitalManagementSystem.exe
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\bin\Debug\net10.0\CogMediHospitalManagementSystem.deps.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\bin\Debug\net10.0\CogMediHospitalManagementSystem.runtimeconfig.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\bin\Debug\net10.0\CogMediHospitalManagementSystem.dll
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\bin\Debug\net10.0\CogMediHospitalManagementSystem.pdb
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\scopedcss\bundle\CogMediHospitalManagementSystem.styles.css
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\2xh0bi632e-{0}-s9h07kn2wg-s9h07kn2wg.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\yjbmk76jko-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\xdtmc7c6k0-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\ypxb9jicn5-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\4gzuz4lxdz-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\8kd37htahv-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\laysy1mmaz-{0}-dyk2acpu99-dyk2acpu99.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\z1ety7ueo1-{0}-bh5xvo09x5-bh5xvo09x5.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\7dsztg88zw-{0}-ergk45qf0q-ergk45qf0q.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\fmnq2cla7y-{0}-32kik07d1h-32kik07d1h.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\qq98ywi87c-{0}-3oeokszgmz-3oeokszgmz.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\7wbj8j5isf-{0}-uafztsaqy0-uafztsaqy0.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\72xur02rwr-{0}-qx4i5ipae1-qx4i5ipae1.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\3b885vtuvm-{0}-amn843xswi-amn843xswi.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\skrrj98gwd-{0}-0olwtghbh6-0olwtghbh6.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\7aywdtccnv-{0}-ppwld24068-ppwld24068.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\sbsf3bh8j1-{0}-iaf74v4dc7-iaf74v4dc7.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\4nq54soyo1-{0}-b4q4vm2fbj-b4q4vm2fbj.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\7y7uefj9uh-{0}-l1zazv0v0t-l1zazv0v0t.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\x4y9mv9mos-{0}-4bhb36isb5-4bhb36isb5.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\q5doz8j6w4-{0}-swtynsubt9-swtynsubt9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\owhh86ykrv-{0}-uxinyjjz2o-uxinyjjz2o.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\7b5uh9mqq8-{0}-2n8qt47mql-2n8qt47mql.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\97h8uothk2-{0}-bjc50x3uju-bjc50x3uju.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\pp5kyn5pqe-{0}-x0mn0pojw9-x0mn0pojw9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\6enoskabg7-{0}-sg2vvxcrn8-sg2vvxcrn8.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\hqecswffga-{0}-s1hkj5ra4s-s1hkj5ra4s.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\cngspama3y-{0}-f05lvgp6i7-f05lvgp6i7.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\10bvbfa6dz-{0}-dpvqsh7nxe-dpvqsh7nxe.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\gomp8p2ucb-{0}-g1wvim7z5u-g1wvim7z5u.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\t7cjssermi-{0}-hp8mnn5ctd-hp8mnn5ctd.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\jd4cpjq8jc-{0}-9prod4vquu-9prod4vquu.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\nwk6nbe693-{0}-v777s3du6c-v777s3du6c.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\pdpwhobdsn-{0}-pz0vd27k7w-pz0vd27k7w.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\a0gmk1jcxi-{0}-i3p8kbnpoq-i3p8kbnpoq.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\v041xisc1e-{0}-vfhv9kvygf-vfhv9kvygf.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\xurgcq3emr-{0}-ksg41nqzkl-ksg41nqzkl.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\j7azs5um19-{0}-1z7axr39eu-1z7axr39eu.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\gxrjce167s-{0}-azh9v8mi98-azh9v8mi98.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\qvmj0yss9n-{0}-v1yd8n4ws9-v1yd8n4ws9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\7suicob0vm-{0}-tthm71qhd9-tthm71qhd9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\8am6r7pm54-{0}-9rfudb6akf-9rfudb6akf.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\8b31n6gs4y-{0}-hxw6qhnnp3-hxw6qhnnp3.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\3jqa69eotr-{0}-60bcyjjb6x-60bcyjjb6x.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\x9bpx1gpfw-{0}-0r06j3xfbc-0r06j3xfbc.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\auocm4lwhc-{0}-s76zzt9o2a-s76zzt9o2a.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\61my0m6pub-{0}-b7jlgme3tv-b7jlgme3tv.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\v1q5autz5o-{0}-w0le3bpgga-w0le3bpgga.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\suaswfzw8g-{0}-x2q67vpoy4-x2q67vpoy4.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\d2roo59hxy-{0}-cqgiliq4y9-cqgiliq4y9.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\vxmnua9xii-{0}-6ox25j78el-6ox25j78el.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\compressed\a9swntt2f9-{0}-r7g5nh6wjg-r7g5nh6wjg.gz
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\CogMediHospitalManagementSystem.genruntimeconfig.cache
+C:\Users\2506808\OneDrive - Cognizant\Desktop\Hospital Management\obj\Debug\net10.0\ref\CogMediHospitalManagementSystem.dll

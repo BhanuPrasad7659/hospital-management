@@ -1,0 +1,24 @@
+/* ==========================================
+   BILLING FINANCE DASHBOARD STYLING
+   ========================================== */
+
+@import "../admin/dashboard.css";
+
+.details-grid-billing {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 10px 0;
+}
+
+@media (max-width: 992px) {
+    .details-grid-billing {
+        grid-template-columns: 1fr;
+    }
+}

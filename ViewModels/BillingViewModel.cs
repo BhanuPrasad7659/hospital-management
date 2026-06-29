@@ -1,0 +1,23 @@
+using CogMediHospitalManagementSystem.Models;
+
+namespace CogMediHospitalManagementSystem.ViewModels
+{
+    public class BillingViewModel
+    {
+        public string BillingRecordId { get; set; } = string.Empty;
+        public string PatientId { get; set; } = string.Empty;
+        public string PatientName { get; set; } = string.Empty;
+        public decimal ConsultationFee { get; set; }
+        public decimal LabCharges { get; set; }
+        public decimal MedicineCharges { get; set; }
+        public decimal RoomCharges { get; set; }
+        public decimal TotalAmount => ConsultationFee + LabCharges + MedicineCharges + RoomCharges;
+        public string Status { get; set; } = "PENDING"; // PENDING, PAID
+        
+        // Merged Discharge details
+        public bool IsDischarged { get; set; }
+        public string DischargeRemarks { get; set; } = string.Empty;
+        
+        public Patient? Patient { get; set; }
+    }
+}

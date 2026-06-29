@@ -1,0 +1,192 @@
+@model TreatmentPlan
+@{
+    ViewData["Title"] = "Prescribe Care & Treatment Plans";
+    var patientsList = ViewBag.PatientsList as List<Patient> ?? new List<Patient>();
+    var selectedPatient = ViewBag.SelectedPatient as Patient;
+    var treatmentHistory = ViewBag.TreatmentHistory as List<TreatmentPlan> ?? new List<TreatmentPlan>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/doctor/treatment.css" asp-append-version="true" />
+}
+
+<div class="treatment-page-container">
+    <div class="page-title-section">
+        <h2>Prescribe Care & Treatment Plans</h2>
+        <p>Formulate medical prescriptions, dosage instructions, and order diagnostic laboratory scans.</p>
+    </div>
+
+    <!-- Patient Selection Filter -->
+    <div class="filter-bar-card">
+        <form method="get" action="/doctor/treatment" class="filter-form">
+            <div class="filter-row">
+                <label for="patientId">Active Case Selection:</label>
+                <select name="patientId" onchange="this.form.submit()">
+                    <option value="">-- All Active Admitted Patients --</option>
+                    @foreach (var pat in patientsList)
+                    {
+                        <!option value="@pat.PatientId" @(selectedPatient?.PatientId == pat.PatientId ? "selected" : "")>
+                            @pat.Name (@pat.PatientId)
+                        </!option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="treatment-grid">
+        <!-- LEFT COLUMN: TREATMENT CREATOR FORM -->
+        <div class="form-panel">
+            <div class="form-card">
+                <div class="card-header">
+                    <i data-lucide="stethoscope" class="card-icon text-primary"></i>
+                    <h4>Create Treatment Course</h4>
+                </div>
+                <form asp-action="AddTreatment" asp-controller="Doctor" method="post" id="treatmentForm">
+                    <div class="form-body">
+                        <!-- Patient demographic block -->
+                        @if (selectedPatient != null)
+                        {
+                            <div class="selected-patient-box">
+                                <div class="sp-avatar"><i data-lucide="user"></i></div>
+                                <div class="sp-info">
+                                    <h5>@selectedPatient.Name</h5>
+                                    <span>ID: <strong>@selectedPatient.PatientId</strong> | Age: @selectedPatient.Age yrs</span>
+                                </div>
+                                <input type="hidden" name="PatientId" value="@selectedPatient.PatientId" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label for="PatientId">Select Patient</label>
+                                <select asp-for="PatientId" required>
+                                    <option value="">Select patient...</option>
+                                    @foreach (var pat in patientsList)
+                                    {
+                                        <option value="@pat.PatientId">@pat.Name (@pat.PatientId)</option>
+                                    }
+                                </select>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label for="Diagnosis">Condition / Diagnosis</label>
+                            <input asp-for="Diagnosis" type="text" placeholder="e.g. Viral Fever, Pneumonia, Appendicitis" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="TreatmentDescription">Clinical Treatment Course</label>
+                            <textarea asp-for="TreatmentDescription" rows="3" placeholder="e.g. Rest, hydration, post-op wound dressings, nebulizer inhalation..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Medication">Prescribed Medications (Comma Separated)</label>
+                            <input asp-for="Medication" type="text" placeholder="e.g. Paracetamol 650mg, Amoxicillin 500mg, Pantoprazole 40mg" />
+                            <small class="text-muted-small">Entering medicines here automatically routes dispensing sheets to the Pharmacist.</small>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="Duration">Duration</label>
+                                <input asp-for="Duration" type="text" placeholder="e.g. 5 Days, 2 Weeks" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="Instructions">Usage Instructions</label>
+                                <input asp-for="Instructions" type="text" placeholder="e.g. Take twice a day after meals" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="OrderTest">Order Test (Lab)</label>
+                            <input asp-for="OrderTest" type="text" placeholder="e.g. CBC, X-Ray, MRI" />
+                            <small class="text-muted-small">If filled, a lab order will be created for this patient.</small>
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i data-lucide="check-circle"></i> Issue Treatment Plan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- LAB ORDER FORM REMOVED: Lab test ordering is now part of the Treatment form above. -->
+
+        <!-- RIGHT COLUMN: TREATMENT PLAN HISTORY -->
+        <div class="history-panel">
+            <div class="history-card">
+                <div class="card-header">
+                    <i data-lucide="scroll" class="card-icon text-success"></i>
+                    <h4>
+                        @if (selectedPatient != null)
+                        {
+                            @($"Active Treatment & Prescriptions for {selectedPatient.Name}")
+                        }
+                        else
+                        {
+                            @("All System Prescriptions & Care Plans")
+                        }
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (treatmentHistory.Count > 0)
+                    {
+                        @foreach (var tx in treatmentHistory)
+                        {
+                            <div class="tx-record-box">
+                                <div class="tx-record-header">
+                                    <span class="tx-date">@tx.PrescribedDate.ToString("dd-MM-yyyy hh:mm tt")</span>
+                                    <span class="tx-doc">By: @tx.DoctorName</span>
+                                </div>
+                                <div class="tx-record-body">
+                                    @if (selectedPatient == null)
+                                    {
+                                        var patName = patientsList.FirstOrDefault(p => p.PatientId == tx.PatientId)?.Name ?? "Patient";
+                                        <div class="tx-patient">Patient: <strong>@patName (@tx.PatientId)</strong></div>
+                                    }
+                                    <div class="tx-diagnosis">Condition: <strong>@tx.Diagnosis</strong></div>
+                                    <div class="tx-desc">
+                                        <h5>Clinical Care Course:</h5>
+                                        <p>@tx.TreatmentDescription</p>
+                                    </div>
+                                    
+                                    @if (!string.IsNullOrEmpty(tx.Medication))
+                                    {
+                                        <div class="tx-meds">
+                                            <h5>Prescribed Drugs:</h5>
+                                            <div class="meds-list">
+                                                @foreach (var med in tx.Medication.Split(','))
+                                                {
+                                                    <span class="med-tag"><i data-lucide="pill" class="icon-tiny"></i> @med.Trim()</span>
+                                                }
+                                            </div>
+                                            <p class="med-instruction"><strong>Instructions:</strong> @tx.Instructions | <strong>Duration:</strong> @tx.Duration</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i data-lucide="stethoscope" class="empty-icon"></i>
+                            <p>No active treatments prescribed yet.</p>
+                            @if (selectedPatient != null)
+                            {
+                                <span class="subtext">Formulate and prescribe the first treatment course for @selectedPatient.Name on the left.</span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

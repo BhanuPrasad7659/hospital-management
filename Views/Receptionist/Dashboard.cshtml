@@ -1,0 +1,111 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Receptionist Admissions Dashboard";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/receptionist/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    <!-- Welcome Header -->
+    <div class="dashboard-header">
+        <div class="header-text">
+            <h2>Welcome back, @Model.UserDisplayName</h2>
+            <p>Admissions Desk - Register and Admit arriving patients.</p>
+        </div>
+        <div class="header-date">
+            <i data-lucide="calendar"></i>
+            <span>@DateTime.Now.ToString("dd MMMM, yyyy")</span>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Registered Patients</span>
+                <h3>@Model.TotalPatients</h3>
+                <p class="card-subtext">Total database profiles</p>
+            </div>
+            <div class="metric-icon primary"><i data-lucide="users"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Admitted Patients</span>
+                <h3>@Model.AdmittedPatients</h3>
+                <p class="card-subtext">Currently in-patient ward</p>
+            </div>
+            <div class="metric-icon warning"><i data-lucide="bed-double"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Discharged Patients</span>
+                <h3>@Model.DischargedPatients</h3>
+                <p class="card-subtext">Left the hospital</p>
+            </div>
+            <div class="metric-icon success"><i data-lucide="log-out"></i></div>
+        </div>
+    </div>
+
+    <!-- Quick Actions & Recent admissions -->
+    <div class="details-grid-receptionist">
+        <!-- Quick Actions Panel -->
+        <div class="action-card">
+            <h4>Quick Operational Actions</h4>
+            <div class="action-buttons">
+                <a href="/receptionist/admission" class="btn btn-primary btn-lg btn-block">
+                    <i data-lucide="user-plus"></i> Register & Admit New Patient
+                </a>
+                <a href="/settings" class="btn btn-outline btn-lg btn-block">
+                    <i data-lucide="settings"></i> Desk Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- Admitted Queue -->
+        <div class="table-card">
+            <div class="card-header">
+                <h4>Currently Admitted Patient Queue</h4>
+                <span class="badge badge-warning">Active In-patients</span>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentAdmissions != null && Model.RecentAdmissions.Count > 0)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Name</th>
+                                <th>Age / Gender</th>
+                                <th>Contact</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var patient in Model.RecentAdmissions)
+                            {
+                                <tr>
+                                    <td><strong>@patient.PatientId</strong></td>
+                                    <td>@patient.Name</td>
+                                    <td>@patient.Age yrs / @patient.Gender</td>
+                                    <td>@patient.ContactNumber</td>
+                                    <td><span class="badge badge-warning">@patient.Status</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <i data-lucide="bed" class="empty-icon"></i>
+                        <p>No active admitted patients at the moment.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

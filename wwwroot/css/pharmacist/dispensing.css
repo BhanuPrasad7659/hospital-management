@@ -1,0 +1,54 @@
+/* ==========================================
+   PHARMACY DRUG DISPENSING PORTAL STYLING
+   ========================================== */
+
+.dispensing-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.page-title-section h2 { font-size: 24px; font-weight: 800; }
+.page-title-section p { font-size: 13.5px; color: var(--text-muted); }
+
+/* Split Layout */
+.dispensing-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.queue-panel, .stock-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Medicine Tag */
+.med-name-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--primary-light);
+    color: var(--primary);
+    padding: 4px 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(2, 132, 199, 0.1);
+}
+
+/* Dispensed Details */
+.dispensed-meta {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+@media (max-width: 1100px) {
+    .dispensing-grid {
+        grid-template-columns: 1fr;
+    }
+}
