@@ -12,149 +12,149 @@ build_property.EntryPointFilePath =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CogMediHospitalManagementSystem
 build_property.RootNamespace = CogMediHospitalManagementSystem
-build_property.ProjectDir = C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management\
+build_property.ProjectDir = C:\Users\2506808\hospital-management\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 10.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\2506808\OneDrive - Cognizant\Desktop\Project\hospital-management
+build_property.MSBuildProjectDirectory = C:\Users\2506808\hospital-management
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Admin/Admission.cshtml]
+[C:/Users/2506808/hospital-management/Views/Admin/Admission.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaXNzaW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Admin/Billing.cshtml]
+[C:/Users/2506808/hospital-management/Views/Admin/Billing.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQmlsbGluZy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Admin/Dashboard.cshtml]
+[C:/Users/2506808/hospital-management/Views/Admin/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Admin/Ehr.cshtml]
+[C:/Users/2506808/hospital-management/Views/Admin/Ehr.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWhyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Admin/Pharmacy.cshtml]
+[C:/Users/2506808/hospital-management/Views/Admin/Pharmacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGhhcm1hY3kuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Admin/Treatment.cshtml]
+[C:/Users/2506808/hospital-management/Views/Admin/Treatment.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVHJlYXRtZW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Auth/AdminLogin.cshtml]
+[C:/Users/2506808/hospital-management/Views/Auth/AdminLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxBZG1pbkxvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Auth/BillingLogin.cshtml]
+[C:/Users/2506808/hospital-management/Views/Auth/BillingLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxCaWxsaW5nTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Auth/DoctorLogin.cshtml]
+[C:/Users/2506808/hospital-management/Views/Auth/DoctorLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxEb2N0b3JMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Auth/LabLogin.cshtml]
+[C:/Users/2506808/hospital-management/Views/Auth/LabLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMYWJMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Auth/PharmacistLogin.cshtml]
+[C:/Users/2506808/hospital-management/Views/Auth/PharmacistLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxQaGFybWFjaXN0TG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Auth/ReceptionistLogin.cshtml]
+[C:/Users/2506808/hospital-management/Views/Auth/ReceptionistLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWNlcHRpb25pc3RMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Billing/Dashboard.cshtml]
+[C:/Users/2506808/hospital-management/Views/Billing/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbGluZ1xEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Billing/Payments.cshtml]
+[C:/Users/2506808/hospital-management/Views/Billing/Payments.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbGluZ1xQYXltZW50cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Doctor/Dashboard.cshtml]
+[C:/Users/2506808/hospital-management/Views/Doctor/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdG9yXERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Doctor/Ehr.cshtml]
+[C:/Users/2506808/hospital-management/Views/Doctor/Ehr.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdG9yXEVoci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Doctor/Treatment.cshtml]
+[C:/Users/2506808/hospital-management/Views/Doctor/Treatment.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdG9yXFRyZWF0bWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Home/Index.cshtml]
+[C:/Users/2506808/hospital-management/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Home/Roles.cshtml]
+[C:/Users/2506808/hospital-management/Views/Home/Roles.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSb2xlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Lab/Dashboard.cshtml]
+[C:/Users/2506808/hospital-management/Views/Lab/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFiXERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Lab/Orders.cshtml]
+[C:/Users/2506808/hospital-management/Views/Lab/Orders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFiXE9yZGVycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Pharmacist/Dashboard.cshtml]
+[C:/Users/2506808/hospital-management/Views/Pharmacist/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGhhcm1hY2lzdFxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Pharmacist/Dispensing.cshtml]
+[C:/Users/2506808/hospital-management/Views/Pharmacist/Dispensing.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGhhcm1hY2lzdFxEaXNwZW5zaW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Receptionist/Admission.cshtml]
+[C:/Users/2506808/hospital-management/Views/Receptionist/Admission.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXB0aW9uaXN0XEFkbWlzc2lvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Receptionist/Dashboard.cshtml]
+[C:/Users/2506808/hospital-management/Views/Receptionist/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXB0aW9uaXN0XERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Reports/Index.cshtml]
+[C:/Users/2506808/hospital-management/Views/Reports/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Settings/Index.cshtml]
+[C:/Users/2506808/hospital-management/Views/Settings/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Shared/Error.cshtml]
+[C:/Users/2506808/hospital-management/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Shared/_Footer.cshtml]
+[C:/Users/2506808/hospital-management/Views/Shared/_Footer.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Shared/_Layout.cshtml]
+[C:/Users/2506808/hospital-management/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Shared/_Sidebar.cshtml]
+[C:/Users/2506808/hospital-management/Views/Shared/_Sidebar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlYmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/Shared/_TopNavbar.cshtml]
+[C:/Users/2506808/hospital-management/Views/Shared/_TopNavbar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ub3BOYXZiYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/_ViewImports.cshtml]
+[C:/Users/2506808/hospital-management/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/2506808/OneDrive - Cognizant/Desktop/Project/hospital-management/Views/_ViewStart.cshtml]
+[C:/Users/2506808/hospital-management/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
