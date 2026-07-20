@@ -210,12 +210,21 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     font-family: var(--font-primary);
     font-size: 14px;
-    padding: 10px 14px;
+    padding: 10.5px 14px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border);
     background-color: var(--surface);
     color: var(--text-main);
     transition: var(--transition-smooth);
+}
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    padding-right: 40px;
 }
 .form-group input:focus, 
 .form-group select:focus, 
@@ -260,13 +269,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Cards */
-.table-card, .form-card, .chart-card, .action-card, .activity-card {
+.table-card, .form-card, .chart-card, .action-card, .activity-card, .history-card, .timeline-card {
     background-color: var(--surface);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
     margin-bottom: 24px;
+    transition: var(--transition-smooth);
+}
+.table-card:hover, .form-card:hover, .chart-card:hover, .action-card:hover, .activity-card:hover, .history-card:hover, .timeline-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(2, 132, 199, 0.2);
 }
 .card-header {
     display: flex;

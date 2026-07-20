@@ -39,8 +39,10 @@
         <div class="form-panel">
             <div class="form-card">
                 <div class="card-header">
-                    <i data-lucide="file-plus-2" class="card-icon text-primary"></i>
-                    <h4>Create Electronic Health Record</h4>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="file-plus-2" class="card-icon text-primary" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                        <h4 style="margin: 0;">Create Electronic Health Record</h4>
+                    </div>
                 </div>
                 <form asp-action="AddEhr" asp-controller="Doctor" method="post">
                     <div class="form-body">
@@ -93,17 +95,19 @@
         <div class="history-panel">
             <div class="timeline-card">
                 <div class="card-header">
-                    <i data-lucide="history" class="card-icon text-info"></i>
-                    <h4>
-                        @if (selectedPatient != null)
-                        {
-                            @($"Clinical History for {selectedPatient.Name}")
-                        }
-                        else
-                        {
-                            @("All System EHR History Logs")
-                        }
-                    </h4>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="history" class="card-icon text-info" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                        <h4 style="margin: 0;">
+                            @if (selectedPatient != null)
+                            {
+                                @($"Clinical History for {selectedPatient.Name}")
+                            }
+                            else
+                            {
+                                @("All System EHR History Logs")
+                            }
+                        </h4>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if (ehrRecords.Count > 0)

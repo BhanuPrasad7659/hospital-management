@@ -27,22 +27,37 @@
 
             <!-- Form Body -->
             <div class="login-card-body">
-                <form asp-action="DoctorLogin" asp-controller="Auth" method="post" id="loginForm">
+                <form asp-action="DoctorLogin" asp-controller="Auth" method="post" id="loginForm" autocomplete="off">
                     <div asp-validation-summary="ModelOnly" class="text-danger-summary"></div>
                     
                     <input type="hidden" asp-for="Role" value="doctor" />
 
-                    <!-- Username -->
+                    <!-- Username / Doctor Selection Dropdown -->
                     <div class="form-group">
-                        <label asp-for="Username"><i data-lucide="user" class="input-icon"></i> Username</label>
-                        <input asp-for="Username" type="text" placeholder="Enter physician username" required id="usernameInput" />
-                        <small class="text-muted-small" style="display:block; margin-top:4px;">Any username and password will be accepted.</small>
+                        <label asp-for="Username"><i data-lucide="user-check" class="input-icon"></i> Select Physician / Doctor Profile</label>
+                        <select asp-for="Username" id="usernameInput" required style="width: 100%; padding: 11px 14px; border-radius: var(--radius-md); border: 1.5px solid var(--border); background-color: var(--surface); color: var(--text-main); font-size: 14px; font-weight: 600; font-family: inherit; outline: none; cursor: pointer; transition: var(--transition-smooth);">
+                            <option value="">-- Choose your Doctor Profile --</option>
+                            @if (ViewBag.Doctors is List<User> doctorsList && doctorsList.Count > 0)
+                            {
+                                @foreach (var doc in doctorsList)
+                                {
+                                    <option value="@doc.Username">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialty) ? "General Medicine" : doc.Specialty))</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="doctor1">Dr. Harsha Vardhan (Cardiology)</option>
+                                <option value="doctor2">Dr. Priya Sharma (Pediatrics)</option>
+                                <option value="doctor3">Dr. Amit Verma (Orthopedics)</option>
+                                <option value="doctor4">Dr. Shalini Gupta (Neurology)</option>
+                            }
+                        </select>
                     </div>
 
                     <!-- Password -->
                     <div class="form-group" style="margin-top: 15px;">
                         <label asp-for="Password"><i data-lucide="lock" class="input-icon"></i> Password</label>
-                        <input asp-for="Password" type="password" placeholder="Enter password (any value accepted)" required id="passwordInput" />
+                        <input asp-for="Password" type="password" placeholder="Enter password (any data accepted)" id="passwordInput" />
                     </div>
 
                     <!-- Remember Me -->
@@ -62,10 +77,10 @@
                 </form>
                 
                 <!-- Demo Quick login helper -->
-                <div class="demo-helper">
+                <div class="demo-helper" style="margin-top: 15px;">
                     <span class="demo-label">Interview / Demo Quick Access:</span>
                     <button type="button" class="btn btn-secondary btn-block" onclick="triggerDemoLogin()">
-                        <i data-lucide="zap"></i> Auto-Fill & Login (doctor)
+                        <i data-lucide="zap"></i> Auto-Fill & Login (Doctor)
                     </button>
                 </div>
             </div>
@@ -82,7 +97,12 @@
 @section Scripts {
     <script>
         function triggerDemoLogin() {
-            document.getElementById('usernameInput').value = 'doctor';
+            const selectEl = document.getElementById('usernameInput');
+            if (selectEl && selectEl.options.length > 1) {
+                selectEl.selectedIndex = 1;
+            } else if (selectEl) {
+                selectEl.value = 'doctor1';
+            }
             document.getElementById('passwordInput').value = 'doctor123';
             document.getElementById('loginForm').submit();
         }

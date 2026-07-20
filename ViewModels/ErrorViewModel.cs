@@ -1,4 +1,4 @@
-namespace CogMediHospitalManagementSystem.Models
+namespace CogMediHospitalManagementSystem.ViewModels
 {
     public class ErrorViewModel
     {

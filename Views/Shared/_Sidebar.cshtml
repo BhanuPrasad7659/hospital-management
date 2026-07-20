@@ -49,6 +49,10 @@
                 <li class="@(Context.Request.Path.Value?.Contains("/reports") == true ? "active" : "")">
                     <a href="/reports"><i data-lucide="bar-chart-3"></i> <span>Reports</span></a>
                 </li>
+                <!-- Manage Doctors (Admin only) -->
+                <li class="@(Context.Request.Path.Value?.Contains("/admin/doctors") == true ? "active" : "")">
+                    <a href="/admin/doctors"><i data-lucide="heart-pulse"></i> <span>Manage Doctors</span></a>
+                </li>
             }
             else if (User.IsInRole("receptionist"))
             {
@@ -106,10 +110,19 @@
                 </li>
             }
 
-            <!-- Global Settings (All Auth Users) -->
-            <li class="@(Context.Request.Path.Value?.Contains("/settings") == true ? "active" : "")">
-                <a href="/settings"><i data-lucide="settings"></i> <span>Settings</span></a>
-            </li>
+            <!-- Conditionally render My Profile for Doctor or Receptionist role -->
+            @if (User.IsInRole("doctor"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/profile") == true ? "active" : "")">
+                    <a href="/doctor/profile"><i data-lucide="user"></i> <span>My Profile</span></a>
+                </li>
+            }
+            else if (User.IsInRole("receptionist"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/receptionist/profile") == true ? "active" : "")">
+                    <a href="/receptionist/profile"><i data-lucide="user"></i> <span>My Profile</span></a>
+                </li>
+            }
         </ul>
     </nav>
     

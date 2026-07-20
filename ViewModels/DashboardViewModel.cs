@@ -15,6 +15,7 @@ namespace CogMediHospitalManagementSystem.ViewModels
         public int CompletedLabOrders { get; set; }
         public int ActiveTreatments { get; set; }
         public int ActiveCases { get; set; }
+        public int TotalDoctors { get; set; }
         
         // Lists
         public List<Patient> RecentAdmissions { get; set; } = new();

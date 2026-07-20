@@ -40,14 +40,14 @@
             <div class="metric-icon warning"><i data-lucide="bed-double"></i></div>
         </div>
 
-        <div class="metric-card">
+        <a href="/admin/doctors" class="metric-card" style="text-decoration: none; color: inherit; cursor: pointer;">
             <div class="metric-info">
                 <span class="card-label">Total Doctors</span>
-                <h3>200</h3>
+                <h3>@Model.TotalDoctors</h3>
                 <span class="card-trend text-info"><i data-lucide="shield-check" class="icon-xs"></i> Active on duty</span>
             </div>
             <div class="metric-icon info"><i data-lucide="heart-pulse"></i></div>
-        </div>
+        </a>
 
         <div class="metric-card">
             <div class="metric-info">
@@ -186,52 +186,19 @@
                             </div>
                         </li>
                     }
-        </div>
-    </div>
-
-    <!-- Staff Assignment Panel (Admin Feature) -->
-    <div class="details-grid" style="margin-top: 24px;">
-        <!-- Staff Assignment Form -->
-        <div class="form-card">
-            <div class="card-header">
-                <i data-lucide="user-cog" class="card-icon text-primary"></i>
-                <h4>Assign / Update Staff Member</h4>
+                </ul>
             </div>
-            <form asp-action="AssignStaff" asp-controller="Admin" method="post">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="fullName">Staff Full Name</label>
-                        <input type="text" name="fullName" placeholder="e.g. Dr. Aditya Sen, Sita Ramam" required />
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" name="username" placeholder="e.g. aditya, sita" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="role">Security Role</label>
-                            <select name="role" required>
-                                <option value="admin">admin</option>
-                                <option value="receptionist">receptionist</option>
-                                <option value="doctor">doctor</option>
-                                <option value="laboratory">laboratory</option>
-                                <option value="pharmiacist">pharmiacist</option>
-                                <option value="billing discharge">billing discharge</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary"><i data-lucide="user-check"></i> Assign Staff Role</button>
-                </div>
-            </form>
         </div>
 
+    <!-- Staff Registry Panel (Admin Feature) -->
+    <div style="margin-top: 24px;">
         <!-- Staff Registry Table -->
         <div class="table-card">
             <div class="card-header">
-                <i data-lucide="users" class="card-icon text-info"></i>
-                <h4>Current Staff Directory</h4>
+                <div style="display: flex; align-items: center;">
+                    <i data-lucide="users" class="card-icon text-info" style="margin-right: 8px;"></i>
+                    <h4>Current Staff Directory</h4>
+                </div>
                 @{
                     var staffList = ViewBag.StaffList as List<User> ?? new List<User>();
                 }

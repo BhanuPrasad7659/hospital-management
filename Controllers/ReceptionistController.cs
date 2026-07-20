@@ -47,6 +47,8 @@ namespace CogMediHospitalManagementSystem.Controllers
         {
             var patients = _hospitalService.GetPatients();
             ViewBag.PatientsList = patients;
+            ViewBag.DoctorsList = _hospitalService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
+            ViewBag.OccupiedBeds = _hospitalService.GetAdmissions().Where(a => a.Status == "ADMITTED").Select(a => a.BedNumber).ToList();
             return View(new PatientViewModel());
         }
 
@@ -71,16 +73,18 @@ namespace CogMediHospitalManagementSystem.Controllers
             
             var patients = _hospitalService.GetPatients();
             ViewBag.PatientsList = patients;
+            ViewBag.DoctorsList = _hospitalService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
+            ViewBag.OccupiedBeds = _hospitalService.GetAdmissions().Where(a => a.Status == "ADMITTED").Select(a => a.BedNumber).ToList();
             return View("Admission", model);
         }
 
         [HttpPost]
         [Route("receptionist/admit")]
-        public IActionResult Admit(string patientId, string ward, string bedNumber)
+        public IActionResult Admit(string patientId, string ward, string bedNumber, string doctorUsername)
         {
-            if (string.IsNullOrEmpty(patientId) || string.IsNullOrEmpty(ward) || string.IsNullOrEmpty(bedNumber))
+            if (string.IsNullOrEmpty(patientId) || string.IsNullOrEmpty(ward) || string.IsNullOrEmpty(bedNumber) || string.IsNullOrEmpty(doctorUsername))
             {
-                TempData["ErrorMessage"] = "All fields are required to admit a patient.";
+                TempData["ErrorMessage"] = "All fields are required to admit a patient (including assigned doctor).";
                 return RedirectToAction("Admission");
             }
 
@@ -97,8 +101,8 @@ namespace CogMediHospitalManagementSystem.Controllers
                 return RedirectToAction("Admission");
             }
 
-            _hospitalService.AdmitPatient(patientId, ward, bedNumber);
-            TempData["SuccessMessage"] = $"Patient {patient.Name} admitted to {ward}, Bed {bedNumber} successfully!";
+            _hospitalService.AdmitPatient(patientId, ward, bedNumber, doctorUsername);
+            TempData["SuccessMessage"] = $"Patient {patient.Name} admitted and assigned successfully!";
             return RedirectToAction("Admission");
         }
 
@@ -133,6 +137,39 @@ namespace CogMediHospitalManagementSystem.Controllers
                 TempData["ErrorMessage"] = "Patient record not found.";
             }
             return RedirectToAction("Admission");
+        }
+
+        [HttpGet]
+        [Route("receptionist/profile")]
+        public IActionResult Profile()
+        {
+            var username = User.Identity?.Name ?? "";
+            var receptionist = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            if (receptionist == null)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            return View(receptionist);
+        }
+
+        [HttpPost]
+        [Route("receptionist/profile/update")]
+        public IActionResult UpdateProfile(string fullName, string contactNumber, string email)
+        {
+            var username = User.Identity?.Name ?? "";
+            
+            if (string.IsNullOrEmpty(fullName))
+            {
+                TempData["ErrorMessage"] = "Full Name is required.";
+                return RedirectToAction("Profile");
+            }
+
+            _hospitalService.UpdateUserProfile(username, fullName, contactNumber ?? "", email ?? "");
+            TempData["SuccessMessage"] = "Profile updated successfully!";
+            
+            // Note: Since ASP.NET Core auth cookies cache user details like GivenName, we might still see the old name in the navbar
+            // until the next login, but it is successfully updated in the in-memory database.
+            return RedirectToAction("Profile");
         }
     }
 }

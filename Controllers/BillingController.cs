@@ -131,6 +131,87 @@ namespace CogMediHospitalManagementSystem.Controllers
             return RedirectToAction("Payments", new { patientId = patientId });
         }
 
+        [HttpGet]
+        [Route("billing/pay-bill")]
+        public IActionResult PayBill(string billingRecordId)
+        {
+            if (string.IsNullOrEmpty(billingRecordId))
+            {
+                TempData["ErrorMessage"] = "Invalid billing record requested.";
+                return RedirectToAction("Payments");
+            }
+
+            var bills = _hospitalService.GetBillingRecords();
+            var bill = bills.FirstOrDefault(b => b.BillingRecordId == billingRecordId);
+
+            if (bill == null)
+            {
+                TempData["ErrorMessage"] = "Billing record not found.";
+                return RedirectToAction("Payments");
+            }
+
+            var patient = _hospitalService.GetPatient(bill.PatientId);
+
+            var viewModel = new BillingViewModel
+            {
+                BillingRecordId = bill.BillingRecordId,
+                PatientId = bill.PatientId,
+                PatientName = patient?.Name ?? "Unknown",
+                ConsultationFee = bill.ConsultationFee,
+                LabCharges = bill.LabCharges,
+                MedicineCharges = bill.MedicineCharges,
+                RoomCharges = bill.RoomCharges,
+                Status = bill.Status,
+                IsDischarged = bill.IsDischarged,
+                DischargeRemarks = bill.DischargeRemarks,
+                Patient = patient
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Route("billing/pay-bill")]
+        public IActionResult ProcessBillPayment(string billingRecordId, string paymentMode, string? upiApp, string? upiId, string? cardNumber, decimal? cashReceived)
+        {
+            var bills = _hospitalService.GetBillingRecords();
+            var bill = bills.FirstOrDefault(b => b.BillingRecordId == billingRecordId);
+
+            if (bill == null)
+            {
+                TempData["ErrorMessage"] = "Billing record not found.";
+                return RedirectToAction("Payments");
+            }
+
+            string finalMethod = "Pay the Bill - Direct Settle";
+            if (paymentMode == "UPI")
+            {
+                var app = string.IsNullOrWhiteSpace(upiApp) ? "BHIM UPI" : upiApp;
+                var id = string.IsNullOrWhiteSpace(upiId) ? "" : $" ({upiId})";
+                finalMethod = $"UPI - {app}{id}";
+            }
+            else if (paymentMode == "CASH")
+            {
+                var tender = cashReceived.HasValue ? $" (Received ₹{cashReceived.Value:N0})" : "";
+                finalMethod = $"Cash Payment{tender}";
+            }
+            else if (paymentMode == "CARD")
+            {
+                var cardLast4 = !string.IsNullOrWhiteSpace(cardNumber) && cardNumber.Length >= 4 
+                    ? $" ending in {cardNumber.Substring(cardNumber.Length - 4)}" 
+                    : "";
+                finalMethod = $"Credit/Debit Card{cardLast4}";
+            }
+
+            var random = new Random();
+            string txnId = $"TXN{DateTime.Now:yyyyMMdd}{random.Next(100000, 999999)}";
+
+            _hospitalService.ProcessPayment(billingRecordId, finalMethod, txnId);
+
+            TempData["SuccessMessage"] = $"Payment of ₹{bill.TotalAmount:N2} processed successfully via {finalMethod}! Transaction Ref: {txnId}";
+            return RedirectToAction("Payments", new { patientId = bill.PatientId });
+        }
+
         [HttpPost]
         [Route("billing/pay")]
         public IActionResult CollectPayment(string billingRecordId)
@@ -144,7 +225,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                 return RedirectToAction("Payments");
             }
 
-            _hospitalService.ProcessPayment(billingRecordId);
+            _hospitalService.ProcessPayment(billingRecordId, "Pay the Bill", $"TXN{DateTime.Now:yyyyMMddHHmmss}");
             TempData["SuccessMessage"] = $"Payment of ₹{bill.TotalAmount} collected successfully! Bill status: PAID.";
             return RedirectToAction("Payments", new { patientId = bill.PatientId });
         }

@@ -23,10 +23,14 @@
     
     <!-- Navbar Center: Global Search -->
     <div class="navbar-center">
-        <div class="search-box">
-            <i data-lucide="search" class="search-icon"></i>
-            <input type="text" placeholder="Search patients, EHRs, lab records..." id="globalSearch" />
-        </div>
+        @if (User.IsInRole("admin") || User.IsInRole("receptionist") || User.IsInRole("doctor") || User.IsInRole("billing discharge"))
+        {
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" placeholder="Search patients, EHRs, lab records..." id="globalSearch" autocomplete="off" />
+                <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+            </div>
+        }
     </div>
     
     <!-- Navbar Right: Alerts & User Profile -->
@@ -35,31 +39,31 @@
         <div class="nav-icon-wrapper" id="notificationWrapper">
             <button class="nav-icon-btn" onclick="toggleDropdown('notificationDropdown')">
                 <i data-lucide="bell"></i>
-                <span class="badge badge-warning">3</span>
+                <span class="badge badge-warning" id="notifBadge">3</span>
             </button>
             
             <!-- Notifications Dropdown -->
             <div class="dropdown-menu notification-dropdown" id="notificationDropdown">
                 <div class="dropdown-header">
                     <h4>Notifications</h4>
-                    <span class="mark-read">Mark all as read</span>
+                    <span class="mark-read" id="markAllRead">Mark all as read</span>
                 </div>
                 <ul class="notification-list">
-                    <li class="unread">
+                    <li class="unread" onclick="markReadAndRedirect(this, '/receptionist/admission?search=Rakesh%20Patel')">
                         <div class="notif-icon primary"><i data-lucide="user-check"></i></div>
                         <div class="notif-content">
                             <p>New patient <strong>Rakesh Patel</strong> registered.</p>
                             <span>2 mins ago</span>
                         </div>
                     </li>
-                    <li class="unread">
+                    <li class="unread" onclick="markReadAndRedirect(this, '/doctor/dashboard')">
                         <div class="notif-icon success"><i data-lucide="clipboard-check"></i></div>
                         <div class="notif-content">
                             <p>Lab CBC Test results uploaded for <strong>Priya Patel</strong>.</p>
                             <span>15 mins ago</span>
                         </div>
                     </li>
-                    <li>
+                    <li class="unread" onclick="markReadAndRedirect(this, '/billing/payments?patientId=P1003')">
                         <div class="notif-icon info"><i data-lucide="credit-card"></i></div>
                         <div class="notif-content">
                             <p>Bill of ₹3,050 settled by <strong>Amit Sharma</strong>.</p>
@@ -79,7 +83,15 @@
                 <div class="avatar">
                     @{
                         var fullName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "User";
-                        var initials = string.Join("", fullName.Split(' ').Select(n => n[0])).ToUpper();
+                        var initials = "U";
+                        if (!string.IsNullOrWhiteSpace(fullName))
+                        {
+                            var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                            if (parts.Length > 0)
+                            {
+                                initials = string.Join("", parts.Select(n => n[0])).ToUpper();
+                            }
+                        }
                         if (initials.Length > 2) initials = initials.Substring(0, 2);
                         @initials
                     }
@@ -98,7 +110,12 @@
                     <span>@User.Identity?.Name</span>
                 </div>
                 <ul>
-                    <li><a href="/settings/userprofile"><i data-lucide="user"></i> My Profile</a></li>
+                    @{
+                        var profileUrl = "/settings";
+                        if (User.IsInRole("doctor")) { profileUrl = "/doctor/profile"; }
+                        else if (User.IsInRole("receptionist")) { profileUrl = "/receptionist/profile"; }
+                    }
+                    <li><a href="@profileUrl"><i data-lucide="user"></i> My Profile</a></li>
                     <li><a href="/settings"><i data-lucide="settings"></i> Settings</a></li>
                     <li class="divider"></li>
                     <li><a href="/auth/logout" class="text-danger"><i data-lucide="log-out"></i> Sign Out</a></li>

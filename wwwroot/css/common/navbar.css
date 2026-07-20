@@ -324,3 +324,55 @@
 .profile-dropdown li a.text-danger:hover {
     background-color: var(--danger-light);
 }
+
+/* ==========================================
+   GLOBAL SEARCH RESULTS DROPDOWN
+   ========================================== */
+.search-results-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    max-height: 320px;
+    overflow-y: auto;
+    display: none;
+}
+.search-results-dropdown.active {
+    display: block;
+}
+.search-result-item {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text-main);
+    transition: var(--transition-smooth);
+}
+.search-result-item:last-child {
+    border-bottom: none;
+}
+.search-result-item:hover {
+    background-color: var(--background);
+}
+.search-result-title {
+    font-size: 13.5px;
+    font-weight: 650;
+    color: var(--secondary);
+}
+.search-result-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+}
+.search-result-empty {
+    padding: 18px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+}

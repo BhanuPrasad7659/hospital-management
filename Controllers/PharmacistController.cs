@@ -82,5 +82,21 @@ namespace CogMediHospitalManagementSystem.Controllers
             TempData["SuccessMessage"] = $"Successfully dispensed {record.MedicineName} ({record.Quantity} units) to patient.";
             return RedirectToAction("Dispensing");
         }
+
+        [HttpPost]
+        [Route("pharmacist/update-stock")]
+        public IActionResult UpdateStock(string medicineName, int amount)
+        {
+            if (string.IsNullOrEmpty(medicineName))
+            {
+                TempData["ErrorMessage"] = "Medicine name is required.";
+                return RedirectToAction("Dispensing");
+            }
+
+            _hospitalService.UpdateMedicineStock(medicineName, amount);
+            string actionText = amount >= 0 ? "added to" : "deducted from";
+            TempData["SuccessMessage"] = $"Successfully {actionText} stock for '{medicineName}' by {Math.Abs(amount)} units.";
+            return RedirectToAction("Dispensing");
+        }
     }
 }

@@ -3,6 +3,8 @@
     ViewData["Title"] = "Patient Admissions Portal";
     var patientsList = ViewBag.PatientsList as List<Patient> ?? new List<Patient>();
     var registeredOnly = patientsList.Where(p => p.Status == "REGISTERED").ToList();
+    var occupiedBedsList = ViewBag.OccupiedBeds as List<string> ?? new List<string>();
+    var occupiedBedsJson = System.Text.Json.JsonSerializer.Serialize(occupiedBedsList);
 }
 
 @section Styles {
@@ -88,10 +90,21 @@
                             }
                         </div>
 
+                        <div class="form-group">
+                            <label for="doctorUsername">Assign Attending Physician</label>
+                            <select name="doctorUsername" required>
+                                <option value="">Select Doctor...</option>
+                                @foreach (var doc in ViewBag.DoctorsList as List<User> ?? new List<User>())
+                                {
+                                    <option value="@doc.Username">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty))</option>
+                                }
+                            </select>
+                        </div>
+
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="ward">Ward / Wing</label>
-                                <select name="ward" required>
+                                <label for="wardSelect">Ward / Wing</label>
+                                <select name="ward" id="wardSelect" onchange="updateBedOptions()" required>
                                     <option value="">Select Ward</option>
                                     <option value="General Ward">General Ward</option>
                                     <option value="ICU">ICU</option>
@@ -101,8 +114,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="bedNumber">Bed Number</label>
-                                <input type="text" name="bedNumber" placeholder="e.g. G-15, ICU-04" required />
+                                <label for="bedNumberSelect">Bed Number</label>
+                                <select name="bedNumber" id="bedNumberSelect" required>
+                                    <option value="">Select Ward first...</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -137,7 +152,7 @@
                                         <th class="text-right">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="patientTableBody">
                                     @foreach (var pat in patientsList)
                                     {
                                         <tr>
@@ -145,6 +160,13 @@
                                             <td>
                                                 <div class="pat-name">@pat.Name</div>
                                                 <div class="pat-meta">@pat.Age yrs / @pat.Gender</div>
+                                                @if (pat.Status == "ADMITTED" && !string.IsNullOrEmpty(pat.AssignedDoctorName))
+                                                {
+                                                    <div style="font-size: 11px; margin-top: 4px; color: var(--text-muted);">
+                                                        <i data-lucide="user" style="width:11px; height:11px; display:inline-block; vertical-align:middle; margin-right:2px; color:var(--primary);"></i>
+                                                        Physician: <a href="/doctor/view-profile?username=@pat.AssignedDoctorUsername" style="color: var(--primary); text-decoration: underline; font-weight: 500;">@pat.AssignedDoctorName</a>
+                                                    </div>
+                                                }
                                             </td>
                                             <td>
                                                 <div class="pat-phone"><i data-lucide="phone" class="icon-tiny"></i> @pat.ContactNumber</div>
@@ -156,6 +178,11 @@
                                                 </span>
                                             </td>
                                             <td class="text-right actions-cell">
+                                                <!-- Print Patient Card button -->
+                                                <button type="button" class="btn-icon text-success" onclick="openPrintCard('@pat.PatientId', '@pat.Name', @pat.Age, '@pat.Gender', '@pat.ContactNumber', '@pat.Address', '@pat.Status', '@pat.AssignedDoctorName')" title="Print Patient Card">
+                                                    <i data-lucide="printer"></i>
+                                                </button>
+
                                                 <!-- Edit button (triggers edit fields) -->
                                                 <button type="button" class="btn-icon text-primary" onclick="openEditForm('@pat.PatientId', '@pat.Name', @pat.Age, '@pat.Gender', '@pat.ContactNumber', '@pat.Address', '@pat.Status')">
                                                     <i data-lucide="edit-3"></i>
@@ -236,6 +263,76 @@
     </div>
 </div>
 
+<!-- PRINT PATIENT CARD MODAL -->
+<div class="modal" id="printCardModal">
+    <div class="modal-overlay" onclick="closePrintCardModal()"></div>
+    <div class="modal-card" style="max-width: 480px;">
+        <div class="modal-header">
+            <h4>Patient Identification Card</h4>
+            <button class="modal-close" onclick="closePrintCardModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="printCardBody" style="padding: 20px;">
+            <!-- Printable Card Content -->
+            <div id="patientCardContainer" style="border: 2px solid var(--primary); border-radius: var(--radius-lg); padding: 20px; background-color: var(--surface); box-shadow: var(--shadow-sm); position: relative; font-family: 'Inter', sans-serif; box-sizing: border-box;">
+                <!-- Watermark background icon -->
+                <div style="position: absolute; right: 15px; top: 15px; opacity: 0.05; color: var(--primary); pointer-events: none;">
+                    <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                </div>
+                <!-- Header -->
+                <div style="border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <div style="background-color: var(--primary); color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; flex-shrink: 0;">
+                        H
+                    </div>
+                    <div>
+                        <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--primary); letter-spacing: 0.5px;">CogMedi Hospital</h5>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Official Patient ID Card</span>
+                    </div>
+                </div>
+                <!-- Details Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; font-size: 13px;">
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Patient ID</span>
+                        <strong id="cardPatientId" style="font-size: 14px; color: var(--text-main);"></strong>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Full Name</span>
+                        <strong id="cardName" style="font-size: 14px; color: var(--text-main);"></strong>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Age / Gender</span>
+                        <span id="cardAgeGender" style="font-weight: 600; color: var(--text-main);"></span>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Contact Number</span>
+                        <span id="cardContact" style="font-weight: 600; color: var(--text-main);"></span>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Address</span>
+                        <span id="cardAddress" style="font-weight: 600; color: var(--text-main);"></span>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Status</span>
+                        <span id="cardStatus" class="badge" style="display: inline-block; margin-top: 2px;"></span>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Attending Doctor</span>
+                        <strong id="cardDoctor" style="color: var(--secondary); font-size: 13px;"></strong>
+                    </div>
+                </div>
+                <!-- Barcode mockup -->
+                <div style="border-top: 1px dashed var(--border); padding-top: 12px; text-align: center;">
+                    <div style="letter-spacing: 5px; font-family: monospace; font-size: 14px; color: var(--text-muted); font-weight: bold; background: repeating-linear-gradient(90deg, #1e293b 0px, #1e293b 2px, transparent 2px, transparent 6px); height: 25px; width: 180px; margin: 0 auto 4px auto; opacity: 0.8;"></div>
+                    <span style="font-size: 9px; color: var(--text-light); text-transform: uppercase;">Scan barcode for electronic medical record</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closePrintCardModal()">Close</button>
+            <button type="button" class="btn btn-primary" onclick="printCard()"><i data-lucide="printer"></i> Print Card</button>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         function openEditForm(id, name, age, gender, contact, address, status) {
@@ -253,5 +350,114 @@
         function closeEditModal() {
             document.getElementById('editModal').classList.remove('active');
         }
+
+        function openPrintCard(id, name, age, gender, contact, address, status, doctor) {
+            document.getElementById('cardPatientId').innerText = id;
+            document.getElementById('cardName').innerText = name;
+            document.getElementById('cardAgeGender').innerText = age + " Years / " + gender;
+            document.getElementById('cardContact').innerText = contact;
+            document.getElementById('cardAddress').innerText = address;
+            
+            const cardStatus = document.getElementById('cardStatus');
+            cardStatus.innerText = status;
+            cardStatus.className = 'badge ' + (status === 'ADMITTED' ? 'badge-warning' : status === 'DISCHARGED' ? 'badge-success' : 'badge-info');
+
+            document.getElementById('cardDoctor').innerText = doctor ? doctor : "None Assigned";
+
+            document.getElementById('printCardModal').classList.add('active');
+        }
+
+        function closePrintCardModal() {
+            document.getElementById('printCardModal').classList.remove('active');
+        }
+
+        function printCard() {
+            const cardContent = document.getElementById('patientCardContainer').outerHTML;
+            const printWindow = window.open('', '_blank', 'height=500,width=600');
+            printWindow.document.write('<html><head><title>Print Patient Card</title>');
+            printWindow.document.write('<style>');
+            printWindow.document.write('body { font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #fff; }');
+            printWindow.document.write(':root { --primary: #0284c7; --secondary: #0f172a; --text-main: #1e293b; --text-muted: #64748b; --text-light: #94a3b8; --border: #e2e8f0; --radius-lg: 8px; --surface: #ffffff; }');
+            printWindow.document.write('.badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block; }');
+            printWindow.document.write('.badge-warning { background-color: #fef3c7; color: #d97706; }');
+            printWindow.document.write('.badge-success { background-color: #d1fae5; color: #059669; }');
+            printWindow.document.write('.badge-info { background-color: #e0f2fe; color: #0284c7; }');
+            printWindow.document.write('</style></head><body>');
+            printWindow.document.write(cardContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(function() {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+
+        const bedsByWard = {
+            "General Ward": ["G-01", "G-02", "G-03", "G-04", "G-05", "G-06", "G-07", "G-08", "G-09", "G-10", "G-11", "G-12", "G-13", "G-14", "G-15"],
+            "ICU": ["ICU-01", "ICU-02", "ICU-03", "ICU-04", "ICU-05", "ICU-06", "ICU-07", "ICU-08"],
+            "Pediatrics Wing": ["PED-01", "PED-02", "PED-03", "PED-04", "PED-05", "PED-06"],
+            "Cardiology Wing": ["CARD-01", "CARD-02", "CARD-03", "CARD-04", "CARD-05", "CARD-06"],
+            "Emergency Ward": ["ER-01", "ER-02", "ER-03", "ER-04", "ER-05", "ER-06"]
+        };
+
+        const occupiedBeds = @Html.Raw(occupiedBedsJson);
+
+        function updateBedOptions() {
+            const wardSelect = document.getElementById("wardSelect");
+            const bedSelect = document.getElementById("bedNumberSelect");
+            if (!wardSelect || !bedSelect) return;
+
+            const selectedWard = wardSelect.value;
+            bedSelect.innerHTML = "";
+
+            if (!selectedWard || !bedsByWard[selectedWard]) {
+                const opt = document.createElement("option");
+                opt.value = "";
+                opt.textContent = "Select Ward first...";
+                bedSelect.appendChild(opt);
+                return;
+            }
+
+            const defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = `Select Bed in ${selectedWard}...`;
+            bedSelect.appendChild(defaultOpt);
+
+            const beds = bedsByWard[selectedWard];
+            beds.forEach(bed => {
+                const opt = document.createElement("option");
+                opt.value = bed;
+                const isOccupied = occupiedBeds.includes(bed);
+                if (isOccupied) {
+                    opt.textContent = `${bed} (Occupied)`;
+                    opt.disabled = true;
+                } else {
+                    opt.textContent = `${bed} (Available)`;
+                }
+                bedSelect.appendChild(opt);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchVal = urlParams.get('search');
+            if (searchVal) {
+                const searchLower = searchVal.toLowerCase();
+                const rows = document.querySelectorAll("#patientTableBody tr");
+                rows.forEach(row => {
+                    const idText = row.cells[0]?.textContent?.toLowerCase() || "";
+                    const nameText = row.querySelector(".pat-name")?.textContent?.toLowerCase() || "";
+                    const phoneText = row.querySelector(".pat-phone")?.textContent?.toLowerCase() || "";
+                    if (idText.includes(searchLower) || nameText.includes(searchLower) || phoneText.includes(searchLower)) {
+                        row.style.display = "";
+                        row.style.backgroundColor = "rgba(2, 132, 199, 0.08)";
+                        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            }
+        });
     </script>
 }

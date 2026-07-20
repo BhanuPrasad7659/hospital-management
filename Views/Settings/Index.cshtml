@@ -91,7 +91,15 @@
                     <div class="profile-card-box">
                         <div class="pc-avatar">
                             @{
-                                var initials = string.Join("", name.Split(' ').Select(n => n[0])).ToUpper();
+                                var initials = "U";
+                                if (!string.IsNullOrWhiteSpace(name))
+                                {
+                                    var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    if (parts.Length > 0)
+                                    {
+                                        initials = string.Join("", parts.Select(n => n[0])).ToUpper();
+                                    }
+                                }
                                 if (initials.Length > 2) initials = initials.Substring(0, 2);
                                 @initials
                             }

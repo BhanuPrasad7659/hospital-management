@@ -152,16 +152,13 @@
                                 </li>
                             </ul>
 
-                            <!-- ACTION FOR PENDING BILLS -->
+                            <!-- ACTION FOR PENDING BILLS: NAVIGATE TO DEDICATED PAY THE BILL PAGE -->
                             @if (Model.Status == "PENDING")
                             {
                                 <div class="payment-actions">
-                                    <form asp-action="CollectPayment" asp-controller="Billing" method="post">
-                                        <input type="hidden" name="billingRecordId" value="@Model.BillingRecordId" />
-                                        <button type="submit" class="btn btn-warning btn-block btn-lg">
-                                            <i data-lucide="wallet"></i> Collect Payment & Settle Invoice (₹@Model.TotalAmount)
-                                        </button>
-                                    </form>
+                                    <a href="/billing/pay-bill?billingRecordId=@Model.BillingRecordId" class="btn btn-warning btn-block btn-lg" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                        <i data-lucide="credit-card"></i> Pay the Bill (₹@Model.TotalAmount.ToString("N2"))
+                                    </a>
                                 </div>
                             }
                             

@@ -21,12 +21,21 @@
                 </div>
             </div>
             <nav class="public-nav">
-                <a href="#portals">Portals</a>
                 <a href="#journey">Integrated Care Loop</a>
                 <a href="#testimonials">Reviews</a>
-                <a href="#portals" class="btn btn-primary btn-sm nav-login-btn">
-                    <i data-lucide="log-in"></i> Access Portals
-                </a>
+                <div class="nav-dropdown-wrapper">
+                    <button class="btn btn-primary btn-sm nav-login-btn">
+                        <i data-lucide="log-in"></i> Access Portals <i data-lucide="chevron-down" style="width: 14px; height: 14px; margin-left: 4px; display: inline-block; vertical-align: middle;"></i>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="/login/admin"><i data-lucide="shield-alert"></i> Admin Portal</a>
+                        <a href="/login/receptionist"><i data-lucide="user-plus"></i> Receptionist Portal</a>
+                        <a href="/login/doctor"><i data-lucide="heart-pulse"></i> Doctor Portal</a>
+                        <a href="/login/laboratory"><i data-lucide="microscope"></i> Laboratory Portal</a>
+                        <a href="/login/pharmiacist"><i data-lucide="pill"></i> Pharmacist Portal</a>
+                        <a href="/login/billing"><i data-lucide="receipt"></i> Billing Portal</a>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
@@ -182,7 +191,7 @@
 
         <div class="portal-grid">
             <!-- ADMIN CARD -->
-            <div class="portal-card">
+            <div class="portal-card admin-theme">
                 <div>
                     <div class="portal-icon-box"><i data-lucide="shield-alert"></i></div>
                     <h3>Admin</h3>
@@ -194,7 +203,7 @@
             </div>
 
             <!-- RECEPTIONIST CARD -->
-            <div class="portal-card">
+            <div class="portal-card receptionist-theme">
                 <div>
                     <div class="portal-icon-box"><i data-lucide="user-plus"></i></div>
                     <h3>Receptionist</h3>
@@ -206,7 +215,7 @@
             </div>
 
             <!-- DOCTOR CARD -->
-            <div class="portal-card">
+            <div class="portal-card doctor-theme">
                 <div>
                     <div class="portal-icon-box"><i data-lucide="heart-pulse"></i></div>
                     <h3>Doctor</h3>
@@ -218,7 +227,7 @@
             </div>
 
             <!-- LABORATORY CARD -->
-            <div class="portal-card">
+            <div class="portal-card lab-theme">
                 <div>
                     <div class="portal-icon-box"><i data-lucide="microscope"></i></div>
                     <h3>Laboratory</h3>
@@ -230,10 +239,10 @@
             </div>
 
             <!-- PHARMIACIST CARD -->
-            <div class="portal-card">
+            <div class="portal-card pharmacist-theme">
                 <div>
                     <div class="portal-icon-box"><i data-lucide="pill"></i></div>
-                    <h3>Pharmiacist</h3>
+                    <h3>Pharmacist</h3>
                     <p>Inspect incoming medication prescriptions, track medicine stock inventories, and dispense drugs to outpatients.</p>
                 </div>
                 <a href="/login/pharmiacist" class="portal-link">
@@ -242,7 +251,7 @@
             </div>
 
             <!-- BILLING DISCHARGE CARD -->
-            <div class="portal-card">
+            <div class="portal-card billing-theme">
                 <div>
                     <div class="portal-icon-box"><i data-lucide="receipt"></i></div>
                     <h3>Billing & Discharge</h3>
@@ -455,3 +464,7 @@
         </div>
     </footer>
 </div>
+
+@section Scripts {
+    <script src="~/js/home/home.js" asp-append-version="true"></script>
+}

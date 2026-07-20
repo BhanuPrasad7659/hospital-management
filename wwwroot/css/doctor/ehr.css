@@ -162,8 +162,55 @@
     background-color: var(--background);
     padding: 10px 12px;
     border-radius: var(--radius-sm);
-    border-left: 3px solid var(--primary);
 }
+
+/* EHR Form layout & Card spacings */
+.form-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.form-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    background-color: #fcfdfe;
+    display: flex;
+    justify-content: flex-end;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-main);
+}
+
+/* Modern Select overrides */
+.filter-row select {
+    max-width: 400px;
+    width: 100%;
+    font-family: var(--font-primary);
+    font-size: 13.5px;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text-main);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+.filter-row select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+.filter-bar-card {
+    margin-bottom: 24px;
+}
+
 
 @media (max-width: 1100px) {
     .ehr-grid {

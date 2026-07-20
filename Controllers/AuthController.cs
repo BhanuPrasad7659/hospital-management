@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using CogMediHospitalManagementSystem.Services;
 using CogMediHospitalManagementSystem.ViewModels;
+using CogMediHospitalManagementSystem.Models;
 
 namespace CogMediHospitalManagementSystem.Controllers
 {
@@ -21,9 +22,6 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/admin")]
         public IActionResult AdminLogin()
         {
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("admin"))
-                return RedirectToAction("Dashboard", "Admin");
-
             return View(new LoginViewModel { Role = "admin" });
         }
 
@@ -40,9 +38,16 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/receptionist")]
         public IActionResult ReceptionistLogin()
         {
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("receptionist"))
-                return RedirectToAction("Dashboard", "Receptionist");
-
+            var receptionists = _hospitalService.GetUsers().Where(u => u.Role.Equals("receptionist", StringComparison.OrdinalIgnoreCase)).ToList();
+            if (!receptionists.Any())
+            {
+                receptionists = new List<User>
+                {
+                    new User { Username = "receptionist", Role = "receptionist", FullName = "Sita Ramam (Front Desk Receptionist 1)" },
+                    new User { Username = "receptionist2", Role = "receptionist", FullName = "Ananya Rao (Admissions Desk Receptionist 2)" }
+                };
+            }
+            ViewBag.Receptionists = receptionists;
             return View(new LoginViewModel { Role = "receptionist" });
         }
 
@@ -50,7 +55,8 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/receptionist")]
         public async Task<IActionResult> ReceptionistLogin(LoginViewModel model)
         {
-            await SignInUser(model.Username, "receptionist");
+            var username = string.IsNullOrWhiteSpace(model.Username) ? "receptionist" : model.Username;
+            await SignInUser(username, "receptionist");
             return RedirectToAction("Dashboard", "Receptionist");
         }
 
@@ -59,9 +65,18 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/doctor")]
         public IActionResult DoctorLogin()
         {
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("doctor"))
-                return RedirectToAction("Dashboard", "Doctor");
-
+            var doctors = _hospitalService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
+            if (!doctors.Any())
+            {
+                doctors = new List<User>
+                {
+                    new User { Username = "doctor1", Role = "doctor", FullName = "Dr. Harsha Vardhan", Specialty = "Cardiology" },
+                    new User { Username = "doctor2", Role = "doctor", FullName = "Dr. Priya Sharma", Specialty = "Pediatrics" },
+                    new User { Username = "doctor3", Role = "doctor", FullName = "Dr. Amit Verma", Specialty = "Orthopedics" },
+                    new User { Username = "doctor4", Role = "doctor", FullName = "Dr. Shalini Gupta", Specialty = "Neurology" }
+                };
+            }
+            ViewBag.Doctors = doctors;
             return View(new LoginViewModel { Role = "doctor" });
         }
 
@@ -69,7 +84,8 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/doctor")]
         public async Task<IActionResult> DoctorLogin(LoginViewModel model)
         {
-            await SignInUser(model.Username, "doctor");
+            var doctorUsername = string.IsNullOrWhiteSpace(model.Username) ? "doctor1" : model.Username;
+            await SignInUser(doctorUsername, "doctor");
             return RedirectToAction("Dashboard", "Doctor");
         }
 
@@ -79,9 +95,6 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/laboratory")]
         public IActionResult LabLogin()
         {
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("laboratory"))
-                return RedirectToAction("Dashboard", "Lab");
-
             return View(new LoginViewModel { Role = "laboratory" });
         }
 
@@ -100,9 +113,6 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/pharmiacist")]
         public IActionResult PharmacistLogin()
         {
-            if (User.Identity?.IsAuthenticated == true && (User.IsInRole("pharmacist") || User.IsInRole("pharmiacist")))
-                return RedirectToAction("Dashboard", "Pharmacist");
-
             return View(new LoginViewModel { Role = "pharmiacist" });
         }
 
@@ -121,9 +131,16 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/billing-discharge")]
         public IActionResult BillingLogin()
         {
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("billing discharge"))
-                return RedirectToAction("Dashboard", "Billing");
-
+            var billingOfficers = _hospitalService.GetUsers().Where(u => u.Role.Equals("billing discharge", StringComparison.OrdinalIgnoreCase)).ToList();
+            if (!billingOfficers.Any())
+            {
+                billingOfficers = new List<User>
+                {
+                    new User { Username = "billing", Role = "billing discharge", FullName = "Ramesh Varma (Senior Billing Officer 1)" },
+                    new User { Username = "billing2", Role = "billing discharge", FullName = "Kavita Reddy (Discharge Clearance Officer 2)" }
+                };
+            }
+            ViewBag.BillingOfficers = billingOfficers;
             return View(new LoginViewModel { Role = "billing discharge" });
         }
 
@@ -132,7 +149,8 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/billing-discharge")]
         public async Task<IActionResult> BillingLogin(LoginViewModel model)
         {
-            await SignInUser(model.Username, "billing discharge");
+            var username = string.IsNullOrWhiteSpace(model.Username) ? "billing" : model.Username;
+            await SignInUser(username, "billing discharge");
             return RedirectToAction("Dashboard", "Billing");
         }
 

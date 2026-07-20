@@ -34,6 +34,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                 PendingLabOrders = labOrders.Count(l => l.Status == "ORDERED" || l.Status == "IN_PROGRESS"),
                 CompletedLabOrders = labOrders.Count(l => l.Status == "COMPLETED"),
                 ActiveTreatments = treatments.Count,
+                TotalDoctors = _hospitalService.GetUsers().Count(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)),
                 
                 RecentAdmissions = patients.OrderByDescending(p => p.CreatedDate).Take(5).ToList(),
                 RecentActivities = new List<string>
@@ -72,34 +73,50 @@ namespace CogMediHospitalManagementSystem.Controllers
             return RedirectToAction("Dashboard");
         }
 
-        [Route("admin/admission")]
-        public IActionResult Admission()
+
+        [HttpGet]
+        [Route("admin/doctors")]
+        public IActionResult Doctors()
         {
+            var doctors = _hospitalService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
+            ViewBag.DoctorsList = doctors;
+            ViewBag.AdmittedPatients = _hospitalService.GetPatients().Where(p => p.Status == "ADMITTED").ToList();
             return View();
         }
 
-        [Route("admin/ehr")]
-        public IActionResult Ehr()
+        [HttpPost]
+        [Route("admin/hire-doctor")]
+        public IActionResult HireDoctor(string fullName, string username, string specialty, string biography, string contactNumber, string email)
         {
-            return View();
+            if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(specialty))
+            {
+                TempData["ErrorMessage"] = "Full name, username, and specialty are required to hire a doctor.";
+                return RedirectToAction("Doctors");
+            }
+
+            // Register doctor as staff user
+            _hospitalService.AssignStaff(fullName, username, "doctor");
+            
+            // Set their specialty and profile details
+            _hospitalService.UpdateDoctorProfile(username, specialty, biography ?? "", contactNumber ?? "", email ?? "");
+
+            TempData["SuccessMessage"] = $"Specialized Physician '{fullName}' hired successfully!";
+            return RedirectToAction("Doctors");
         }
 
-        [Route("admin/treatment")]
-        public IActionResult Treatment()
+        [HttpPost]
+        [Route("admin/assign-doctor")]
+        public IActionResult AssignDoctor(string patientId, string doctorUsername)
         {
-            return View();
-        }
+            if (string.IsNullOrEmpty(patientId) || string.IsNullOrEmpty(doctorUsername))
+            {
+                TempData["ErrorMessage"] = "Select both patient and doctor for assignment.";
+                return RedirectToAction("Doctors");
+            }
 
-        [Route("admin/pharmacy")]
-        public IActionResult Pharmacy()
-        {
-            return View();
-        }
-
-        [Route("admin/billing")]
-        public IActionResult Billing()
-        {
-            return View();
+            _hospitalService.AssignDoctorToPatient(patientId, doctorUsername);
+            TempData["SuccessMessage"] = "Doctor assigned to patient successfully.";
+            return RedirectToAction("Doctors");
         }
     }
 }

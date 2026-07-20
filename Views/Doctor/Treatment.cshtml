@@ -39,8 +39,10 @@
         <div class="form-panel">
             <div class="form-card">
                 <div class="card-header">
-                    <i data-lucide="stethoscope" class="card-icon text-primary"></i>
-                    <h4>Create Treatment Course</h4>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="stethoscope" class="card-icon text-primary" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                        <h4 style="margin: 0;">Create Treatment Course</h4>
+                    </div>
                 </div>
                 <form asp-action="AddTreatment" asp-controller="Doctor" method="post" id="treatmentForm">
                     <div class="form-body">
@@ -97,10 +99,24 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="OrderTest">Order Test (Lab)</label>
-                            <input asp-for="OrderTest" type="text" placeholder="e.g. CBC, X-Ray, MRI" />
-                            <small class="text-muted-small">If filled, a lab order will be created for this patient.</small>
+                        <div class="lab-order-section">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="OrderTest"><i data-lucide="microscope" class="icon-tiny text-success" style="vertical-align: middle; margin-right: 4px;"></i> Order Diagnostic Test (Lab)</label>
+                                <select asp-for="OrderTest">
+                                    <option value="">Select test (optional)...</option>
+                                    <option value="Blood CBC">Blood CBC</option>
+                                    <option value="Chest X-Ray">Chest X-Ray</option>
+                                    <option value="MRI Scan">MRI Scan</option>
+                                    <option value="ECG">ECG</option>
+                                    <option value="Ultrasound">Ultrasound</option>
+                                    <option value="Lipid Profile">Lipid Profile</option>
+                                    <option value="Liver Function Test (LFT)">Liver Function Test (LFT)</option>
+                                    <option value="Kidney Function Test (KFT)">Kidney Function Test (KFT)</option>
+                                    <option value="Thyroid Profile (T3, T4, TSH)">Thyroid Profile (T3, T4, TSH)</option>
+                                    <option value="Urine Analysis">Urine Analysis</option>
+                                </select>
+                                <small class="text-muted-small" style="margin-top: 6px; display: block;">If selected, a lab order will be created automatically for this patient.</small>
+                            </div>
                         </div>
 
                     </div>
@@ -121,17 +137,19 @@
         <div class="history-panel">
             <div class="history-card">
                 <div class="card-header">
-                    <i data-lucide="scroll" class="card-icon text-success"></i>
-                    <h4>
-                        @if (selectedPatient != null)
-                        {
-                            @($"Active Treatment & Prescriptions for {selectedPatient.Name}")
-                        }
-                        else
-                        {
-                            @("All System Prescriptions & Care Plans")
-                        }
-                    </h4>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="scroll" class="card-icon text-success" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                        <h4 style="margin: 0;">
+                            @if (selectedPatient != null)
+                            {
+                                @($"Active Treatment & Prescriptions for {selectedPatient.Name}")
+                            }
+                            else
+                            {
+                                @("All System Prescriptions & Care Plans")
+                            }
+                        </h4>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if (treatmentHistory.Count > 0)

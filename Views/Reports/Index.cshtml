@@ -1,4 +1,5 @@
 @model ReportViewModel
+@using CogMediHospitalManagementSystem.Controllers
 @{
     ViewData["Title"] = "Hospital Performance Reports & Analytics";
 }
@@ -75,34 +76,140 @@
     <div class="charts-grid-reports">
         <!-- Monthly Revenue Chart -->
         <div class="chart-card">
-            <div class="chart-header">
-                <h4>Financial Revenue Trends</h4>
-                <span>6-Month Flow</span>
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="trending-up" class="card-icon text-primary" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 600;">Financial Revenue Trends</h4>
+                </div>
+                <span class="badge badge-primary" style="font-size: 10px; padding: 3px 8px; background-color: rgba(2, 132, 199, 0.1); color: var(--primary);">6-Month Flow</span>
             </div>
-            <div class="chart-body">
-                <canvas id="reportsRevenueChart"></canvas>
+            <div class="card-body">
+                <div class="chart-body">
+                    <canvas id="reportsRevenueChart"></canvas>
+                </div>
             </div>
         </div>
 
         <!-- Admissions by Department -->
         <div class="chart-card">
-            <div class="chart-header">
-                <h4>Admissions by Department</h4>
-                <span>Patient Distribution</span>
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="bed-double" class="card-icon text-warning" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 600;">Admissions by Department</h4>
+                </div>
+                <span class="badge badge-warning" style="font-size: 10px; padding: 3px 8px; background-color: rgba(245, 158, 11, 0.1); color: var(--warning);">Distribution</span>
             </div>
-            <div class="chart-body">
-                <canvas id="reportsDeptChart"></canvas>
+            <div class="card-body">
+                <div class="chart-body">
+                    <canvas id="reportsDeptChart"></canvas>
+                </div>
             </div>
         </div>
 
         <!-- Lab Test Volumes -->
         <div class="chart-card">
-            <div class="chart-header">
-                <h4>Diagnostic Test Volumes</h4>
-                <span>Laboratory Loads</span>
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="microscope" class="card-icon" style="width: 20px; height: 20px; margin-right: 0; color: #8b5cf6;"></i>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 600;">Diagnostic Test Volumes</h4>
+                </div>
+                <span class="badge" style="font-size: 10px; padding: 3px 8px; background-color: rgba(139, 92, 246, 0.1); color: #8b5cf6;">Lab Loads</span>
             </div>
-            <div class="chart-body">
-                <canvas id="reportsLabChart"></canvas>
+            <div class="card-body">
+                <div class="chart-body">
+                    <canvas id="reportsLabChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Breakdown Grid -->
+    <div class="reports-breakdown-grid">
+        <!-- Left Side: Recent Settled Invoices -->
+        <div class="table-card">
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="receipt" class="card-icon text-success" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                    <h4 style="margin: 0;">Recent Settled Invoices</h4>
+                </div>
+            </div>
+            <div class="card-body" style="padding: 16px 20px;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Patient ID</th>
+                                <th>Settled Amount</th>
+                                <th>Payment Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.RecentPaidBills is List<BillingRecord> paidBills && paidBills.Count > 0)
+                            {
+                                @foreach (var bill in paidBills)
+                                {
+                                    <tr>
+                                        <td><strong>@bill.BillingRecordId</strong></td>
+                                        <td>@bill.PatientId</td>
+                                        <td class="text-success font-semibold" style="font-weight: 600;">₹@bill.TotalAmount.ToString("N0")</td>
+                                        <td>@((bill.PaymentDate ?? bill.CreatedDate).ToString("dd-MM-yyyy"))</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted" style="padding: 20px 0;">No paid invoices recorded.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Department Load Summary -->
+        <div class="table-card">
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="building-2" class="card-icon text-primary" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                    <h4 style="margin: 0;">Ward Capacity & Admissions</h4>
+                </div>
+            </div>
+            <div class="card-body" style="padding: 16px 20px;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ward Name</th>
+                                <th>Active Patients</th>
+                                <th>Total Discharges</th>
+                                <th>Total Admissions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.WardSummary is List<WardSummaryItem> wardStats && wardStats.Count > 0)
+                            {
+                                @foreach (var ward in wardStats)
+                                {
+                                    <tr>
+                                        <td><strong>@ward.WardName</strong></td>
+                                        <td><span class="badge badge-warning" style="padding: 3px 8px; font-size: 11px;">@ward.ActiveAdmissions Active</span></td>
+                                        <td><span class="badge badge-success" style="padding: 3px 8px; font-size: 11px;">@ward.TotalDischarged Discharged</span></td>
+                                        <td>@ward.TotalAdmissions</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted" style="padding: 20px 0;">No admissions stats recorded.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
