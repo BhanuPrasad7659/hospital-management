@@ -20,8 +20,6 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         public IActionResult Index()
         {
-            // If already logged in, we can optionally redirect to their respective dashboard, 
-            // but let's keep the landing page accessible.
             return View();
         }
 
@@ -44,12 +42,12 @@ namespace CogMediHospitalManagementSystem.Controllers
             if (User.IsInRole("admin"))
             {
                 var patients = _hospitalService.GetPatients()
-                    .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.Contains(query, StringComparison.OrdinalIgnoreCase))
+                    .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.ToString().Contains(query))
                     .Select(p => new
                     {
                         title = p.Name,
-                        subtitle = $"Patient ({p.PatientId}) - Status: {p.Status}",
-                        url = $"/receptionist/admission?search={Uri.EscapeDataString(p.PatientId)}"
+                        subtitle = $"Patient (#{p.PatientId}) - Status: {p.Status}",
+                        url = $"/receptionist/admission?search={p.PatientId}"
                     });
 
                 var staff = _hospitalService.GetUsers()
@@ -67,12 +65,12 @@ namespace CogMediHospitalManagementSystem.Controllers
             else if (User.IsInRole("receptionist"))
             {
                 var patients = _hospitalService.GetPatients()
-                    .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.Contains(query, StringComparison.OrdinalIgnoreCase) || p.ContactNumber.Contains(query))
+                    .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.ToString().Contains(query) || p.ContactNumber.Contains(query))
                     .Select(p => new
                     {
                         title = p.Name,
-                        subtitle = $"Patient ({p.PatientId}) - Status: {p.Status}",
-                        url = $"/receptionist/admission?search={Uri.EscapeDataString(p.PatientId)}"
+                        subtitle = $"Patient (#{p.PatientId}) - Status: {p.Status}",
+                        url = $"/receptionist/admission?search={p.PatientId}"
                     });
 
                 results.AddRange(patients);
@@ -80,12 +78,12 @@ namespace CogMediHospitalManagementSystem.Controllers
             else if (User.IsInRole("doctor"))
             {
                 var patients = _hospitalService.GetPatients()
-                    .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.Contains(query, StringComparison.OrdinalIgnoreCase))
+                    .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.ToString().Contains(query))
                     .Select(p => new
                     {
                         title = p.Name,
-                        subtitle = $"Patient ({p.PatientId}) - Status: {p.Status}",
-                        url = p.Status == "ADMITTED" ? $"/doctor/ehr?patientId={Uri.EscapeDataString(p.PatientId)}" : $"/doctor/dashboard"
+                        subtitle = $"Patient (#{p.PatientId}) - Status: {p.Status}",
+                        url = p.Status == "ADMITTED" ? $"/doctor/ehr?patientId={p.PatientId}" : $"/doctor/dashboard"
                     });
 
                 results.AddRange(patients);
@@ -93,12 +91,12 @@ namespace CogMediHospitalManagementSystem.Controllers
             else if (User.IsInRole("billing discharge"))
             {
                 var patients = _hospitalService.GetPatients()
-                    .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.Contains(query, StringComparison.OrdinalIgnoreCase))
+                    .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.ToString().Contains(query))
                     .Select(p => new
                     {
                         title = p.Name,
-                        subtitle = $"Patient ({p.PatientId}) - Status: {p.Status}",
-                        url = $"/billing/payments?patientId={Uri.EscapeDataString(p.PatientId)}"
+                        subtitle = $"Patient (#{p.PatientId}) - Status: {p.Status}",
+                        url = $"/billing/payments?patientId={p.PatientId}"
                     });
 
                 results.AddRange(patients);

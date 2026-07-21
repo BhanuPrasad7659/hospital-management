@@ -33,6 +33,11 @@ namespace CogMediHospitalManagementSystem.Repositories
             return _dbSet.FirstOrDefault(predicate);
         }
 
+        public T? GetById(int id)
+        {
+            return _dbSet.Find(id);
+        }
+
         public void Add(T entity)
         {
             _dbSet.Add(entity);

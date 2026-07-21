@@ -4,8 +4,8 @@ namespace CogMediHospitalManagementSystem.ViewModels
 {
     public class BillingViewModel
     {
-        public string BillingRecordId { get; set; } = string.Empty;
-        public string PatientId { get; set; } = string.Empty;
+        public int BillingRecordId { get; set; }
+        public int PatientId { get; set; }
         public string PatientName { get; set; } = string.Empty;
         public decimal ConsultationFee { get; set; }
         public decimal LabCharges { get; set; }

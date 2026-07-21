@@ -13,8 +13,18 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<HospitalDbContext>(options =>
     options.UseInMemoryDatabase("HospitalDb"));
 
-// Register Generic Repository
+// Register Generic & Specialized Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IAdmissionRepository, AdmissionRepository>();
+builder.Services.AddScoped<IEhrRepository, EhrRepository>();
+builder.Services.AddScoped<ILabOrderRepository, LabOrderRepository>();
+builder.Services.AddScoped<ITreatmentPlanRepository, TreatmentPlanRepository>();
+builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
+builder.Services.AddScoped<IBillingRepository, BillingRepository>();
+builder.Services.AddScoped<IDischargeRepository, DischargeRepository>();
+builder.Services.AddScoped<IMedicineStockRepository, MedicineStockRepository>();
 
 // Register HospitalService as Scoped
 builder.Services.AddScoped<HospitalService>();
@@ -38,12 +48,10 @@ using (var scope = app.Services.CreateScope())
     DbInitializer.Initialize(context);
 }
 
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios.
     app.UseHsts();
 }
 

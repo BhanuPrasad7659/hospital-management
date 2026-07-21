@@ -81,7 +81,7 @@
                                 <option value="">Select a registered patient...</option>
                                 @foreach (var pat in registeredOnly)
                                 {
-                                    <option value="@pat.PatientId">@pat.Name (@pat.PatientId)</option>
+                                    <option value="@pat.PatientId">@pat.Name (#@pat.PatientId)</option>
                                 }
                             </select>
                             @if (registeredOnly.Count == 0)
@@ -91,12 +91,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="doctorUsername">Assign Attending Physician</label>
-                            <select name="doctorUsername" required>
+                            <label for="doctorId">Assign Attending Physician</label>
+                            <select name="doctorId" required>
                                 <option value="">Select Doctor...</option>
                                 @foreach (var doc in ViewBag.DoctorsList as List<User> ?? new List<User>())
                                 {
-                                    <option value="@doc.Username">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty))</option>
+                                    <option value="@doc.Id">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty))</option>
                                 }
                             </select>
                         </div>
@@ -156,7 +156,7 @@
                                     @foreach (var pat in patientsList)
                                     {
                                         <tr>
-                                            <td><strong>@pat.PatientId</strong></td>
+                                            <td><strong>#@pat.PatientId</strong></td>
                                             <td>
                                                 <div class="pat-name">@pat.Name</div>
                                                 <div class="pat-meta">@pat.Age yrs / @pat.Gender</div>
@@ -164,7 +164,7 @@
                                                 {
                                                     <div style="font-size: 11px; margin-top: 4px; color: var(--text-muted);">
                                                         <i data-lucide="user" style="width:11px; height:11px; display:inline-block; vertical-align:middle; margin-right:2px; color:var(--primary);"></i>
-                                                        Physician: <a href="/doctor/view-profile?username=@pat.AssignedDoctorUsername" style="color: var(--primary); text-decoration: underline; font-weight: 500;">@pat.AssignedDoctorName</a>
+                                                        Physician: <a href="/doctor/view-profile?doctorId=@(pat.AssignedDoctorId ?? 0)" style="color: var(--primary); text-decoration: underline; font-weight: 500;">@pat.AssignedDoctorName</a>
                                                     </div>
                                                 }
                                             </td>
@@ -184,7 +184,7 @@
                                                 </button>
 
                                                 <!-- Edit button (triggers edit fields) -->
-                                                <button type="button" class="btn-icon text-primary" onclick="openEditForm('@pat.PatientId', '@pat.Name', @pat.Age, '@pat.Gender', '@pat.ContactNumber', '@pat.Address', '@pat.Status')">
+                                                <button type="button" class="btn-icon text-primary" onclick="openEditForm(@pat.PatientId, '@pat.Name', @pat.Age, '@pat.Gender', '@pat.ContactNumber', '@pat.Address', '@pat.Status')">
                                                     <i data-lucide="edit-3"></i>
                                                 </button>
 
@@ -352,7 +352,7 @@
         }
 
         function openPrintCard(id, name, age, gender, contact, address, status, doctor) {
-            document.getElementById('cardPatientId').innerText = id;
+            document.getElementById('cardPatientId').innerText = '#' + id;
             document.getElementById('cardName').innerText = name;
             document.getElementById('cardAgeGender').innerText = age + " Years / " + gender;
             document.getElementById('cardContact').innerText = contact;

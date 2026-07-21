@@ -26,7 +26,7 @@
                     @foreach (var pat in patientsList)
                     {
                         <!option value="@pat.PatientId" @(selectedPatient?.PatientId == pat.PatientId ? "selected" : "")>
-                            @pat.Name (@pat.PatientId)
+                            @pat.Name (#@pat.PatientId)
                         </!option>
                     }
                 </select>
@@ -53,7 +53,7 @@
                                 <div class="sp-avatar"><i data-lucide="user"></i></div>
                                 <div class="sp-info">
                                     <h5>@selectedPatient.Name</h5>
-                                    <span>ID: <strong>@selectedPatient.PatientId</strong> | Age: @selectedPatient.Age yrs</span>
+                                    <span>ID: <strong>#@selectedPatient.PatientId</strong> | Age: @selectedPatient.Age yrs</span>
                                 </div>
                                 <input type="hidden" name="PatientId" value="@selectedPatient.PatientId" />
                             </div>
@@ -66,7 +66,7 @@
                                     <option value="">Select patient...</option>
                                     @foreach (var pat in patientsList)
                                     {
-                                        <option value="@pat.PatientId">@pat.Name (@pat.PatientId)</option>
+                                        <option value="@pat.PatientId">@pat.Name (#@pat.PatientId)</option>
                                     }
                                 </select>
                             </div>
@@ -130,9 +130,6 @@
             </div>
         </div>
 
-
-        <!-- LAB ORDER FORM REMOVED: Lab test ordering is now part of the Treatment form above. -->
-
         <!-- RIGHT COLUMN: TREATMENT PLAN HISTORY -->
         <div class="history-panel">
             <div class="history-card">
@@ -165,7 +162,7 @@
                                     @if (selectedPatient == null)
                                     {
                                         var patName = patientsList.FirstOrDefault(p => p.PatientId == tx.PatientId)?.Name ?? "Patient";
-                                        <div class="tx-patient">Patient: <strong>@patName (@tx.PatientId)</strong></div>
+                                        <div class="tx-patient">Patient: <strong>@patName (#@tx.PatientId)</strong></div>
                                     }
                                     <div class="tx-diagnosis">Condition: <strong>@tx.Diagnosis</strong></div>
                                     <div class="tx-desc">
@@ -206,5 +203,3 @@
         </div>
     </div>
 </div>
-
-

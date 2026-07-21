@@ -26,16 +26,16 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // GET: api/treatments/{id}
         [HttpGet("{id}")]
-        public IActionResult GetTreatment(string id)
+        public IActionResult GetTreatment(int id)
         {
             var treatment = _hospitalService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
-            if (treatment == null) return NotFound($"Treatment plan '{id}' not found.");
+            if (treatment == null) return NotFound($"Treatment plan #{id} not found.");
             return Ok(treatment);
         }
 
         // GET: api/treatments/patient/{patientId}
         [HttpGet("patient/{patientId}")]
-        public IActionResult GetTreatmentsForPatient(string patientId)
+        public IActionResult GetTreatmentsForPatient(int patientId)
         {
             var treatments = _hospitalService.GetTreatmentsForPatient(patientId);
             return Ok(treatments);
@@ -45,13 +45,13 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpPost]
         public IActionResult CreateTreatment([FromBody] TreatmentPlan plan)
         {
-            if (plan == null || string.IsNullOrEmpty(plan.PatientId) || string.IsNullOrEmpty(plan.TreatmentDescription))
+            if (plan == null || plan.PatientId <= 0 || string.IsNullOrEmpty(plan.TreatmentDescription))
             {
                 return BadRequest("PatientId and TreatmentDescription are required.");
             }
 
             var patient = _hospitalService.GetPatient(plan.PatientId);
-            if (patient == null) return NotFound($"Patient '{plan.PatientId}' not found.");
+            if (patient == null) return NotFound($"Patient #{plan.PatientId} not found.");
 
             var created = _hospitalService.CreateTreatmentPlan(plan);
             return CreatedAtAction(nameof(GetTreatment), new { id = created.TreatmentPlanId }, created);
@@ -59,10 +59,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // PUT: api/treatments/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateTreatment(string id, [FromBody] TreatmentPlan planDetails)
+        public IActionResult UpdateTreatment(int id, [FromBody] TreatmentPlan planDetails)
         {
             var treatment = _hospitalService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
-            if (treatment == null) return NotFound($"Treatment plan '{id}' not found.");
+            if (treatment == null) return NotFound($"Treatment plan #{id} not found.");
 
             planDetails.TreatmentPlanId = id;
             _hospitalService.UpdateTreatmentPlan(planDetails);
@@ -72,10 +72,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // DELETE: api/treatments/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteTreatment(string id)
+        public IActionResult DeleteTreatment(int id)
         {
             var treatment = _hospitalService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
-            if (treatment == null) return NotFound($"Treatment plan '{id}' not found.");
+            if (treatment == null) return NotFound($"Treatment plan #{id} not found.");
 
             _hospitalService.DeleteTreatmentPlan(id);
             return NoContent();

@@ -19,7 +19,7 @@ namespace CogMediHospitalManagementSystem.DTOs
                 ContactNumber = patient.ContactNumber,
                 Status = patient.Status,
                 CreatedDate = patient.CreatedDate,
-                AssignedDoctorUsername = patient.AssignedDoctorUsername,
+                AssignedDoctorId = patient.AssignedDoctorId,
                 AssignedDoctorName = patient.AssignedDoctorName
             };
         }
@@ -55,6 +55,7 @@ namespace CogMediHospitalManagementSystem.DTOs
             if (user == null) return null!;
             return new UserDto
             {
+                Id = user.Id,
                 Username = user.Username,
                 Role = user.Role,
                 FullName = user.FullName,

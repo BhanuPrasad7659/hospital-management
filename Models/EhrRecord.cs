@@ -7,16 +7,19 @@ namespace CogMediHospitalManagementSystem.Models
     public class EhrRecord
     {
         [Key]
-        [Required]
-        [StringLength(20)]
-        public string EhrId { get; set; } = string.Empty;
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int EhrId { get; set; }
         
         [Required]
-        [StringLength(20)]
-        public string PatientId { get; set; } = string.Empty;
+        public int PatientId { get; set; }
 
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }
+
+        public int? DoctorId { get; set; }
+
+        [ForeignKey(nameof(DoctorId))]
+        public virtual User? Doctor { get; set; }
 
         [Required]
         [StringLength(250)]

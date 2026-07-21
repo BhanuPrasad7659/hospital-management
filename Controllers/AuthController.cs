@@ -39,14 +39,6 @@ namespace CogMediHospitalManagementSystem.Controllers
         public IActionResult ReceptionistLogin()
         {
             var receptionists = _hospitalService.GetUsers().Where(u => u.Role.Equals("receptionist", StringComparison.OrdinalIgnoreCase)).ToList();
-            if (!receptionists.Any())
-            {
-                receptionists = new List<User>
-                {
-                    new User { Username = "receptionist", Role = "receptionist", FullName = "Sita Ramam (Front Desk Receptionist 1)" },
-                    new User { Username = "receptionist2", Role = "receptionist", FullName = "Ananya Rao (Admissions Desk Receptionist 2)" }
-                };
-            }
             ViewBag.Receptionists = receptionists;
             return View(new LoginViewModel { Role = "receptionist" });
         }
@@ -66,16 +58,6 @@ namespace CogMediHospitalManagementSystem.Controllers
         public IActionResult DoctorLogin()
         {
             var doctors = _hospitalService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
-            if (!doctors.Any())
-            {
-                doctors = new List<User>
-                {
-                    new User { Username = "doctor1", Role = "doctor", FullName = "Dr. Harsha Vardhan", Specialty = "Cardiology" },
-                    new User { Username = "doctor2", Role = "doctor", FullName = "Dr. Priya Sharma", Specialty = "Pediatrics" },
-                    new User { Username = "doctor3", Role = "doctor", FullName = "Dr. Amit Verma", Specialty = "Orthopedics" },
-                    new User { Username = "doctor4", Role = "doctor", FullName = "Dr. Shalini Gupta", Specialty = "Neurology" }
-                };
-            }
             ViewBag.Doctors = doctors;
             return View(new LoginViewModel { Role = "doctor" });
         }
@@ -84,7 +66,7 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("login/doctor")]
         public async Task<IActionResult> DoctorLogin(LoginViewModel model)
         {
-            var doctorUsername = string.IsNullOrWhiteSpace(model.Username) ? "doctor1" : model.Username;
+            var doctorUsername = string.IsNullOrWhiteSpace(model.Username) ? "Doctor Ramesh" : model.Username;
             await SignInUser(doctorUsername, "doctor");
             return RedirectToAction("Dashboard", "Doctor");
         }
@@ -132,14 +114,6 @@ namespace CogMediHospitalManagementSystem.Controllers
         public IActionResult BillingLogin()
         {
             var billingOfficers = _hospitalService.GetUsers().Where(u => u.Role.Equals("billing discharge", StringComparison.OrdinalIgnoreCase)).ToList();
-            if (!billingOfficers.Any())
-            {
-                billingOfficers = new List<User>
-                {
-                    new User { Username = "billing", Role = "billing discharge", FullName = "Ramesh Varma (Senior Billing Officer 1)" },
-                    new User { Username = "billing2", Role = "billing discharge", FullName = "Kavita Reddy (Discharge Clearance Officer 2)" }
-                };
-            }
             ViewBag.BillingOfficers = billingOfficers;
             return View(new LoginViewModel { Role = "billing discharge" });
         }
@@ -163,10 +137,9 @@ namespace CogMediHospitalManagementSystem.Controllers
             return RedirectToAction("Roles", "Home");
         }
 
-        // Helper to sign in user via cookies (Password-less, auto-filling defaults)
+        // Helper to sign in user via cookies
         private async Task<bool> SignInUser(string username, string expectedRole)
         {
-            // If username is empty, default it to the role name
             if (string.IsNullOrWhiteSpace(username))
             {
                 username = expectedRole;
@@ -177,6 +150,7 @@ namespace CogMediHospitalManagementSystem.Controllers
             {
                 var claims = new List<Claim>
                 {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Role, user.Role),
                     new Claim(ClaimTypes.GivenName, user.FullName)

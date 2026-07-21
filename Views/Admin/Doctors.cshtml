@@ -80,7 +80,7 @@
                             <option value="">Choose patient...</option>
                             @foreach (var pat in admittedPatients)
                             {
-                                <option value="@pat.PatientId">@pat.Name (@pat.PatientId) [Current: @(string.IsNullOrEmpty(pat.AssignedDoctorName) ? "None" : pat.AssignedDoctorName)]</option>
+                                <option value="@pat.PatientId">@pat.Name (#@pat.PatientId) [Current: @(string.IsNullOrEmpty(pat.AssignedDoctorName) ? "None" : pat.AssignedDoctorName)]</option>
                             }
                         </select>
                         @if (admittedPatients.Count == 0)
@@ -91,11 +91,11 @@
 
                     <div class="form-group">
                         <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Attending Specialized Doctor</label>
-                        <select name="doctorUsername" required style="width: 100%; padding: 10.5px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; background-color: var(--surface); color: var(--text-main);">
+                        <select name="doctorId" required style="width: 100%; padding: 10.5px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; background-color: var(--surface); color: var(--text-main);">
                             <option value="">Choose doctor...</option>
                             @foreach (var doc in doctorsList)
                             {
-                                <option value="@doc.Username">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty))</option>
+                                <option value="@doc.Id">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty))</option>
                             }
                         </select>
                     </div>
@@ -124,6 +124,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Doctor ID</th>
                                     <th>Full Name</th>
                                     <th>Username</th>
                                     <th>Specialty Department</th>
@@ -135,6 +136,7 @@
                                 @foreach (var doc in doctorsList)
                                 {
                                     <tr>
+                                        <td><code>#@doc.Id</code></td>
                                         <td><strong>@doc.FullName</strong></td>
                                         <td><code style="font-size: 13px;">@doc.Username</code></td>
                                         <td><span class="badge badge-info">@(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty)</span></td>
@@ -143,7 +145,7 @@
                                             <div style="font-size: 11.5px; color: var(--text-muted);">@doc.Email</div>
                                         </td>
                                         <td class="text-right">
-                                            <a href="/doctor/view-profile?username=@doc.Username" class="btn btn-outline btn-xs" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                            <a href="/doctor/view-profile?doctorId=@doc.Id" class="btn btn-outline btn-xs" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
                                                 <i data-lucide="user" style="width: 12px; height: 12px;"></i> Profile
                                             </a>
                                         </td>

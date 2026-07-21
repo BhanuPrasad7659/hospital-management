@@ -45,10 +45,10 @@
                                     {
                                         var pat = patients.FirstOrDefault(p => p.PatientId == record.PatientId);
                                         <tr>
-                                            <td><strong>@record.PharmacyRecordId</strong></td>
+                                            <td><strong>#@record.PharmacyRecordId</strong></td>
                                             <td>
                                                 <div class="pat-name">@(pat?.Name ?? "Patient")</div>
-                                                <div class="pat-id">ID: @record.PatientId</div>
+                                                <div class="pat-id">ID: #@record.PatientId</div>
                                             </td>
                                             <td>
                                                 <span class="med-name-tag"><i data-lucide="pill" class="icon-tiny"></i> @record.MedicineName</span>

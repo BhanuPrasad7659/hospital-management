@@ -2,7 +2,7 @@ namespace CogMediHospitalManagementSystem.ViewModels
 {
     public class PatientViewModel
     {
-        public string PatientId { get; set; } = string.Empty;
+        public int PatientId { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Age { get; set; }
         public string Gender { get; set; } = string.Empty;
@@ -13,5 +13,6 @@ namespace CogMediHospitalManagementSystem.ViewModels
         // Ward assignment for Admission
         public string Ward { get; set; } = string.Empty;
         public string BedNumber { get; set; } = string.Empty;
+        public int? AssignedDoctorId { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace CogMediHospitalManagementSystem.DTOs
 {
     public class PatientDto
     {
-        public string PatientId { get; set; } = string.Empty;
+        public int PatientId { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Age { get; set; }
         public string Gender { get; set; } = string.Empty;
@@ -13,7 +13,7 @@ namespace CogMediHospitalManagementSystem.DTOs
         public string ContactNumber { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
-        public string AssignedDoctorUsername { get; set; } = string.Empty;
+        public int? AssignedDoctorId { get; set; }
         public string AssignedDoctorName { get; set; } = string.Empty;
     }
 

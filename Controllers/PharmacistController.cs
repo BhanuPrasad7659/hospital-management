@@ -25,14 +25,14 @@ namespace CogMediHospitalManagementSystem.Controllers
 
             var viewModel = new DashboardViewModel
             {
-                TotalPatients = totalStock, // Repurposing dashboard widget for Total Medicine Stock
-                ActiveCases = dispensed, // Repurposing widget for Dispensed Today
-                ActiveTreatments = pending, // Repurposing widget for Pending Prescriptions
+                TotalPatients = totalStock,
+                ActiveCases = dispensed,
+                ActiveTreatments = pending,
                 RecentActivities = new List<string>
                 {
                     "Dispensed Amoxicillin 500mg (14 units) to Patient Amit Sharma.",
                     "Restocked Metformin 500mg (+100 units).",
-                    "Received new prescription order from Dr. Harsha Vardhan."
+                    "Received new prescription order from Dr. Ramesh."
                 },
                 RoleName = "Pharmacy Dispensary",
                 UserDisplayName = User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value ?? "Pharmacist"
@@ -53,7 +53,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpPost]
         [Route("pharmacist/dispense")]
-        public IActionResult Dispense(string recordId)
+        public IActionResult Dispense(int recordId)
         {
             var pharmacistName = User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value ?? "Rahul Verma";
             var records = _hospitalService.GetPharmacyRecords();

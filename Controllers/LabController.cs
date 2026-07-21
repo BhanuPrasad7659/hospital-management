@@ -44,24 +44,23 @@ namespace CogMediHospitalManagementSystem.Controllers
         public IActionResult Orders()
         {
             var orders = _hospitalService.GetLabOrders();
-            // We want to pass patient info along, so let's pre-populate the patients list in ViewBag
             ViewBag.Patients = _hospitalService.GetPatients();
             return View(orders);
         }
 
         [HttpPost]
         [Route("lab/start")]
-        public IActionResult StartTest(string orderId)
+        public IActionResult StartTest(int orderId)
         {
             var techName = User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value ?? "Karan Malhotra";
             _hospitalService.UpdateLabOrderStatus(orderId, "IN_PROGRESS", "", techName);
-            TempData["SuccessMessage"] = $"Lab Order {orderId} is now IN PROGRESS.";
+            TempData["SuccessMessage"] = $"Lab Order #{orderId} is now IN PROGRESS.";
             return RedirectToAction("Orders");
         }
 
         [HttpPost]
         [Route("lab/complete")]
-        public IActionResult CompleteTest(string orderId, string result)
+        public IActionResult CompleteTest(int orderId, string result)
         {
             if (string.IsNullOrWhiteSpace(result))
             {
@@ -71,7 +70,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
             var techName = User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value ?? "Karan Malhotra";
             _hospitalService.UpdateLabOrderStatus(orderId, "COMPLETED", result, techName);
-            TempData["SuccessMessage"] = $"Lab Order {orderId} has been COMPLETED with results.";
+            TempData["SuccessMessage"] = $"Lab Order #{orderId} has been COMPLETED with results.";
             return RedirectToAction("Orders");
         }
     }

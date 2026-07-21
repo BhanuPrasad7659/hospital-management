@@ -41,7 +41,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                 {
                     "System Admin updated staff credentials.",
                     "Receptionist registered new patient: Sunitha Rao.",
-                    "Dr. Harsha Vardhan updated EHR for Patient Priya Patel.",
+                    "Dr. Ramesh updated EHR for Patient Priya Patel.",
                     "Lab CBC Test ordered for Patient Rajesh Kumar.",
                     "Pharmacist dispensed Amoxicillin for Patient Amit Sharma.",
                     "Billing Officer collected ₹3,050 from Patient Amit Sharma.",
@@ -72,7 +72,6 @@ namespace CogMediHospitalManagementSystem.Controllers
             }
             return RedirectToAction("Dashboard");
         }
-
 
         [HttpGet]
         [Route("admin/doctors")]
@@ -106,15 +105,15 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpPost]
         [Route("admin/assign-doctor")]
-        public IActionResult AssignDoctor(string patientId, string doctorUsername)
+        public IActionResult AssignDoctor(int patientId, int doctorId)
         {
-            if (string.IsNullOrEmpty(patientId) || string.IsNullOrEmpty(doctorUsername))
+            if (patientId <= 0 || doctorId <= 0)
             {
                 TempData["ErrorMessage"] = "Select both patient and doctor for assignment.";
                 return RedirectToAction("Doctors");
             }
 
-            _hospitalService.AssignDoctorToPatient(patientId, doctorUsername);
+            _hospitalService.AssignDoctorToPatient(patientId, doctorId);
             TempData["SuccessMessage"] = "Doctor assigned to patient successfully.";
             return RedirectToAction("Doctors");
         }

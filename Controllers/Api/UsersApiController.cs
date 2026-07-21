@@ -26,9 +26,18 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             return Ok(dtos);
         }
 
-        // GET: api/users/{username}
-        [HttpGet("{username}")]
-        public IActionResult GetUser(string username)
+        // GET: api/users/{id}
+        [HttpGet("{id:int}")]
+        public IActionResult GetUser(int id)
+        {
+            var user = _hospitalService.GetUserById(id);
+            if (user == null) return NotFound($"User #{id} not found.");
+            return Ok(user.ToDto());
+        }
+
+        // GET: api/users/by-username/{username}
+        [HttpGet("by-username/{username}")]
+        public IActionResult GetUserByUsername(string username)
         {
             var user = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
             if (user == null) return NotFound($"User '{username}' not found.");
@@ -46,11 +55,12 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
             _hospitalService.AssignStaff(requestDto.FullName, requestDto.Username, requestDto.Role);
             
-            // If details are provided for a doctor, update profile details too
-            if (requestDto.Role.Equals("doctor", System.StringComparison.OrdinalIgnoreCase))
+            var createdUser = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(requestDto.Username, System.StringComparison.OrdinalIgnoreCase));
+            
+            if (createdUser != null && requestDto.Role.Equals("doctor", System.StringComparison.OrdinalIgnoreCase))
             {
                 _hospitalService.UpdateDoctorProfile(
-                    requestDto.Username, 
+                    createdUser.Id, 
                     requestDto.Specialty ?? "", 
                     requestDto.Biography ?? "", 
                     requestDto.ContactNumber ?? "", 
@@ -58,21 +68,20 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
                 );
             }
 
-            var createdUser = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(requestDto.Username, System.StringComparison.OrdinalIgnoreCase));
-            return CreatedAtAction(nameof(GetUser), new { username = requestDto.Username }, createdUser?.ToDto());
+            return CreatedAtAction(nameof(GetUser), new { id = createdUser?.Id ?? 0 }, createdUser?.ToDto());
         }
 
-        // PUT: api/users/{username}
-        [HttpPut("{username}")]
-        public IActionResult UpdateDoctorProfile(string username, [FromBody] UserUpdateDto requestDto)
+        // PUT: api/users/{id}
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateDoctorProfile(int id, [FromBody] UserUpdateDto requestDto)
         {
-            var user = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
-            if (user == null) return NotFound($"User '{username}' not found.");
+            var user = _hospitalService.GetUserById(id);
+            if (user == null) return NotFound($"User #{id} not found.");
 
             if (user.Role.Equals("doctor", System.StringComparison.OrdinalIgnoreCase))
             {
                 _hospitalService.UpdateDoctorProfile(
-                    username, 
+                    id, 
                     requestDto.Specialty ?? "", 
                     requestDto.Biography ?? "", 
                     requestDto.ContactNumber ?? "", 
@@ -80,33 +89,32 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
                 );
                 _hospitalService.AssignStaff(
                     !string.IsNullOrEmpty(requestDto.FullName) ? requestDto.FullName : user.FullName, 
-                    username, 
+                    user.Username, 
                     user.Role
                 );
                 
-                var updatedDoctor = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
+                var updatedDoctor = _hospitalService.GetUserById(id);
                 return Ok(updatedDoctor?.ToDto());
             }
 
-            // For other roles, just update display name and role if provided
             _hospitalService.AssignStaff(
                 !string.IsNullOrEmpty(requestDto.FullName) ? requestDto.FullName : user.FullName, 
-                username, 
+                user.Username, 
                 !string.IsNullOrEmpty(requestDto.Role) ? requestDto.Role : user.Role
             );
             
-            var updatedUser = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
+            var updatedUser = _hospitalService.GetUserById(id);
             return Ok(updatedUser?.ToDto());
         }
 
-        // DELETE: api/users/{username}
-        [HttpDelete("{username}")]
-        public IActionResult DeleteUser(string username)
+        // DELETE: api/users/{id}
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteUser(int id)
         {
-            var user = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
-            if (user == null) return NotFound($"User '{username}' not found.");
+            var user = _hospitalService.GetUserById(id);
+            if (user == null) return NotFound($"User #{id} not found.");
 
-            _hospitalService.DeleteUser(username);
+            _hospitalService.DeleteUser(id);
             return NoContent();
         }
     }

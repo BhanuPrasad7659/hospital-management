@@ -67,7 +67,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                     ContactNumber = model.ContactNumber
                 };
                 _hospitalService.RegisterPatient(patient);
-                TempData["SuccessMessage"] = "Patient registered successfully! ID: " + patient.PatientId;
+                TempData["SuccessMessage"] = "Patient registered successfully! ID: #" + patient.PatientId;
                 return RedirectToAction("Admission");
             }
             
@@ -80,9 +80,9 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpPost]
         [Route("receptionist/admit")]
-        public IActionResult Admit(string patientId, string ward, string bedNumber, string doctorUsername)
+        public IActionResult Admit(int patientId, string ward, string bedNumber, int doctorId)
         {
-            if (string.IsNullOrEmpty(patientId) || string.IsNullOrEmpty(ward) || string.IsNullOrEmpty(bedNumber) || string.IsNullOrEmpty(doctorUsername))
+            if (patientId <= 0 || string.IsNullOrEmpty(ward) || string.IsNullOrEmpty(bedNumber) || doctorId <= 0)
             {
                 TempData["ErrorMessage"] = "All fields are required to admit a patient (including assigned doctor).";
                 return RedirectToAction("Admission");
@@ -101,7 +101,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                 return RedirectToAction("Admission");
             }
 
-            _hospitalService.AdmitPatient(patientId, ward, bedNumber, doctorUsername);
+            _hospitalService.AdmitPatient(patientId, ward, bedNumber, doctorId);
             TempData["SuccessMessage"] = $"Patient {patient.Name} admitted and assigned successfully!";
             return RedirectToAction("Admission");
         }
@@ -124,7 +124,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpPost]
         [Route("receptionist/delete")]
-        public IActionResult Delete(string patientId)
+        public IActionResult Delete(int patientId)
         {
             var patient = _hospitalService.GetPatient(patientId);
             if (patient != null)
@@ -166,9 +166,6 @@ namespace CogMediHospitalManagementSystem.Controllers
 
             _hospitalService.UpdateUserProfile(username, fullName, contactNumber ?? "", email ?? "");
             TempData["SuccessMessage"] = "Profile updated successfully!";
-            
-            // Note: Since ASP.NET Core auth cookies cache user details like GivenName, we might still see the old name in the navbar
-            // until the next login, but it is successfully updated in the in-memory database.
             return RedirectToAction("Profile");
         }
     }

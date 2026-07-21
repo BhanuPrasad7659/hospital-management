@@ -7,13 +7,11 @@ namespace CogMediHospitalManagementSystem.Models
     public class Admission
     {
         [Key]
-        [Required]
-        [StringLength(20)]
-        public string AdmissionId { get; set; } = string.Empty;
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int AdmissionId { get; set; }
         
         [Required]
-        [StringLength(20)]
-        public string PatientId { get; set; } = string.Empty;
+        public int PatientId { get; set; }
 
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }
@@ -38,11 +36,10 @@ namespace CogMediHospitalManagementSystem.Models
         [StringLength(30)]
         public string Status { get; set; } = "ADMITTED"; // ADMITTED, DISCHARGED
 
-        // Doctor Assignment Tracking
-        [StringLength(50)]
-        public string AssignedDoctorUsername { get; set; } = string.Empty;
+        // Doctor Assignment Tracking using int DoctorId
+        public int? AssignedDoctorId { get; set; }
 
-        [ForeignKey(nameof(AssignedDoctorUsername))]
+        [ForeignKey(nameof(AssignedDoctorId))]
         public virtual User? AssignedDoctor { get; set; }
 
         [StringLength(100)]

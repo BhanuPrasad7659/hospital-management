@@ -28,10 +28,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // GET: api/patients/{id}
         [HttpGet("{id}")]
-        public IActionResult GetPatient(string id)
+        public IActionResult GetPatient(int id)
         {
             var patient = _hospitalService.GetPatient(id);
-            if (patient == null) return NotFound($"Patient with ID '{id}' not found.");
+            if (patient == null) return NotFound($"Patient with ID #{id} not found.");
             return Ok(patient.ToDto());
         }
 
@@ -51,10 +51,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // PUT: api/patients/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdatePatient(string id, [FromBody] PatientUpdateDto requestDto)
+        public IActionResult UpdatePatient(int id, [FromBody] PatientUpdateDto requestDto)
         {
             var patient = _hospitalService.GetPatient(id);
-            if (patient == null) return NotFound($"Patient with ID '{id}' not found.");
+            if (patient == null) return NotFound($"Patient with ID #{id} not found.");
 
             requestDto.UpdateEntity(patient);
             _hospitalService.UpdatePatient(patient);
@@ -65,10 +65,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // DELETE: api/patients/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeletePatient(string id)
+        public IActionResult DeletePatient(int id)
         {
             var patient = _hospitalService.GetPatient(id);
-            if (patient == null) return NotFound($"Patient with ID '{id}' not found.");
+            if (patient == null) return NotFound($"Patient with ID #{id} not found.");
 
             _hospitalService.DeletePatient(id);
             return NoContent();

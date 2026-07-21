@@ -42,10 +42,10 @@
                             {
                                 var pat = patients.FirstOrDefault(p => p.PatientId == order.PatientId);
                                 <tr>
-                                    <td><strong>@order.LabOrderId</strong></td>
+                                    <td><strong>#@order.LabOrderId</strong></td>
                                     <td>
                                         <div class="pat-name">@(pat?.Name ?? "Unknown Patient")</div>
-                                        <div class="pat-id">ID: @order.PatientId</div>
+                                        <div class="pat-id">ID: #@order.PatientId</div>
                                     </td>
                                     <td>
                                         <span class="test-name-tag"><i data-lucide="file-text" class="icon-tiny"></i> @order.TestName</span>
@@ -86,7 +86,7 @@
                                         }
                                         else if (order.Status == "IN_PROGRESS")
                                         {
-                                            <button type="button" class="btn btn-success btn-xs" onclick="openResultModal('@order.LabOrderId', '@(pat?.Name ?? "Patient")', '@order.TestName')">
+                                            <button type="button" class="btn btn-success btn-xs" onclick="openResultModal(@order.LabOrderId, '@(pat?.Name ?? "Patient")', '@order.TestName')">
                                                 <i data-lucide="upload-cloud" class="icon-tiny"></i> Upload Results
                                             </button>
                                         }

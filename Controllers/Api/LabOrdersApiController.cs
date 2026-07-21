@@ -26,16 +26,16 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // GET: api/lab-orders/{id}
         [HttpGet("{id}")]
-        public IActionResult GetLabOrder(string id)
+        public IActionResult GetLabOrder(int id)
         {
             var order = _hospitalService.GetLabOrders().FirstOrDefault(o => o.LabOrderId == id);
-            if (order == null) return NotFound($"Lab order '{id}' not found.");
+            if (order == null) return NotFound($"Lab order #{id} not found.");
             return Ok(order);
         }
 
         // GET: api/lab-orders/patient/{patientId}
         [HttpGet("patient/{patientId}")]
-        public IActionResult GetLabOrdersForPatient(string patientId)
+        public IActionResult GetLabOrdersForPatient(int patientId)
         {
             var orders = _hospitalService.GetLabOrdersForPatient(patientId);
             return Ok(orders);
@@ -45,13 +45,13 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpPost]
         public IActionResult CreateLabOrder([FromBody] LabOrder order)
         {
-            if (order == null || string.IsNullOrEmpty(order.PatientId) || string.IsNullOrEmpty(order.TestName))
+            if (order == null || order.PatientId <= 0 || string.IsNullOrEmpty(order.TestName))
             {
                 return BadRequest("PatientId and TestName are required.");
             }
 
             var patient = _hospitalService.GetPatient(order.PatientId);
-            if (patient == null) return NotFound($"Patient '{order.PatientId}' not found.");
+            if (patient == null) return NotFound($"Patient #{order.PatientId} not found.");
 
             var created = _hospitalService.CreateLabOrder(order);
             return CreatedAtAction(nameof(GetLabOrder), new { id = created.LabOrderId }, created);
@@ -59,10 +59,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // PUT: api/lab-orders/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateLabOrder(string id, [FromBody] LabOrder updateDetails)
+        public IActionResult UpdateLabOrder(int id, [FromBody] LabOrder updateDetails)
         {
             var order = _hospitalService.GetLabOrders().FirstOrDefault(o => o.LabOrderId == id);
-            if (order == null) return NotFound($"Lab order '{id}' not found.");
+            if (order == null) return NotFound($"Lab order #{id} not found.");
 
             _hospitalService.UpdateLabOrderStatus(id, updateDetails.Status, updateDetails.Result ?? "", updateDetails.TechnicianName ?? "");
             var updated = _hospitalService.GetLabOrders().FirstOrDefault(o => o.LabOrderId == id);
@@ -71,10 +71,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // DELETE: api/lab-orders/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteLabOrder(string id)
+        public IActionResult DeleteLabOrder(int id)
         {
             var order = _hospitalService.GetLabOrders().FirstOrDefault(o => o.LabOrderId == id);
-            if (order == null) return NotFound($"Lab order '{id}' not found.");
+            if (order == null) return NotFound($"Lab order #{id} not found.");
 
             _hospitalService.DeleteLabOrder(id);
             return NoContent();

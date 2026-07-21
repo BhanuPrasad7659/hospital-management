@@ -8,6 +8,9 @@ namespace CogMediHospitalManagementSystem.Models
     public class User
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         [Required]
         [StringLength(50)]
         [Display(Name = "Username")]

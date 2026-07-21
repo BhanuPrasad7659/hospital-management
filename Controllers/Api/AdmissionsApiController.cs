@@ -26,56 +26,64 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // GET: api/admissions/{id}
         [HttpGet("{id}")]
-        public IActionResult GetAdmission(string id)
+        public IActionResult GetAdmission(int id)
         {
-            var admission = _hospitalService.GetAdmissions().FirstOrDefault(a => a.AdmissionId == id);
-            if (admission == null) return NotFound($"Admission record '{id}' not found.");
+            var admission = _hospitalService.GetAdmission(id);
+            if (admission == null) return NotFound($"Admission record #{id} not found.");
             return Ok(admission);
         }
 
         // POST: api/admissions
         [HttpPost]
-        public IActionResult AdmitPatient([FromBody] Admission admissionRequest)
+        public IActionResult AdmitPatient([FromBody] ApiAdmissionRequest admissionRequest)
         {
-            if (admissionRequest == null || string.IsNullOrEmpty(admissionRequest.PatientId) || string.IsNullOrEmpty(admissionRequest.Ward) || string.IsNullOrEmpty(admissionRequest.BedNumber) || string.IsNullOrEmpty(admissionRequest.AssignedDoctorUsername))
+            if (admissionRequest == null || admissionRequest.PatientId <= 0 || string.IsNullOrEmpty(admissionRequest.Ward) || string.IsNullOrEmpty(admissionRequest.BedNumber) || admissionRequest.AssignedDoctorId <= 0)
             {
-                return BadRequest("PatientId, Ward, BedNumber, and AssignedDoctorUsername are required.");
+                return BadRequest("PatientId, Ward, BedNumber, and AssignedDoctorId are required.");
             }
 
             var patient = _hospitalService.GetPatient(admissionRequest.PatientId);
-            if (patient == null) return NotFound($"Patient '{admissionRequest.PatientId}' not found.");
+            if (patient == null) return NotFound($"Patient #{admissionRequest.PatientId} not found.");
 
             var created = _hospitalService.AdmitPatient(
                 admissionRequest.PatientId, 
                 admissionRequest.Ward, 
                 admissionRequest.BedNumber, 
-                admissionRequest.AssignedDoctorUsername
+                admissionRequest.AssignedDoctorId
             );
             return CreatedAtAction(nameof(GetAdmission), new { id = created.AdmissionId }, created);
         }
 
         // PUT: api/admissions/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateAdmission(string id, [FromBody] Admission admissionDetails)
+        public IActionResult UpdateAdmission(int id, [FromBody] Admission admissionDetails)
         {
-            var admission = _hospitalService.GetAdmissions().FirstOrDefault(a => a.AdmissionId == id);
-            if (admission == null) return NotFound($"Admission record '{id}' not found.");
+            var admission = _hospitalService.GetAdmission(id);
+            if (admission == null) return NotFound($"Admission record #{id} not found.");
 
             admissionDetails.AdmissionId = id;
             _hospitalService.UpdateAdmission(admissionDetails);
-            var updated = _hospitalService.GetAdmissions().FirstOrDefault(a => a.AdmissionId == id);
+            var updated = _hospitalService.GetAdmission(id);
             return Ok(updated);
         }
 
         // DELETE: api/admissions/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteAdmission(string id)
+        public IActionResult DeleteAdmission(int id)
         {
-            var admission = _hospitalService.GetAdmissions().FirstOrDefault(a => a.AdmissionId == id);
-            if (admission == null) return NotFound($"Admission record '{id}' not found.");
+            var admission = _hospitalService.GetAdmission(id);
+            if (admission == null) return NotFound($"Admission record #{id} not found.");
 
             _hospitalService.DeleteAdmission(id);
             return NoContent();
+        }
+
+        public class ApiAdmissionRequest
+        {
+            public int PatientId { get; set; }
+            public string Ward { get; set; } = string.Empty;
+            public string BedNumber { get; set; } = string.Empty;
+            public int AssignedDoctorId { get; set; }
         }
     }
 }

@@ -7,13 +7,11 @@ namespace CogMediHospitalManagementSystem.Models
     public class DischargeRecord
     {
         [Key]
-        [Required]
-        [StringLength(20)]
-        public string DischargeRecordId { get; set; } = string.Empty;
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int DischargeRecordId { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string PatientId { get; set; } = string.Empty;
+        public int PatientId { get; set; }
 
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }

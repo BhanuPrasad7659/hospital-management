@@ -8,10 +8,9 @@ namespace CogMediHospitalManagementSystem.Models
     public class Patient
     {
         [Key]
-        [Required]
-        [StringLength(20)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "Patient ID")]
-        public string PatientId { get; set; } = string.Empty; // e.g., "P000248"
+        public int PatientId { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -41,11 +40,10 @@ namespace CogMediHospitalManagementSystem.Models
         [Display(Name = "Registration Date")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        // Doctor Assignment Tracking
-        [StringLength(50)]
-        public string AssignedDoctorUsername { get; set; } = string.Empty;
+        // Doctor Assignment Tracking using int DoctorId
+        public int? AssignedDoctorId { get; set; }
         
-        [ForeignKey(nameof(AssignedDoctorUsername))]
+        [ForeignKey(nameof(AssignedDoctorId))]
         public virtual User? AssignedDoctor { get; set; }
 
         [StringLength(100)]

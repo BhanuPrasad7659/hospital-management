@@ -26,7 +26,7 @@
                     @foreach (var pat in patientsList)
                     {
                         <!option value="@pat.PatientId" @(selectedPatient?.PatientId == pat.PatientId ? "selected" : "")>
-                            @pat.Name (@pat.PatientId) - Status: @pat.Status
+                            @pat.Name (#@pat.PatientId) - Status: @pat.Status
                         </!option>
                     }
                 </select>
@@ -72,7 +72,7 @@
                         </div>
                         <div class="ps-column">
                             <span>Patient ID</span>
-                            <strong>@selectedPatient.PatientId</strong>
+                            <strong>#@selectedPatient.PatientId</strong>
                         </div>
                         <div class="ps-column">
                             <span>Age / Gender</span>
@@ -126,7 +126,7 @@
                         <div class="bill-invoice-sheet">
                             <div class="section-title">
                                 <i data-lucide="receipt"></i>
-                                <h5>Invoice Details (@Model.BillingRecordId)</h5>
+                                <h5>Invoice Details (#@Model.BillingRecordId)</h5>
                             </div>
                             
                             <ul class="invoice-items">
@@ -251,7 +251,7 @@
                                     <tr>
                                         <td>
                                             <div class="pat-name">@pat.Name</div>
-                                            <div class="pat-id">ID: @pat.PatientId</div>
+                                            <div class="pat-id">ID: #@pat.PatientId</div>
                                         </td>
                                         <td>
                                             <span class="badge @(pat.Status == "ADMITTED" ? "badge-warning" : pat.Status == "DISCHARGED" ? "badge-success" : "badge-info")">

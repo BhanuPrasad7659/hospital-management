@@ -26,19 +26,19 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // GET: api/billing/{id}
         [HttpGet("{id}")]
-        public IActionResult GetBillingRecord(string id)
+        public IActionResult GetBillingRecord(int id)
         {
             var bill = _hospitalService.GetBillingRecords().FirstOrDefault(b => b.BillingRecordId == id);
-            if (bill == null) return NotFound($"Billing record '{id}' not found.");
+            if (bill == null) return NotFound($"Billing record #{id} not found.");
             return Ok(bill);
         }
 
         // GET: api/billing/patient/{patientId}
         [HttpGet("patient/{patientId}")]
-        public IActionResult GetBillingForPatient(string patientId)
+        public IActionResult GetBillingForPatient(int patientId)
         {
             var bill = _hospitalService.GetBillingForPatient(patientId);
-            if (bill == null) return NotFound($"Billing record for Patient '{patientId}' not found.");
+            if (bill == null) return NotFound($"Billing record for Patient #{patientId} not found.");
             return Ok(bill);
         }
 
@@ -46,13 +46,13 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpPost]
         public IActionResult GenerateBill([FromBody] BillGenerationRequest request)
         {
-            if (request == null || string.IsNullOrEmpty(request.PatientId))
+            if (request == null || request.PatientId <= 0)
             {
-                return BadRequest("PatientId is required.");
+                return BadRequest("Valid PatientId is required.");
             }
 
             var patient = _hospitalService.GetPatient(request.PatientId);
-            if (patient == null) return NotFound($"Patient '{request.PatientId}' not found.");
+            if (patient == null) return NotFound($"Patient #{request.PatientId} not found.");
 
             var bill = _hospitalService.GenerateBill(
                 request.PatientId, 
@@ -66,10 +66,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // PUT: api/billing/pay/{id}
         [HttpPut("pay/{id}")]
-        public IActionResult ProcessPayment(string id)
+        public IActionResult ProcessPayment(int id)
         {
             var bill = _hospitalService.GetBillingRecords().FirstOrDefault(b => b.BillingRecordId == id);
-            if (bill == null) return NotFound($"Billing record '{id}' not found.");
+            if (bill == null) return NotFound($"Billing record #{id} not found.");
 
             if (bill.Status == "PAID")
             {
@@ -83,10 +83,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // PUT: api/billing/discharge/{patientId}
         [HttpPut("discharge/{patientId}")]
-        public IActionResult DischargePatient(string patientId, [FromQuery] string remarks)
+        public IActionResult DischargePatient(int patientId, [FromQuery] string remarks)
         {
             var patient = _hospitalService.GetPatient(patientId);
-            if (patient == null) return NotFound($"Patient '{patientId}' not found.");
+            if (patient == null) return NotFound($"Patient #{patientId} not found.");
 
             var bill = _hospitalService.GetBillingForPatient(patientId);
             if (bill != null && bill.Status == "PENDING")
@@ -95,15 +95,15 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             }
 
             _hospitalService.DischargePatient(patientId, remarks ?? "Safe to discharge.");
-            return Ok(new { Message = $"Patient '{patientId}' successfully discharged." });
+            return Ok(new { Message = $"Patient #{patientId} successfully discharged." });
         }
 
         // DELETE: api/billing/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteBillingRecord(string id)
+        public IActionResult DeleteBillingRecord(int id)
         {
             var bill = _hospitalService.GetBillingRecords().FirstOrDefault(b => b.BillingRecordId == id);
-            if (bill == null) return NotFound($"Billing record '{id}' not found.");
+            if (bill == null) return NotFound($"Billing record #{id} not found.");
 
             _hospitalService.DeleteBillingRecord(id);
             return NoContent();
@@ -111,7 +111,7 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         public class BillGenerationRequest
         {
-            public string PatientId { get; set; } = string.Empty;
+            public int PatientId { get; set; }
             public decimal ConsultationFee { get; set; }
             public decimal LabCharges { get; set; }
             public decimal MedicineCharges { get; set; }

@@ -26,10 +26,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // GET: api/pharmacy/{id}
         [HttpGet("{id}")]
-        public IActionResult GetPharmacyRecord(string id)
+        public IActionResult GetPharmacyRecord(int id)
         {
             var record = _hospitalService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
-            if (record == null) return NotFound($"Pharmacy record '{id}' not found.");
+            if (record == null) return NotFound($"Pharmacy record #{id} not found.");
             return Ok(record);
         }
 
@@ -48,17 +48,16 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // PUT: api/pharmacy/dispense/{id}
         [HttpPut("dispense/{id}")]
-        public IActionResult Dispense(string id, [FromQuery] string pharmacistName)
+        public IActionResult Dispense(int id, [FromQuery] string pharmacistName)
         {
             var record = _hospitalService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
-            if (record == null) return NotFound($"Pharmacy record '{id}' not found.");
+            if (record == null) return NotFound($"Pharmacy record #{id} not found.");
 
             if (record.Status == "DISPENSED")
             {
                 return BadRequest("Medicine already dispensed.");
             }
 
-            // Check stock level
             if (_hospitalService.MedicineStock.TryGetValue(record.MedicineName, out int stock) && stock < record.Quantity)
             {
                 return BadRequest($"Insufficient stock for {record.MedicineName}. Available: {stock}. Required: {record.Quantity}.");
@@ -71,10 +70,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
 
         // DELETE: api/pharmacy/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeletePharmacyRecord(string id)
+        public IActionResult DeletePharmacyRecord(int id)
         {
             var record = _hospitalService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
-            if (record == null) return NotFound($"Pharmacy record '{id}' not found.");
+            if (record == null) return NotFound($"Pharmacy record #{id} not found.");
 
             _hospitalService.DeletePharmacyRecord(id);
             return NoContent();

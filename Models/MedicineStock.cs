@@ -1,10 +1,14 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CogMediHospitalManagementSystem.Models
 {
     public class MedicineStock
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MedicineStockId { get; set; }
+
         [Required]
         [StringLength(100)]
         [Display(Name = "Medicine Name")]

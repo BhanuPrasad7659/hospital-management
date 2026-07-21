@@ -7,19 +7,16 @@ namespace CogMediHospitalManagementSystem.Models
     public class PharmacyRecord
     {
         [Key]
-        [Required]
-        [StringLength(20)]
-        public string PharmacyRecordId { get; set; } = string.Empty;
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PharmacyRecordId { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string PatientId { get; set; } = string.Empty;
+        public int PatientId { get; set; }
 
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }
 
-        [StringLength(20)]
-        public string TreatmentPlanId { get; set; } = string.Empty; // Reference to Doctor's prescription
+        public int? TreatmentPlanId { get; set; } // Reference to Doctor's prescription
 
         [ForeignKey(nameof(TreatmentPlanId))]
         public virtual TreatmentPlan? TreatmentPlan { get; set; }

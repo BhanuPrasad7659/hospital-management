@@ -27,9 +27,9 @@ namespace CogMediHospitalManagementSystem.Controllers
 
             var viewModel = new DashboardViewModel
             {
-                TotalPatients = bills.Count, // Repurposing for Total Bills generated
-                ActiveCases = pending, // Repurposing for Pending Bills
-                ActiveTreatments = paid, // Repurposing for Paid Bills
+                TotalPatients = bills.Count,
+                ActiveCases = pending,
+                ActiveTreatments = paid,
                 TotalRevenue = totalRevenue,
                 RecentActivities = new List<string>
                 {
@@ -46,7 +46,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpGet]
         [Route("billing/payments")]
-        public IActionResult Payments(string? patientId)
+        public IActionResult Payments(int? patientId)
         {
             var patients = _hospitalService.GetPatients();
             ViewBag.PatientsList = patients;
@@ -54,10 +54,10 @@ namespace CogMediHospitalManagementSystem.Controllers
             BillingViewModel? viewModel = null;
             Patient? selectedPatient = null;
 
-            if (!string.IsNullOrEmpty(patientId))
+            if (patientId.HasValue && patientId.Value > 0)
             {
-                selectedPatient = _hospitalService.GetPatient(patientId);
-                var bill = _hospitalService.GetBillingForPatient(patientId);
+                selectedPatient = _hospitalService.GetPatient(patientId.Value);
+                var bill = _hospitalService.GetBillingForPatient(patientId.Value);
 
                 if (bill != null)
                 {
@@ -78,34 +78,30 @@ namespace CogMediHospitalManagementSystem.Controllers
                 }
                 else
                 {
-                    // No bill exists, prepare default model to generate one
-                    // We can precalculate some charges based on patient status to make it slick!
                     decimal room = 0;
                     decimal lab = 0;
                     decimal medicine = 0;
 
                     if (selectedPatient?.Status == "ADMITTED")
                     {
-                        room = 1500; // Mock room charges per day
+                        room = 1500;
                     }
 
-                    // Check if they have lab tests
-                    var tests = _hospitalService.GetLabOrdersForPatient(patientId);
-                    lab = tests.Count * 800; // ₹800 per test
+                    var tests = _hospitalService.GetLabOrdersForPatient(patientId.Value);
+                    lab = tests.Count * 800;
 
-                    // Check if they have prescriptions
-                    var prescriptions = _hospitalService.GetPharmacyRecords().Where(p => p.PatientId == patientId);
-                    medicine = prescriptions.Count() * 250; // ₹250 per prescription
+                    var prescriptions = _hospitalService.GetPharmacyRecords().Where(p => p.PatientId == patientId.Value);
+                    medicine = prescriptions.Count() * 250;
 
                     viewModel = new BillingViewModel
                     {
-                        PatientId = patientId,
+                        PatientId = patientId.Value,
                         PatientName = selectedPatient?.Name ?? "Unknown",
-                        ConsultationFee = 500, // Standard doctor fee
+                        ConsultationFee = 500,
                         LabCharges = lab,
                         MedicineCharges = medicine,
                         RoomCharges = room,
-                        Status = "NONE", // Signifies no bill generated yet
+                        Status = "NONE",
                         Patient = selectedPatient
                     };
                 }
@@ -117,7 +113,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpPost]
         [Route("billing/generate")]
-        public IActionResult GenerateBill(string patientId, decimal consultationFee, decimal labCharges, decimal medicineCharges, decimal roomCharges)
+        public IActionResult GenerateBill(int patientId, decimal consultationFee, decimal labCharges, decimal medicineCharges, decimal roomCharges)
         {
             var patient = _hospitalService.GetPatient(patientId);
             if (patient == null)
@@ -133,9 +129,9 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpGet]
         [Route("billing/pay-bill")]
-        public IActionResult PayBill(string billingRecordId)
+        public IActionResult PayBill(int billingRecordId)
         {
-            if (string.IsNullOrEmpty(billingRecordId))
+            if (billingRecordId <= 0)
             {
                 TempData["ErrorMessage"] = "Invalid billing record requested.";
                 return RedirectToAction("Payments");
@@ -172,7 +168,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpPost]
         [Route("billing/pay-bill")]
-        public IActionResult ProcessBillPayment(string billingRecordId, string paymentMode, string? upiApp, string? upiId, string? cardNumber, decimal? cashReceived)
+        public IActionResult ProcessBillPayment(int billingRecordId, string paymentMode, string? upiApp, string? upiId, string? cardNumber, decimal? cashReceived)
         {
             var bills = _hospitalService.GetBillingRecords();
             var bill = bills.FirstOrDefault(b => b.BillingRecordId == billingRecordId);
@@ -214,7 +210,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpPost]
         [Route("billing/pay")]
-        public IActionResult CollectPayment(string billingRecordId)
+        public IActionResult CollectPayment(int billingRecordId)
         {
             var bills = _hospitalService.GetBillingRecords();
             var bill = bills.FirstOrDefault(b => b.BillingRecordId == billingRecordId);
@@ -232,7 +228,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
         [HttpPost]
         [Route("billing/discharge")]
-        public IActionResult DischargePatient(string patientId, string remarks)
+        public IActionResult DischargePatient(int patientId, string remarks)
         {
             if (string.IsNullOrWhiteSpace(remarks))
             {

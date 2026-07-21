@@ -7,16 +7,19 @@ namespace CogMediHospitalManagementSystem.Models
     public class LabOrder
     {
         [Key]
-        [Required]
-        [StringLength(20)]
-        public string LabOrderId { get; set; } = string.Empty;
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int LabOrderId { get; set; }
         
         [Required]
-        [StringLength(20)]
-        public string PatientId { get; set; } = string.Empty;
+        public int PatientId { get; set; }
 
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }
+
+        public int? DoctorId { get; set; }
+
+        [ForeignKey(nameof(DoctorId))]
+        public virtual User? Doctor { get; set; }
 
         [Required]
         [StringLength(100)]
