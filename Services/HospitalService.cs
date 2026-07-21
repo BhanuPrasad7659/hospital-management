@@ -68,7 +68,8 @@ namespace CogMediHospitalManagementSystem.Services
 
         public void DeleteUser(string username)
         {
-            var user = _userRepository.Get(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            // FIXED: Replaced StringComparison.OrdinalIgnoreCase with .ToLower() == .ToLower()
+            var user = _userRepository.Get(u => u.Username.ToLower() == username.ToLower());
             if (user != null)
             {
                 _userRepository.Delete(user);

@@ -105,7 +105,8 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public decimal GetTotalPaidRevenue()
         {
-            return Find(b => b.Status.Equals("PAID", StringComparison.OrdinalIgnoreCase) || b.Status.Equals("DISCHARGED", StringComparison.OrdinalIgnoreCase))
+            // FIXED: Removed StringComparison and replaced with .ToLower() == 
+            return Find(b => b.Status.ToLower() == "paid" || b.Status.ToLower() == "discharged")
                 .Sum(b => b.TotalAmount);
         }
 
@@ -116,8 +117,9 @@ namespace CogMediHospitalManagementSystem.Repositories
 
             foreach (var m in months)
             {
+                // FIXED: Removed StringComparison and replaced with .ToLower() == 
                 var sum = allBills
-                    .Where(b => (b.Status.Equals("PAID", StringComparison.OrdinalIgnoreCase) || b.Status.Equals("DISCHARGED", StringComparison.OrdinalIgnoreCase)) &&
+                    .Where(b => (b.Status.ToLower() == "paid" || b.Status.ToLower() == "discharged") &&
                                 (b.PaymentDate ?? b.CreatedDate).Month == m.Month &&
                                 (b.PaymentDate ?? b.CreatedDate).Year == m.Year)
                     .Sum(b => b.TotalAmount);
@@ -129,7 +131,8 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public List<BillingRecord> GetRecentPaidBills(int count)
         {
-            return Find(b => b.Status.Equals("PAID", StringComparison.OrdinalIgnoreCase) || b.Status.Equals("DISCHARGED", StringComparison.OrdinalIgnoreCase))
+            // FIXED: Removed StringComparison and replaced with .ToLower() == 
+            return Find(b => b.Status.ToLower() == "paid" || b.Status.ToLower() == "discharged")
                 .OrderByDescending(b => b.PaymentDate ?? b.CreatedDate)
                 .Take(count)
                 .ToList();

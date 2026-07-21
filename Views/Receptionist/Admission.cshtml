@@ -104,7 +104,8 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="wardSelect">Ward / Wing</label>
-                                <select name="ward" id="wardSelect" onchange="updateBedOptions()" required>
+                                <!-- REMOVED inline onchange attribute here -->
+                                <select name="ward" id="wardSelect" required>
                                     <option value="">Select Ward</option>
                                     <option value="General Ward">General Ward</option>
                                     <option value="ICU">ICU</option>
@@ -335,111 +336,119 @@
 
 @section Scripts {
     <script>
-        function openEditForm(id, name, age, gender, contact, address, status) {
-            document.getElementById('editPatientId').value = id;
-            document.getElementById('editName').value = name;
-            document.getElementById('editAge').value = age;
-            document.getElementById('editGender').value = gender;
-            document.getElementById('editContactNumber').value = contact;
-            document.getElementById('editAddress').value = address;
-            document.getElementById('editStatus').value = status;
-            
-            document.getElementById('editModal').classList.add('active');
-        }
+        document.addEventListener("DOMContentLoaded", function() {
 
-        function closeEditModal() {
-            document.getElementById('editModal').classList.remove('active');
-        }
+            // --- 1. MODAL & PRINT FUNCTIONS (Attached to window so inline HTML onclicks can find them) ---
+            window.openEditForm = function(id, name, age, gender, contact, address, status) {
+                document.getElementById('editPatientId').value = id;
+                document.getElementById('editName').value = name;
+                document.getElementById('editAge').value = age;
+                document.getElementById('editGender').value = gender;
+                document.getElementById('editContactNumber').value = contact;
+                document.getElementById('editAddress').value = address;
+                document.getElementById('editStatus').value = status;
+                
+                document.getElementById('editModal').classList.add('active');
+            };
 
-        function openPrintCard(id, name, age, gender, contact, address, status, doctor) {
-            document.getElementById('cardPatientId').innerText = '#' + id;
-            document.getElementById('cardName').innerText = name;
-            document.getElementById('cardAgeGender').innerText = age + " Years / " + gender;
-            document.getElementById('cardContact').innerText = contact;
-            document.getElementById('cardAddress').innerText = address;
-            
-            const cardStatus = document.getElementById('cardStatus');
-            cardStatus.innerText = status;
-            cardStatus.className = 'badge ' + (status === 'ADMITTED' ? 'badge-warning' : status === 'DISCHARGED' ? 'badge-success' : 'badge-info');
+            window.closeEditModal = function() {
+                document.getElementById('editModal').classList.remove('active');
+            };
 
-            document.getElementById('cardDoctor').innerText = doctor ? doctor : "None Assigned";
+            window.openPrintCard = function(id, name, age, gender, contact, address, status, doctor) {
+                document.getElementById('cardPatientId').innerText = '#' + id;
+                document.getElementById('cardName').innerText = name;
+                document.getElementById('cardAgeGender').innerText = age + " Years / " + gender;
+                document.getElementById('cardContact').innerText = contact;
+                document.getElementById('cardAddress').innerText = address;
+                
+                const cardStatus = document.getElementById('cardStatus');
+                cardStatus.innerText = status;
+                cardStatus.className = 'badge ' + (status === 'ADMITTED' ? 'badge-warning' : status === 'DISCHARGED' ? 'badge-success' : 'badge-info');
 
-            document.getElementById('printCardModal').classList.add('active');
-        }
+                document.getElementById('cardDoctor').innerText = doctor ? doctor : "None Assigned";
 
-        function closePrintCardModal() {
-            document.getElementById('printCardModal').classList.remove('active');
-        }
+                document.getElementById('printCardModal').classList.add('active');
+            };
 
-        function printCard() {
-            const cardContent = document.getElementById('patientCardContainer').outerHTML;
-            const printWindow = window.open('', '_blank', 'height=500,width=600');
-            printWindow.document.write('<html><head><title>Print Patient Card</title>');
-            printWindow.document.write('<style>');
-            printWindow.document.write('body { font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #fff; }');
-            printWindow.document.write(':root { --primary: #0284c7; --secondary: #0f172a; --text-main: #1e293b; --text-muted: #64748b; --text-light: #94a3b8; --border: #e2e8f0; --radius-lg: 8px; --surface: #ffffff; }');
-            printWindow.document.write('.badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block; }');
-            printWindow.document.write('.badge-warning { background-color: #fef3c7; color: #d97706; }');
-            printWindow.document.write('.badge-success { background-color: #d1fae5; color: #059669; }');
-            printWindow.document.write('.badge-info { background-color: #e0f2fe; color: #0284c7; }');
-            printWindow.document.write('</style></head><body>');
-            printWindow.document.write(cardContent);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.focus();
-            setTimeout(function() {
-                printWindow.print();
-                printWindow.close();
-            }, 250);
-        }
+            window.closePrintCardModal = function() {
+                document.getElementById('printCardModal').classList.remove('active');
+            };
 
-        const bedsByWard = {
-            "General Ward": ["G-01", "G-02", "G-03", "G-04", "G-05", "G-06", "G-07", "G-08", "G-09", "G-10", "G-11", "G-12", "G-13", "G-14", "G-15"],
-            "ICU": ["ICU-01", "ICU-02", "ICU-03", "ICU-04", "ICU-05", "ICU-06", "ICU-07", "ICU-08"],
-            "Pediatrics Wing": ["PED-01", "PED-02", "PED-03", "PED-04", "PED-05", "PED-06"],
-            "Cardiology Wing": ["CARD-01", "CARD-02", "CARD-03", "CARD-04", "CARD-05", "CARD-06"],
-            "Emergency Ward": ["ER-01", "ER-02", "ER-03", "ER-04", "ER-05", "ER-06"]
-        };
+            window.printCard = function() {
+                const cardContent = document.getElementById('patientCardContainer').outerHTML;
+                const printWindow = window.open('', '_blank', 'height=500,width=600');
+                printWindow.document.write('<html><head><title>Print Patient Card</title>');
+                printWindow.document.write('<style>');
+                printWindow.document.write('body { font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #fff; }');
+                printWindow.document.write(':root { --primary: #0284c7; --secondary: #0f172a; --text-main: #1e293b; --text-muted: #64748b; --text-light: #94a3b8; --border: #e2e8f0; --radius-lg: 8px; --surface: #ffffff; }');
+                printWindow.document.write('.badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block; }');
+                printWindow.document.write('.badge-warning { background-color: #fef3c7; color: #d97706; }');
+                printWindow.document.write('.badge-success { background-color: #d1fae5; color: #059669; }');
+                printWindow.document.write('.badge-info { background-color: #e0f2fe; color: #0284c7; }');
+                printWindow.document.write('</style></head><body>');
+                printWindow.document.write(cardContent);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.focus();
+                setTimeout(function() {
+                    printWindow.print();
+                    printWindow.close();
+                }, 250);
+            };
 
-        const occupiedBeds = @Html.Raw(occupiedBedsJson);
+            // --- 2. BED ALLOCATION LOGIC ---
+            const bedsByWard = {
+                "General Ward": ["G-01", "G-02", "G-03", "G-04", "G-05", "G-06", "G-07", "G-08", "G-09", "G-10", "G-11", "G-12", "G-13", "G-14", "G-15"],
+                "ICU": ["ICU-01", "ICU-02", "ICU-03", "ICU-04", "ICU-05", "ICU-06", "ICU-07", "ICU-08"],
+                "Pediatrics Wing": ["PED-01", "PED-02", "PED-03", "PED-04", "PED-05", "PED-06"],
+                "Cardiology Wing": ["CARD-01", "CARD-02", "CARD-03", "CARD-04", "CARD-05", "CARD-06"],
+                "Emergency Ward": ["ER-01", "ER-02", "ER-03", "ER-04", "ER-05", "ER-06"]
+            };
 
-        function updateBedOptions() {
+            const occupiedBeds = @Html.Raw(occupiedBedsJson);
             const wardSelect = document.getElementById("wardSelect");
             const bedSelect = document.getElementById("bedNumberSelect");
-            if (!wardSelect || !bedSelect) return;
 
-            const selectedWard = wardSelect.value;
-            bedSelect.innerHTML = "";
+            // Attach event listener programmatically
+            if (wardSelect) {
+                wardSelect.addEventListener("change", function() {
+                    if (!wardSelect || !bedSelect) return;
 
-            if (!selectedWard || !bedsByWard[selectedWard]) {
-                const opt = document.createElement("option");
-                opt.value = "";
-                opt.textContent = "Select Ward first...";
-                bedSelect.appendChild(opt);
-                return;
+                    const selectedWard = wardSelect.value;
+                    bedSelect.innerHTML = ""; // Clear existing options
+
+                    if (!selectedWard || !bedsByWard[selectedWard]) {
+                        const opt = document.createElement("option");
+                        opt.value = "";
+                        opt.textContent = "Select Ward first...";
+                        bedSelect.appendChild(opt);
+                        return;
+                    }
+
+                    const defaultOpt = document.createElement("option");
+                    defaultOpt.value = "";
+                    defaultOpt.textContent = `Select Bed in ${selectedWard}...`;
+                    bedSelect.appendChild(defaultOpt);
+
+                    const beds = bedsByWard[selectedWard];
+                    beds.forEach(bed => {
+                        const opt = document.createElement("option");
+                        opt.value = bed;
+                        
+                        // Check if bed is in the occupied list
+                        if (occupiedBeds.includes(bed)) {
+                            opt.textContent = `${bed} (Occupied)`;
+                            opt.disabled = true;
+                        } else {
+                            opt.textContent = `${bed} (Available)`;
+                        }
+                        bedSelect.appendChild(opt);
+                    });
+                });
             }
 
-            const defaultOpt = document.createElement("option");
-            defaultOpt.value = "";
-            defaultOpt.textContent = `Select Bed in ${selectedWard}...`;
-            bedSelect.appendChild(defaultOpt);
-
-            const beds = bedsByWard[selectedWard];
-            beds.forEach(bed => {
-                const opt = document.createElement("option");
-                opt.value = bed;
-                const isOccupied = occupiedBeds.includes(bed);
-                if (isOccupied) {
-                    opt.textContent = `${bed} (Occupied)`;
-                    opt.disabled = true;
-                } else {
-                    opt.textContent = `${bed} (Available)`;
-                }
-                bedSelect.appendChild(opt);
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
+            // --- 3. SEARCH HIGHLIGHT LOGIC ---
             const urlParams = new URLSearchParams(window.location.search);
             const searchVal = urlParams.get('search');
             if (searchVal) {
@@ -449,6 +458,7 @@
                     const idText = row.cells[0]?.textContent?.toLowerCase() || "";
                     const nameText = row.querySelector(".pat-name")?.textContent?.toLowerCase() || "";
                     const phoneText = row.querySelector(".pat-phone")?.textContent?.toLowerCase() || "";
+                    
                     if (idText.includes(searchLower) || nameText.includes(searchLower) || phoneText.includes(searchLower)) {
                         row.style.display = "";
                         row.style.backgroundColor = "rgba(2, 132, 199, 0.08)";

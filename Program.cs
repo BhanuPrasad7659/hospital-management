@@ -11,7 +11,8 @@ builder.Services.AddControllersWithViews();
 
 // Register DbContext with In-Memory Database Provider
 builder.Services.AddDbContext<HospitalDbContext>(options =>
-    options.UseInMemoryDatabase("HospitalDb"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyConn")));
+
 
 // Register Generic & Specialized Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

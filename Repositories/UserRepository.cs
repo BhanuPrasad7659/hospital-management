@@ -19,10 +19,12 @@ namespace CogMediHospitalManagementSystem.Repositories
                 username = role;
             }
 
-            var user = Get(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase) && u.Role.Equals(role, StringComparison.OrdinalIgnoreCase));
+            // FIXED: Using .ToLower() == .ToLower() for EF Core translation
+            var user = Get(u => u.Username.ToLower() == username.ToLower() && u.Role.ToLower() == role.ToLower());
             if (user == null)
             {
                 string defaultName = username;
+                // In-memory C# comparisons are fine here
                 if (username.Equals("admin", StringComparison.OrdinalIgnoreCase)) defaultName = "System Administrator";
                 else if (username.Equals("receptionist", StringComparison.OrdinalIgnoreCase)) defaultName = "Receptionist Staff";
                 else if (username.Equals("doctor", StringComparison.OrdinalIgnoreCase) || username.StartsWith("doctor", StringComparison.OrdinalIgnoreCase)) defaultName = "Dr. Ramesh";
@@ -39,17 +41,20 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public List<User> GetDoctors()
         {
-            return Find(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
+            // FIXED
+            return Find(u => u.Role.ToLower() == "doctor").ToList();
         }
 
         public User? GetDoctorById(int doctorId)
         {
-            return Get(u => u.Id == doctorId && u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase));
+            // FIXED
+            return Get(u => u.Id == doctorId && u.Role.ToLower() == "doctor");
         }
 
         public void AssignStaff(string fullName, string username, string role)
         {
-            var existing = Get(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            // FIXED
+            var existing = Get(u => u.Username.ToLower() == username.ToLower());
             if (existing != null)
             {
                 existing.FullName = fullName;
@@ -79,7 +84,8 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public void UpdateDoctorProfile(string username, string specialty, string biography, string contactNumber, string email)
         {
-            var doc = Get(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase) && u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase));
+            // FIXED
+            var doc = Get(u => u.Username.ToLower() == username.ToLower() && u.Role.ToLower() == "doctor");
             if (doc != null)
             {
                 doc.Specialty = specialty;
@@ -93,7 +99,8 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public void UpdateUserProfile(string username, string fullName, string contactNumber, string email)
         {
-            var user = Get(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            // FIXED
+            var user = Get(u => u.Username.ToLower() == username.ToLower());
             if (user != null)
             {
                 user.FullName = fullName;
