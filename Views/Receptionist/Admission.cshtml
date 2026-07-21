@@ -104,8 +104,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="wardSelect">Ward / Wing</label>
-                                <!-- REMOVED inline onchange attribute here -->
-                                <select name="ward" id="wardSelect" required>
+                                <select name="ward" id="wardSelect" onchange="updateBedOptions()" required>
                                     <option value="">Select Ward</option>
                                     <option value="General Ward">General Ward</option>
                                     <option value="ICU">ICU</option>
@@ -336,9 +335,55 @@
 
 @section Scripts {
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        // --- GLOBAL BED ALLOCATION DATA & FUNCTION ---
+        const bedsByWard = {
+            "General Ward": ["G-01", "G-02", "G-03", "G-04", "G-05", "G-06", "G-07", "G-08", "G-09", "G-10", "G-11", "G-12", "G-13", "G-14", "G-15"],
+            "ICU": ["ICU-01", "ICU-02", "ICU-03", "ICU-04", "ICU-05", "ICU-06", "ICU-07", "ICU-08"],
+            "Pediatrics Wing": ["PED-01", "PED-02", "PED-03", "PED-04", "PED-05", "PED-06"],
+            "Cardiology Wing": ["CARD-01", "CARD-02", "CARD-03", "CARD-04", "CARD-05", "CARD-06"],
+            "Emergency Ward": ["ER-01", "ER-02", "ER-03", "ER-04", "ER-05", "ER-06"]
+        };
 
-            // --- 1. MODAL & PRINT FUNCTIONS (Attached to window so inline HTML onclicks can find them) ---
+        const occupiedBeds = @Html.Raw(occupiedBedsJson);
+
+        window.updateBedOptions = function() {
+            const wardSelect = document.getElementById("wardSelect");
+            const bedSelect = document.getElementById("bedNumberSelect");
+            if (!wardSelect || !bedSelect) return;
+
+            const selectedWard = wardSelect.value;
+            bedSelect.innerHTML = ""; // Clear existing options
+
+            if (!selectedWard || !bedsByWard[selectedWard]) {
+                const opt = document.createElement("option");
+                opt.value = "";
+                opt.textContent = "Select Ward first...";
+                bedSelect.appendChild(opt);
+                return;
+            }
+
+            const defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = `Select Bed in ${selectedWard}...`;
+            bedSelect.appendChild(defaultOpt);
+
+            const beds = bedsByWard[selectedWard];
+            beds.forEach(bed => {
+                const opt = document.createElement("option");
+                opt.value = bed;
+                
+                if (occupiedBeds.includes(bed)) {
+                    opt.textContent = `${bed} (Occupied)`;
+                    opt.disabled = true;
+                } else {
+                    opt.textContent = `${bed} (Available)`;
+                }
+                bedSelect.appendChild(opt);
+            });
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. MODAL & PRINT FUNCTIONS
             window.openEditForm = function(id, name, age, gender, contact, address, status) {
                 document.getElementById('editPatientId').value = id;
                 document.getElementById('editName').value = name;
@@ -397,58 +442,10 @@
                 }, 250);
             };
 
-            // --- 2. BED ALLOCATION LOGIC ---
-            const bedsByWard = {
-                "General Ward": ["G-01", "G-02", "G-03", "G-04", "G-05", "G-06", "G-07", "G-08", "G-09", "G-10", "G-11", "G-12", "G-13", "G-14", "G-15"],
-                "ICU": ["ICU-01", "ICU-02", "ICU-03", "ICU-04", "ICU-05", "ICU-06", "ICU-07", "ICU-08"],
-                "Pediatrics Wing": ["PED-01", "PED-02", "PED-03", "PED-04", "PED-05", "PED-06"],
-                "Cardiology Wing": ["CARD-01", "CARD-02", "CARD-03", "CARD-04", "CARD-05", "CARD-06"],
-                "Emergency Ward": ["ER-01", "ER-02", "ER-03", "ER-04", "ER-05", "ER-06"]
-            };
+            // 2. Initial bed options setup
+            window.updateBedOptions();
 
-            const occupiedBeds = @Html.Raw(occupiedBedsJson);
-            const wardSelect = document.getElementById("wardSelect");
-            const bedSelect = document.getElementById("bedNumberSelect");
-
-            // Attach event listener programmatically
-            if (wardSelect) {
-                wardSelect.addEventListener("change", function() {
-                    if (!wardSelect || !bedSelect) return;
-
-                    const selectedWard = wardSelect.value;
-                    bedSelect.innerHTML = ""; // Clear existing options
-
-                    if (!selectedWard || !bedsByWard[selectedWard]) {
-                        const opt = document.createElement("option");
-                        opt.value = "";
-                        opt.textContent = "Select Ward first...";
-                        bedSelect.appendChild(opt);
-                        return;
-                    }
-
-                    const defaultOpt = document.createElement("option");
-                    defaultOpt.value = "";
-                    defaultOpt.textContent = `Select Bed in ${selectedWard}...`;
-                    bedSelect.appendChild(defaultOpt);
-
-                    const beds = bedsByWard[selectedWard];
-                    beds.forEach(bed => {
-                        const opt = document.createElement("option");
-                        opt.value = bed;
-                        
-                        // Check if bed is in the occupied list
-                        if (occupiedBeds.includes(bed)) {
-                            opt.textContent = `${bed} (Occupied)`;
-                            opt.disabled = true;
-                        } else {
-                            opt.textContent = `${bed} (Available)`;
-                        }
-                        bedSelect.appendChild(opt);
-                    });
-                });
-            }
-
-            // --- 3. SEARCH HIGHLIGHT LOGIC ---
+            // 3. SEARCH HIGHLIGHT LOGIC
             const urlParams = new URLSearchParams(window.location.search);
             const searchVal = urlParams.get('search');
             if (searchVal) {

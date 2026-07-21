@@ -22,6 +22,14 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public TreatmentPlan CreateTreatmentPlan(TreatmentPlan plan)
         {
+            if (plan.DoctorId.HasValue && plan.DoctorId.Value > 0 && string.IsNullOrWhiteSpace(plan.DoctorName))
+            {
+                var doctor = _context.Users.FirstOrDefault(u => u.Id == plan.DoctorId.Value);
+                if (doctor != null)
+                {
+                    plan.DoctorName = doctor.FullName;
+                }
+            }
             plan.PrescribedDate = DateTime.Now;
             Add(plan);
             SaveChanges();
@@ -54,6 +62,12 @@ namespace CogMediHospitalManagementSystem.Repositories
             var existing = GetById(plan.TreatmentPlanId);
             if (existing != null)
             {
+                if (plan.DoctorId.HasValue && plan.DoctorId.Value > 0)
+                {
+                    existing.DoctorId = plan.DoctorId;
+                    var doctor = _context.Users.FirstOrDefault(u => u.Id == plan.DoctorId.Value);
+                    if (doctor != null) existing.DoctorName = doctor.FullName;
+                }
                 existing.Diagnosis = plan.Diagnosis;
                 existing.TreatmentDescription = plan.TreatmentDescription;
                 existing.Medication = plan.Medication;

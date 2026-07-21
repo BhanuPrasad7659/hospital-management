@@ -8,8 +8,11 @@ namespace CogMediHospitalManagementSystem.Repositories
 {
     public class PatientRepository : Repository<Patient>, IPatientRepository
     {
+        private readonly HospitalDbContext _context;
+
         public PatientRepository(HospitalDbContext context) : base(context)
         {
+            _context = context;
         }
 
         public Patient RegisterPatient(Patient patient)
@@ -52,8 +55,14 @@ namespace CogMediHospitalManagementSystem.Repositories
             var patient = GetById(patientId);
             if (patient != null)
             {
+                if (doctorId > 0 && string.IsNullOrWhiteSpace(doctorName))
+                {
+                    var doc = _context.Users.FirstOrDefault(u => u.Id == doctorId);
+                    if (doc != null) doctorName = doc.FullName;
+                }
+
                 patient.AssignedDoctorId = doctorId;
-                patient.AssignedDoctorName = doctorName;
+                patient.AssignedDoctorName = doctorName ?? "";
                 Update(patient);
                 SaveChanges();
             }

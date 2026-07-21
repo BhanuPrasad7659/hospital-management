@@ -8,8 +8,11 @@ namespace CogMediHospitalManagementSystem.Repositories
 {
     public class LabOrderRepository : Repository<LabOrder>, ILabOrderRepository
     {
+        private readonly HospitalDbContext _context;
+
         public LabOrderRepository(HospitalDbContext context) : base(context)
         {
+            _context = context;
         }
 
         public List<LabOrder> GetLabOrdersForPatient(int patientId)
@@ -19,6 +22,14 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public LabOrder CreateLabOrder(LabOrder order)
         {
+            if (order.DoctorId.HasValue && order.DoctorId.Value > 0 && string.IsNullOrWhiteSpace(order.DoctorName))
+            {
+                var doctor = _context.Users.FirstOrDefault(u => u.Id == order.DoctorId.Value);
+                if (doctor != null)
+                {
+                    order.DoctorName = doctor.FullName;
+                }
+            }
             order.Status = "ORDERED";
             order.OrderDate = DateTime.Now;
             Add(order);

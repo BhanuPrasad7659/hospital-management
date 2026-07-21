@@ -8,12 +8,21 @@ namespace CogMediHospitalManagementSystem.Repositories
 {
     public class AdmissionRepository : Repository<Admission>, IAdmissionRepository
     {
+        private readonly HospitalDbContext _context;
+
         public AdmissionRepository(HospitalDbContext context) : base(context)
         {
+            _context = context;
         }
 
         public Admission AdmitPatient(int patientId, string ward, string bedNumber, int doctorId, string doctorName)
         {
+            if (doctorId > 0 && string.IsNullOrWhiteSpace(doctorName))
+            {
+                var doc = _context.Users.FirstOrDefault(u => u.Id == doctorId);
+                if (doc != null) doctorName = doc.FullName;
+            }
+
             var admission = new Admission
             {
                 PatientId = patientId,
@@ -22,7 +31,7 @@ namespace CogMediHospitalManagementSystem.Repositories
                 BedNumber = bedNumber,
                 Status = "ADMITTED",
                 AssignedDoctorId = doctorId,
-                AssignedDoctorName = doctorName
+                AssignedDoctorName = doctorName ?? ""
             };
             Add(admission);
             SaveChanges();
@@ -34,6 +43,12 @@ namespace CogMediHospitalManagementSystem.Repositories
             var existing = GetById(admission.AdmissionId);
             if (existing != null)
             {
+                if (admission.AssignedDoctorId.HasValue && admission.AssignedDoctorId.Value > 0 && string.IsNullOrWhiteSpace(admission.AssignedDoctorName))
+                {
+                    var doc = _context.Users.FirstOrDefault(u => u.Id == admission.AssignedDoctorId.Value);
+                    if (doc != null) admission.AssignedDoctorName = doc.FullName;
+                }
+
                 existing.Ward = admission.Ward;
                 existing.BedNumber = admission.BedNumber;
                 existing.Status = admission.Status;
@@ -72,8 +87,14 @@ namespace CogMediHospitalManagementSystem.Repositories
             var admission = Get(a => a.PatientId == patientId && a.Status == "ADMITTED");
             if (admission != null)
             {
+                if (doctorId > 0 && string.IsNullOrWhiteSpace(doctorName))
+                {
+                    var doc = _context.Users.FirstOrDefault(u => u.Id == doctorId);
+                    if (doc != null) doctorName = doc.FullName;
+                }
+
                 admission.AssignedDoctorId = doctorId;
-                admission.AssignedDoctorName = doctorName;
+                admission.AssignedDoctorName = doctorName ?? "";
                 Update(admission);
                 SaveChanges();
             }
