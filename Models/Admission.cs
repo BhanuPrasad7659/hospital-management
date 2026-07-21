@@ -27,7 +27,7 @@ namespace CogMediHospitalManagementSystem.Models
         [Display(Name = "Ward")]
         public string Ward { get; set; } = string.Empty; // General, ICU, Pediatrics, etc.
 
-        [Required]
+        
         [StringLength(20)]
         [Display(Name = "Bed Number")]
         public string BedNumber { get; set; } = string.Empty;

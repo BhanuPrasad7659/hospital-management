@@ -1,9 +1,10 @@
-@model TreatmentPlan
+@model CogMediHospitalManagementSystem.Models.TreatmentPlan
 @{
     ViewData["Title"] = "Prescribe Care & Treatment Plans";
-    var patientsList = ViewBag.PatientsList as List<Patient> ?? new List<Patient>();
-    var selectedPatient = ViewBag.SelectedPatient as Patient;
-    var treatmentHistory = ViewBag.TreatmentHistory as List<TreatmentPlan> ?? new List<TreatmentPlan>();
+    var patientsList = ViewBag.PatientsList as List<CogMediHospitalManagementSystem.Models.Patient> ?? new List<CogMediHospitalManagementSystem.Models.Patient>();
+    var selectedPatient = ViewBag.SelectedPatient as CogMediHospitalManagementSystem.Models.Patient;
+    var treatmentHistory = ViewBag.TreatmentHistory as List<CogMediHospitalManagementSystem.Models.TreatmentPlan> ?? new List<CogMediHospitalManagementSystem.Models.TreatmentPlan>();
+    var labResults = ViewBag.PatientLabResults as List<CogMediHospitalManagementSystem.Models.LabOrder> ?? new List<CogMediHospitalManagementSystem.Models.LabOrder>();
 }
 
 @section Styles {
@@ -11,9 +12,27 @@
 }
 
 <div class="treatment-page-container">
-    <div class="page-title-section">
-        <h2>Prescribe Care & Treatment Plans</h2>
-        <p>Formulate medical prescriptions, dosage instructions, and order diagnostic laboratory scans.</p>
+    <div class="page-title-section" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <div>
+            <h2>Prescribe Care & Treatment Plans</h2>
+            <p>Formulate medical prescriptions and dosage instructions for your patients.</p>
+        </div>
+
+        <!-- DIRECT LINK TO PATIENT COMPREHENSIVE HISTORY LOG -->
+        <div>
+            @if (selectedPatient != null)
+            {
+                <a href="/doctor/patient-history?patientId=@selectedPatient.PatientId" class="btn btn-outline-primary" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 6px; text-decoration: none;">
+                    <i data-lucide="file-text"></i> View @selectedPatient.Name's Comprehensive Log
+                </a>
+            }
+            else
+            {
+                <a href="/doctor/patient-history" class="btn btn-outline-secondary" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 6px; text-decoration: none;">
+                    <i data-lucide="file-text"></i> View System Comprehensive Logs
+                </a>
+            }
+        </div>
     </div>
 
     <!-- Patient Selection Filter -->
@@ -99,28 +118,8 @@
                             </div>
                         </div>
 
-                        <div class="lab-order-section">
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label for="OrderTest"><i data-lucide="microscope" class="icon-tiny text-success" style="vertical-align: middle; margin-right: 4px;"></i> Order Diagnostic Test (Lab)</label>
-                                <select asp-for="OrderTest">
-                                    <option value="">Select test (optional)...</option>
-                                    <option value="Blood CBC">Blood CBC</option>
-                                    <option value="Chest X-Ray">Chest X-Ray</option>
-                                    <option value="MRI Scan">MRI Scan</option>
-                                    <option value="ECG">ECG</option>
-                                    <option value="Ultrasound">Ultrasound</option>
-                                    <option value="Lipid Profile">Lipid Profile</option>
-                                    <option value="Liver Function Test (LFT)">Liver Function Test (LFT)</option>
-                                    <option value="Kidney Function Test (KFT)">Kidney Function Test (KFT)</option>
-                                    <option value="Thyroid Profile (T3, T4, TSH)">Thyroid Profile (T3, T4, TSH)</option>
-                                    <option value="Urine Analysis">Urine Analysis</option>
-                                </select>
-                                <small class="text-muted-small" style="margin-top: 6px; display: block;">If selected, a lab order will be created automatically for this patient.</small>
-                            </div>
-                        </div>
-
                     </div>
-                    
+
                     <div class="form-footer">
                         <button type="submit" class="btn btn-primary btn-block">
                             <i data-lucide="check-circle"></i> Issue Treatment Plan
@@ -130,7 +129,7 @@
             </div>
         </div>
 
-        <!-- RIGHT COLUMN: TREATMENT PLAN HISTORY -->
+        <!-- RIGHT COLUMN: TREATMENT HISTORY & RECENT LAB RESULTS -->
         <div class="history-panel">
             <div class="history-card">
                 <div class="card-header">
@@ -148,6 +147,39 @@
                         </h4>
                     </div>
                 </div>
+
+                <!-- DIAGNOSTIC LAB FINDINGS PANEL -->
+                @if (labResults != null && labResults.Any())
+                {
+                    <div style="padding: 15px; background: #f0fdf4; border-bottom: 1px solid #bbf7d0;">
+                        <h5 style="margin: 0 0 10px 0; color: #166534; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="flask-conical" style="width:16px; height:16px;"></i> Laboratory Findings
+                        </h5>
+                        @foreach (var lab in labResults.Take(3))
+                        {
+                            var isDone = lab.Status == "COMPLETED";
+                            <div style="background: white; border-radius: 6px; padding: 10px; margin-bottom: 8px; border: 1px solid #dcfce7;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                    <strong>@lab.TestName</strong>
+                                    <span style="font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; background: @(isDone ? "#d1fae5" : "#fef3c7"); color: @(isDone ? "#065f46" : "#92400e");">
+                                        @lab.Status
+                                    </span>
+                                </div>
+                                @if (isDone)
+                                {
+                                    <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #1e293b; font-family: monospace;">
+                                        <strong>Result:</strong> @lab.Result
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: #64748b; font-style: italic;">Processing in laboratory...</p>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+
                 <div class="card-body">
                     @if (treatmentHistory.Count > 0)
                     {
@@ -169,7 +201,7 @@
                                         <h5>Clinical Care Course:</h5>
                                         <p>@tx.TreatmentDescription</p>
                                     </div>
-                                    
+
                                     @if (!string.IsNullOrEmpty(tx.Medication))
                                     {
                                         <div class="tx-meds">

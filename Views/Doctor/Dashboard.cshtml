@@ -77,16 +77,19 @@
                                 @foreach (var patient in Model.RecentAdmissions)
                                 {
                                     <tr>
-                                        <td><strong>@patient.PatientId</strong></td>
+                                        <td><strong>#@patient.PatientId</strong></td>
                                         <td>@patient.Name</td>
                                         <td>@patient.Age yrs / @patient.Gender</td>
                                         <td><span class="badge badge-warning">@patient.Status</span></td>
                                         <td class="text-right actions-cell">
+                                            <a href="/doctor/patient-history?patientId=@patient.PatientId" class="btn btn-outline btn-xs" title="Review History & Lab Results">
+                                                <i data-lucide="file-text"></i> Logs & Labs
+                                            </a>
                                             <a href="/doctor/ehr?patientId=@patient.PatientId" class="btn btn-primary btn-xs">
-                                                <i data-lucide="folder-heart"></i> Create EHR
+                                                <i data-lucide="folder-heart"></i> EHR
                                             </a>
                                             <a href="/doctor/treatment?patientId=@patient.PatientId" class="btn btn-success btn-xs">
-                                                <i data-lucide="stethoscope"></i> Prescribe Care
+                                                <i data-lucide="stethoscope"></i> Prescribe
                                             </a>
                                         </td>
                                     </tr>

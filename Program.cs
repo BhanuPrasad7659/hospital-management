@@ -9,10 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Register DbContext with In-Memory Database Provider
+// Register DbContext with SQL Server Provider
 builder.Services.AddDbContext<HospitalDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConn")));
-
 
 // Register Generic & Specialized Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -60,7 +59,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using CogMediHospitalManagementSystem.Services;
 using CogMediHospitalManagementSystem.Models;
 using System.Linq;
+using System;
 
 namespace CogMediHospitalManagementSystem.Controllers.Api
 {
@@ -16,7 +17,6 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             _hospitalService = hospitalService;
         }
 
-        // GET: api/treatments
         [HttpGet]
         public IActionResult GetTreatments()
         {
@@ -24,7 +24,6 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             return Ok(treatments);
         }
 
-        // GET: api/treatments/{id}
         [HttpGet("{id}")]
         public IActionResult GetTreatment(int id)
         {
@@ -33,7 +32,6 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             return Ok(treatment);
         }
 
-        // GET: api/treatments/patient/{patientId}
         [HttpGet("patient/{patientId}")]
         public IActionResult GetTreatmentsForPatient(int patientId)
         {
@@ -41,7 +39,6 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             return Ok(treatments);
         }
 
-        // POST: api/treatments
         [HttpPost]
         public IActionResult CreateTreatment([FromBody] TreatmentPlan plan)
         {
@@ -53,11 +50,18 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             var patient = _hospitalService.GetPatient(plan.PatientId);
             if (patient == null) return NotFound($"Patient #{plan.PatientId} not found.");
 
-            var created = _hospitalService.CreateTreatmentPlan(plan);
-            return CreatedAtAction(nameof(GetTreatment), new { id = created.TreatmentPlanId }, created);
+            try
+            {
+                // NEW: Will catch the exception if lab test is not completed
+                var created = _hospitalService.CreateTreatmentPlan(plan);
+                return CreatedAtAction(nameof(GetTreatment), new { id = created.TreatmentPlanId }, created);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // PUT: api/treatments/{id}
         [HttpPut("{id}")]
         public IActionResult UpdateTreatment(int id, [FromBody] TreatmentPlan planDetails)
         {
@@ -70,7 +74,6 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             return Ok(updated);
         }
 
-        // DELETE: api/treatments/{id}
         [HttpDelete("{id}")]
         public IActionResult DeleteTreatment(int id)
         {

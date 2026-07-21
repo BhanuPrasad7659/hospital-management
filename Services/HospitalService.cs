@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CogMediHospitalManagementSystem.Models;
 using CogMediHospitalManagementSystem.Repositories;
 
@@ -42,7 +43,6 @@ namespace CogMediHospitalManagementSystem.Services
             _medicineStockRepository = medicineStockRepository;
         }
 
-        // Dynamic medicine stock dictionary projection via repository
         public Dictionary<string, int> MedicineStock => _medicineStockRepository.GetStockDictionary();
 
         // --- USER AUTHENTICATION & STAFF MANAGEMENT ---
@@ -68,7 +68,6 @@ namespace CogMediHospitalManagementSystem.Services
 
         public void DeleteUser(string username)
         {
-            // FIXED: Replaced StringComparison.OrdinalIgnoreCase with .ToLower() == .ToLower()
             var user = _userRepository.Get(u => u.Username.ToLower() == username.ToLower());
             if (user != null)
             {
@@ -118,6 +117,7 @@ namespace CogMediHospitalManagementSystem.Services
 
             _patientRepository.UpdateStatus(patientId, "ADMITTED");
             _patientRepository.AssignDoctorToPatient(patientId, doctorId, doctorName);
+            _patientRepository.AssignBedToPatient(patientId, ward, bedNumber);
 
             return _admissionRepository.AdmitPatient(patientId, ward, bedNumber, doctorId, doctorName);
         }
@@ -156,11 +156,35 @@ namespace CogMediHospitalManagementSystem.Services
 
         public List<TreatmentPlan> GetTreatmentsForPatient(int patientId) => _treatmentRepository.GetTreatmentsForPatient(patientId);
 
-        public TreatmentPlan CreateTreatmentPlan(TreatmentPlan plan) => _treatmentRepository.CreateTreatmentPlan(plan);
+        public TreatmentPlan CreateTreatmentPlan(TreatmentPlan plan)
+        {
+            // STRICT RULE: Doctor cannot start treatment without a completed lab test result.
+            var hasCompletedLab = _labOrderRepository.GetLabOrdersForPatient(plan.PatientId)
+                .Any(l => l.Status.Equals("COMPLETED", StringComparison.OrdinalIgnoreCase));
+
+            if (!hasCompletedLab)
+            {
+                throw new InvalidOperationException("Cannot start treatment. You must wait for the lab technician to upload the test results first.");
+            }
+
+            // Ensure none of these hit the DB as NULL
+            plan.Medication = plan.Medication ?? "";
+            plan.Duration = plan.Duration ?? "";
+            plan.Instructions = plan.Instructions ?? "";
+
+            return _treatmentRepository.CreateTreatmentPlan(plan);
+        }
 
         public void DeleteTreatmentPlan(int planId) => _treatmentRepository.DeleteTreatmentPlan(planId);
 
-        public void UpdateTreatmentPlan(TreatmentPlan plan) => _treatmentRepository.UpdateTreatmentPlan(plan);
+        public void UpdateTreatmentPlan(TreatmentPlan plan)
+        {
+            plan.Medication = plan.Medication ?? "";
+            plan.Duration = plan.Duration ?? "";
+            plan.Instructions = plan.Instructions ?? "";
+
+            _treatmentRepository.UpdateTreatmentPlan(plan);
+        }
 
         // --- PHARMACY ---
         public List<PharmacyRecord> GetPharmacyRecords() => (List<PharmacyRecord>)_pharmacyRepository.GetAll();

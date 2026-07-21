@@ -73,7 +73,7 @@
                     <i data-lucide="bed-double" class="card-icon text-warning"></i>
                     <h4>Admit Registered Patient</h4>
                 </div>
-                <form asp-action="Admit" asp-controller="Receptionist" method="post">
+                <form asp-action="Admit" asp-controller="Receptionist" method="post" id="admitForm">
                     <div class="form-body">
                         <div class="form-group">
                             <label for="patientId">Select Patient</label>
@@ -104,7 +104,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="wardSelect">Ward / Wing</label>
-                                <select name="ward" id="wardSelect" onchange="updateBedOptions()" required>
+                                <select name="ward" id="wardSelect" required>
                                     <option value="">Select Ward</option>
                                     <option value="General Ward">General Ward</option>
                                     <option value="ICU">ICU</option>
@@ -147,6 +147,7 @@
                                     <tr>
                                         <th>Patient ID</th>
                                         <th>Demographics</th>
+                                        <th>Location / Bed</th>
                                         <th>Contact & Address</th>
                                         <th>Status</th>
                                         <th class="text-right">Actions</th>
@@ -169,6 +170,17 @@
                                                 }
                                             </td>
                                             <td>
+                                                @if (pat.Status == "ADMITTED" && !string.IsNullOrEmpty(pat.BedNumber))
+                                                {
+                                                    <strong style="color: var(--primary); font-size: 13px;">@pat.BedNumber</strong>
+                                                    <div style="font-size: 11px; color: var(--text-muted);">@pat.Ward</div>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color: var(--text-muted); font-size: 12px;">N/A</span>
+                                                }
+                                            </td>
+                                            <td>
                                                 <div class="pat-phone"><i data-lucide="phone" class="icon-tiny"></i> @pat.ContactNumber</div>
                                                 <div class="pat-addr"><i data-lucide="map-pin" class="icon-tiny"></i> @pat.Address</div>
                                             </td>
@@ -178,17 +190,14 @@
                                                 </span>
                                             </td>
                                             <td class="text-right actions-cell">
-                                                <!-- Print Patient Card button -->
                                                 <button type="button" class="btn-icon text-success" onclick="openPrintCard('@pat.PatientId', '@pat.Name', @pat.Age, '@pat.Gender', '@pat.ContactNumber', '@pat.Address', '@pat.Status', '@pat.AssignedDoctorName')" title="Print Patient Card">
                                                     <i data-lucide="printer"></i>
                                                 </button>
 
-                                                <!-- Edit button (triggers edit fields) -->
                                                 <button type="button" class="btn-icon text-primary" onclick="openEditForm(@pat.PatientId, '@pat.Name', @pat.Age, '@pat.Gender', '@pat.ContactNumber', '@pat.Address', '@pat.Status')">
                                                     <i data-lucide="edit-3"></i>
                                                 </button>
 
-                                                <!-- Delete button -->
                                                 <form asp-action="Delete" asp-controller="Receptionist" method="post" class="inline-form" onsubmit="return confirm('Are you sure you want to delete patient @pat.Name? This will wipe their medical records.')">
                                                     <input type="hidden" name="patientId" value="@pat.PatientId" />
                                                     <button type="submit" class="btn-icon text-danger">
@@ -215,7 +224,7 @@
     </div>
 </div>
 
-<!-- EDIT PATIENT MODAL DIALOG (Modern CSS Light Modal) -->
+<!-- EDIT PATIENT MODAL DIALOG -->
 <div class="modal" id="editModal">
     <div class="modal-overlay" onclick="closeEditModal()"></div>
     <div class="modal-card">
@@ -227,7 +236,7 @@
             <div class="modal-body">
                 <input type="hidden" name="PatientId" id="editPatientId" />
                 <input type="hidden" name="Status" id="editStatus" />
-                
+
                 <div class="form-group">
                     <label for="editName">Full Name</label>
                     <input type="text" name="Name" id="editName" required />
@@ -272,13 +281,10 @@
             <button class="modal-close" onclick="closePrintCardModal()">&times;</button>
         </div>
         <div class="modal-body" id="printCardBody" style="padding: 20px;">
-            <!-- Printable Card Content -->
             <div id="patientCardContainer" style="border: 2px solid var(--primary); border-radius: var(--radius-lg); padding: 20px; background-color: var(--surface); box-shadow: var(--shadow-sm); position: relative; font-family: 'Inter', sans-serif; box-sizing: border-box;">
-                <!-- Watermark background icon -->
                 <div style="position: absolute; right: 15px; top: 15px; opacity: 0.05; color: var(--primary); pointer-events: none;">
-                    <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
                 </div>
-                <!-- Header -->
                 <div style="border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
                     <div style="background-color: var(--primary); color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; flex-shrink: 0;">
                         H
@@ -288,7 +294,6 @@
                         <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Official Patient ID Card</span>
                     </div>
                 </div>
-                <!-- Details Grid -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; font-size: 13px;">
                     <div>
                         <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Patient ID</span>
@@ -319,7 +324,6 @@
                         <strong id="cardDoctor" style="color: var(--secondary); font-size: 13px;"></strong>
                     </div>
                 </div>
-                <!-- Barcode mockup -->
                 <div style="border-top: 1px dashed var(--border); padding-top: 12px; text-align: center;">
                     <div style="letter-spacing: 5px; font-family: monospace; font-size: 14px; color: var(--text-muted); font-weight: bold; background: repeating-linear-gradient(90deg, #1e293b 0px, #1e293b 2px, transparent 2px, transparent 6px); height: 25px; width: 180px; margin: 0 auto 4px auto; opacity: 0.8;"></div>
                     <span style="font-size: 9px; color: var(--text-light); text-transform: uppercase;">Scan barcode for electronic medical record</span>
@@ -335,55 +339,63 @@
 
 @section Scripts {
     <script>
-        // --- GLOBAL BED ALLOCATION DATA & FUNCTION ---
-        const bedsByWard = {
-            "General Ward": ["G-01", "G-02", "G-03", "G-04", "G-05", "G-06", "G-07", "G-08", "G-09", "G-10", "G-11", "G-12", "G-13", "G-14", "G-15"],
-            "ICU": ["ICU-01", "ICU-02", "ICU-03", "ICU-04", "ICU-05", "ICU-06", "ICU-07", "ICU-08"],
-            "Pediatrics Wing": ["PED-01", "PED-02", "PED-03", "PED-04", "PED-05", "PED-06"],
-            "Cardiology Wing": ["CARD-01", "CARD-02", "CARD-03", "CARD-04", "CARD-05", "CARD-06"],
-            "Emergency Ward": ["ER-01", "ER-02", "ER-03", "ER-04", "ER-05", "ER-06"]
-        };
+        document.addEventListener("DOMContentLoaded", function() {
+            // --- 1. BED ALLOCATION DICTIONARY ---
+            const bedsByWard = {
+                "General Ward": ["G-01", "G-02", "G-03", "G-04", "G-05", "G-06", "G-07", "G-08", "G-09", "G-10", "G-11", "G-12", "G-13", "G-14", "G-15"],
+                "ICU": ["ICU-01", "ICU-02", "ICU-03", "ICU-04", "ICU-05", "ICU-06", "ICU-07", "ICU-08"],
+                "Pediatrics Wing": ["PED-01", "PED-02", "PED-03", "PED-04", "PED-05", "PED-06"],
+                "Cardiology Wing": ["CARD-01", "CARD-02", "CARD-03", "CARD-04", "CARD-05", "CARD-06"],
+                "Emergency Ward": ["ER-01", "ER-02", "ER-03", "ER-04", "ER-05", "ER-06"]
+            };
 
-        const occupiedBeds = @Html.Raw(occupiedBedsJson);
-
-        window.updateBedOptions = function() {
+            const occupiedBeds = @Html.Raw(occupiedBedsJson);
             const wardSelect = document.getElementById("wardSelect");
             const bedSelect = document.getElementById("bedNumberSelect");
-            if (!wardSelect || !bedSelect) return;
 
-            const selectedWard = wardSelect.value;
-            bedSelect.innerHTML = ""; // Clear existing options
+            function updateBedOptions() {
+                if (!wardSelect || !bedSelect) return;
 
-            if (!selectedWard || !bedsByWard[selectedWard]) {
-                const opt = document.createElement("option");
-                opt.value = "";
-                opt.textContent = "Select Ward first...";
-                bedSelect.appendChild(opt);
-                return;
+                const selectedWard = wardSelect.value;
+                bedSelect.innerHTML = ""; // Reset dropdown
+
+                if (!selectedWard || !bedsByWard[selectedWard]) {
+                    const opt = document.createElement("option");
+                    opt.value = "";
+                    opt.textContent = "Select Ward first...";
+                    bedSelect.appendChild(opt);
+                    return;
+                }
+
+                const defaultOpt = document.createElement("option");
+                defaultOpt.value = "";
+                defaultOpt.textContent = `Select Bed in ${selectedWard}...`;
+                bedSelect.appendChild(defaultOpt);
+
+                const beds = bedsByWard[selectedWard];
+                beds.forEach(bed => {
+                    const opt = document.createElement("option");
+                    opt.value = bed;
+
+                    if (occupiedBeds.includes(bed)) {
+                        opt.textContent = `${bed} (Occupied)`;
+                        opt.disabled = true;
+                    } else {
+                        opt.textContent = `${bed} (Available)`;
+                    }
+                    bedSelect.appendChild(opt);
+                });
             }
 
-            const defaultOpt = document.createElement("option");
-            defaultOpt.value = "";
-            defaultOpt.textContent = `Select Bed in ${selectedWard}...`;
-            bedSelect.appendChild(defaultOpt);
+            // Bind change listener programmatically
+            if (wardSelect) {
+                wardSelect.addEventListener("change", updateBedOptions);
+            }
 
-            const beds = bedsByWard[selectedWard];
-            beds.forEach(bed => {
-                const opt = document.createElement("option");
-                opt.value = bed;
-                
-                if (occupiedBeds.includes(bed)) {
-                    opt.textContent = `${bed} (Occupied)`;
-                    opt.disabled = true;
-                } else {
-                    opt.textContent = `${bed} (Available)`;
-                }
-                bedSelect.appendChild(opt);
-            });
-        };
+            // Run initial population if Ward was pre-filled
+            updateBedOptions();
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // 1. MODAL & PRINT FUNCTIONS
+            // --- 2. MODAL & PRINT FUNCTIONS ---
             window.openEditForm = function(id, name, age, gender, contact, address, status) {
                 document.getElementById('editPatientId').value = id;
                 document.getElementById('editName').value = name;
@@ -392,7 +404,6 @@
                 document.getElementById('editContactNumber').value = contact;
                 document.getElementById('editAddress').value = address;
                 document.getElementById('editStatus').value = status;
-                
                 document.getElementById('editModal').classList.add('active');
             };
 
@@ -406,13 +417,12 @@
                 document.getElementById('cardAgeGender').innerText = age + " Years / " + gender;
                 document.getElementById('cardContact').innerText = contact;
                 document.getElementById('cardAddress').innerText = address;
-                
+
                 const cardStatus = document.getElementById('cardStatus');
                 cardStatus.innerText = status;
                 cardStatus.className = 'badge ' + (status === 'ADMITTED' ? 'badge-warning' : status === 'DISCHARGED' ? 'badge-success' : 'badge-info');
 
                 document.getElementById('cardDoctor').innerText = doctor ? doctor : "None Assigned";
-
                 document.getElementById('printCardModal').classList.add('active');
             };
 
@@ -431,9 +441,9 @@
                 printWindow.document.write('.badge-warning { background-color: #fef3c7; color: #d97706; }');
                 printWindow.document.write('.badge-success { background-color: #d1fae5; color: #059669; }');
                 printWindow.document.write('.badge-info { background-color: #e0f2fe; color: #0284c7; }');
-                printWindow.document.write('</style></head><body>');
+                printWindow.document.write('</sty' + 'le></he' + 'ad><bo' + 'dy>');
                 printWindow.document.write(cardContent);
-                printWindow.document.write('</body></html>');
+                printWindow.document.write('</bo' + 'dy></ht' + 'ml>');
                 printWindow.document.close();
                 printWindow.focus();
                 setTimeout(function() {
@@ -442,10 +452,7 @@
                 }, 250);
             };
 
-            // 2. Initial bed options setup
-            window.updateBedOptions();
-
-            // 3. SEARCH HIGHLIGHT LOGIC
+            // --- 3. SEARCH FILTER HIGHLIGHT LOGIC ---
             const urlParams = new URLSearchParams(window.location.search);
             const searchVal = urlParams.get('search');
             if (searchVal) {
@@ -455,7 +462,7 @@
                     const idText = row.cells[0]?.textContent?.toLowerCase() || "";
                     const nameText = row.querySelector(".pat-name")?.textContent?.toLowerCase() || "";
                     const phoneText = row.querySelector(".pat-phone")?.textContent?.toLowerCase() || "";
-                    
+
                     if (idText.includes(searchLower) || nameText.includes(searchLower) || phoneText.includes(searchLower)) {
                         row.style.display = "";
                         row.style.backgroundColor = "rgba(2, 132, 199, 0.08)";

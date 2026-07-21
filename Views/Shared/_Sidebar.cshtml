@@ -1,4 +1,4 @@
-@using System.Security.Claims
+
 
 <aside class="app-sidebar" id="appSidebar">
     <!-- Sidebar Branding -->
@@ -11,7 +11,7 @@
             <span>Smart Healthcare</span>
         </div>
     </a>
-    
+
     <!-- Navigation Links -->
     <nav class="sidebar-nav">
         <ul>
@@ -29,13 +29,17 @@
                 <li class="@(Context.Request.Path.Value?.Contains("/doctor/ehr") == true ? "active" : "")">
                     <a href="/doctor/ehr"><i data-lucide="folder-heart"></i> <span>EHR Records</span></a>
                 </li>
-                <!-- Lab Order (Lab Test) -->
-                <li class="@(Context.Request.Path.Value?.Contains("/lab/orders") == true ? "active" : "")">
-                    <a href="/lab/orders"><i data-lucide="test-tube-2"></i> <span>Lab Orders</span></a>
+                <!-- NEW: Order Lab Test (Doctor/Admin) -->
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/order-lab-test") == true ? "active" : "")">
+                    <a href="/doctor/order-lab-test"><i data-lucide="flask-conical"></i> <span>Order Lab Test</span></a>
                 </li>
                 <!-- Treatment (Doctor) -->
                 <li class="@(Context.Request.Path.Value?.Contains("/doctor/treatment") == true ? "active" : "")">
                     <a href="/doctor/treatment"><i data-lucide="stethoscope"></i> <span>Treatment</span></a>
+                </li>
+                <!-- Lab Order (Lab Test) -->
+                <li class="@(Context.Request.Path.Value?.Contains("/lab/orders") == true ? "active" : "")">
+                    <a href="/lab/orders"><i data-lucide="test-tube-2"></i> <span>Lab Orders</span></a>
                 </li>
                 <!-- Pharmacy (Pharmacist) -->
                 <li class="@(Context.Request.Path.Value?.Contains("/pharmacist/dispensing") == true ? "active" : "")">
@@ -73,6 +77,10 @@
                 <!-- EHR Records (Doctor) -->
                 <li class="@(Context.Request.Path.Value?.Contains("/doctor/ehr") == true ? "active" : "")">
                     <a href="/doctor/ehr"><i data-lucide="folder-heart"></i> <span>EHR Records</span></a>
+                </li>
+                <!-- NEW: Order Lab Test (Doctor) -->
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/order-lab-test") == true ? "active" : "")">
+                    <a href="/doctor/order-lab-test"><i data-lucide="flask-conical"></i> <span>Order Lab Test</span></a>
                 </li>
                 <!-- Treatment (Doctor) -->
                 <li class="@(Context.Request.Path.Value?.Contains("/doctor/treatment") == true ? "active" : "")">
@@ -125,7 +133,7 @@
             }
         </ul>
     </nav>
-    
+
     <!-- Sidebar Footer -->
     <div class="sidebar-footer">
         <a href="/auth/logout" class="logout-btn">

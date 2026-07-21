@@ -30,10 +30,19 @@ namespace CogMediHospitalManagementSystem.Repositories
                     plan.DoctorName = doctor.FullName;
                 }
             }
+
+            // --- SQL EXCEPTION PREVENTION ---
+            // Ensure none of these fields hit the database as NULL
+            plan.Medication = plan.Medication ?? "";
+            plan.Duration = plan.Duration ?? "";
+            plan.Instructions = plan.Instructions ?? "";
+            // --------------------------------
+
             plan.PrescribedDate = DateTime.Now;
             Add(plan);
             SaveChanges();
 
+            // Creates pharmacy records for prescribed medicines
             if (!string.IsNullOrWhiteSpace(plan.Medication))
             {
                 var medicines = plan.Medication.Split(',');
@@ -68,11 +77,15 @@ namespace CogMediHospitalManagementSystem.Repositories
                     var doctor = _context.Users.FirstOrDefault(u => u.Id == plan.DoctorId.Value);
                     if (doctor != null) existing.DoctorName = doctor.FullName;
                 }
+
                 existing.Diagnosis = plan.Diagnosis;
                 existing.TreatmentDescription = plan.TreatmentDescription;
-                existing.Medication = plan.Medication;
-                existing.Duration = plan.Duration;
-                existing.Instructions = plan.Instructions;
+
+                // Ensure updates also don't push NULL to the database
+                existing.Medication = plan.Medication ?? existing.Medication ?? "";
+                existing.Duration = plan.Duration ?? existing.Duration ?? "";
+                existing.Instructions = plan.Instructions ?? existing.Instructions ?? "";
+
                 Update(existing);
                 SaveChanges();
             }

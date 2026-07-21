@@ -22,6 +22,7 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public LabOrder CreateLabOrder(LabOrder order)
         {
+            // Auto-populate DoctorName if ID exists but name is missing
             if (order.DoctorId.HasValue && order.DoctorId.Value > 0 && string.IsNullOrWhiteSpace(order.DoctorName))
             {
                 var doctor = _context.Users.FirstOrDefault(u => u.Id == order.DoctorId.Value);
@@ -30,10 +31,13 @@ namespace CogMediHospitalManagementSystem.Repositories
                     order.DoctorName = doctor.FullName;
                 }
             }
+
             order.Status = "ORDERED";
             order.OrderDate = DateTime.Now;
+
             Add(order);
             SaveChanges();
+
             return order;
         }
 
@@ -43,11 +47,13 @@ namespace CogMediHospitalManagementSystem.Repositories
             if (order != null)
             {
                 order.Status = status;
+
                 if (status == "COMPLETED")
                 {
                     order.Result = result;
                     order.TechnicianName = technicianName;
                 }
+
                 Update(order);
                 SaveChanges();
             }
@@ -74,6 +80,7 @@ namespace CogMediHospitalManagementSystem.Repositories
             var labels = labGroups.Select(l => l.Test).ToList();
             var values = labGroups.Select(l => l.Count).ToList();
 
+            // Default fallback if no data exists
             if (labels.Count == 0)
             {
                 labels = new List<string> { "Blood CBC", "Chest X-Ray", "MRI Scan", "ECG" };
@@ -81,6 +88,12 @@ namespace CogMediHospitalManagementSystem.Repositories
             }
 
             return new LabAnalyticsData { Labels = labels, Values = values };
+        }
+
+        // Checks if ANY test was ordered (regardless of completion status)
+        public bool HasCompletedLabOrder(int patientId)
+        {
+            return Find(l => l.PatientId == patientId).Any();
         }
     }
 }

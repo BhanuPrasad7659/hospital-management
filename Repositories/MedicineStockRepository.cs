@@ -19,7 +19,8 @@ namespace CogMediHospitalManagementSystem.Repositories
 
         public void UpdateStock(string medicineName, int amount)
         {
-            var item = Get(m => m.MedicineName.Equals(medicineName, StringComparison.OrdinalIgnoreCase));
+            // FIXED: Replaced StringComparison.OrdinalIgnoreCase with .ToLower() == .ToLower()
+            var item = Get(m => m.MedicineName.ToLower() == medicineName.ToLower());
             if (item != null)
             {
                 item.Quantity += amount;

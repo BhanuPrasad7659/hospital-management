@@ -16,5 +16,8 @@ namespace CogMediHospitalManagementSystem.Repositories
         void UpdateLabOrderStatus(int orderId, string status, string result, string technicianName);
         void DeleteLabOrder(int orderId);
         LabAnalyticsData GetLabTestVolumesData();
+
+        // Interface method to check for completed lab orders
+        bool HasCompletedLabOrder(int patientId);
     }
 }

@@ -4,6 +4,9 @@ using CogMediHospitalManagementSystem.Models;
 using CogMediHospitalManagementSystem.Services;
 using CogMediHospitalManagementSystem.ViewModels;
 using System.Security.Claims;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CogMediHospitalManagementSystem.Controllers
 {
@@ -31,13 +34,13 @@ namespace CogMediHospitalManagementSystem.Controllers
         {
             var (doctorId, doctorName) = GetCurrentDoctorInfo();
             var patients = _hospitalService.GetPatients()
-                .Where(p => p.Status == "ADMITTED" && (p.AssignedDoctorId == doctorId || p.AssignedDoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase)))
+                .Where(p => p.Status == "ADMITTED" && (p.AssignedDoctorId == doctorId || (p.AssignedDoctorName != null && p.AssignedDoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase))))
                 .ToList();
-            
+
             var treatments = _hospitalService.GetTreatments()
-                .Where(t => t.DoctorId == doctorId || t.DoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase))
+                .Where(t => t.DoctorId == doctorId || (t.DoctorName != null && t.DoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
-            
+
             var viewModel = new DashboardViewModel
             {
                 TotalPatients = patients.Count,
@@ -62,7 +65,7 @@ namespace CogMediHospitalManagementSystem.Controllers
         {
             var (doctorId, doctorName) = GetCurrentDoctorInfo();
             var patients = _hospitalService.GetPatients()
-                .Where(p => p.Status == "ADMITTED" && (p.AssignedDoctorId == doctorId || p.AssignedDoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase)))
+                .Where(p => p.Status == "ADMITTED" && (p.AssignedDoctorId == doctorId || (p.AssignedDoctorName != null && p.AssignedDoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase))))
                 .ToList();
             ViewBag.PatientsList = patients;
 
@@ -98,10 +101,63 @@ namespace CogMediHospitalManagementSystem.Controllers
             record.DoctorId = doctorId;
             record.DoctorName = doctorName;
             _hospitalService.CreateEhr(record);
-            
-            TempData["SuccessMessage"] = "Electronic Health Record created successfully!";
-            return RedirectToAction("Ehr", new { patientId = record.PatientId });
+
+            TempData["SuccessMessage"] = "EHR saved! Please order the necessary lab tests next.";
+
+            // Redirect straight to the Order Lab Test page
+            return RedirectToAction("OrderLabTest", new { patientId = record.PatientId });
         }
+
+        // --- ORDER LAB TEST ACTIONS ---
+        [HttpGet]
+        [Route("doctor/order-lab-test")]
+        public IActionResult OrderLabTest(int? patientId)
+        {
+            var (doctorId, doctorName) = GetCurrentDoctorInfo();
+
+            // 1. Get a list of IDs for patients who already have an EHR recorded
+            var patientsWithEhrIds = _hospitalService.GetEhrRecords()
+                .Select(e => e.PatientId)
+                .Distinct()
+                .ToList();
+
+            // 2. Load admitted patients assigned to this doctor WHO ALSO HAVE AN EHR
+            var patients = _hospitalService.GetPatients()
+                .Where(p => p.Status == "ADMITTED" &&
+                           (p.AssignedDoctorId == doctorId || (p.AssignedDoctorName != null && p.AssignedDoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase))) &&
+                           patientsWithEhrIds.Contains(p.PatientId))
+                .ToList();
+
+            // 3. Pass the filtered list to the view's dropdown
+            ViewBag.PatientsList = patients;
+
+            // 4. Handle the currently selected patient
+            Patient? selectedPatient = null;
+            if (patientId.HasValue && patientId.Value > 0)
+            {
+                selectedPatient = _hospitalService.GetPatient(patientId.Value);
+            }
+
+            ViewBag.SelectedPatient = selectedPatient;
+            return View(new LabOrder { PatientId = patientId ?? 0 });
+        }
+
+        [HttpPost]
+        [Route("doctor/order-lab-test")]
+        public IActionResult OrderLabTest(LabOrder order)
+        {
+            var (doctorId, doctorName) = GetCurrentDoctorInfo();
+            order.DoctorId = doctorId;
+            order.DoctorName = doctorName;
+
+            _hospitalService.CreateLabOrder(order);
+
+            TempData["SuccessMessage"] = "Lab Test Ordered successfully! You can start treatment once results are uploaded.";
+
+            // Redirect back to dashboard to wait for results
+            return RedirectToAction("Dashboard");
+        }
+        // -----------------------------------
 
         [HttpGet]
         [Route("doctor/treatment")]
@@ -109,25 +165,29 @@ namespace CogMediHospitalManagementSystem.Controllers
         {
             var (doctorId, doctorName) = GetCurrentDoctorInfo();
             var patients = _hospitalService.GetPatients()
-                .Where(p => p.Status == "ADMITTED" && (p.AssignedDoctorId == doctorId || p.AssignedDoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase)))
+                .Where(p => p.Status == "ADMITTED" && (p.AssignedDoctorId == doctorId || (p.AssignedDoctorName != null && p.AssignedDoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase))))
                 .ToList();
             ViewBag.PatientsList = patients;
 
             List<TreatmentPlan> treatments;
+            List<LabOrder> labResults;
             Patient? selectedPatient = null;
 
             if (patientId.HasValue && patientId.Value > 0)
             {
                 selectedPatient = _hospitalService.GetPatient(patientId.Value);
                 treatments = _hospitalService.GetTreatmentsForPatient(patientId.Value);
+                labResults = _hospitalService.GetLabOrdersForPatient(patientId.Value);
             }
             else
             {
                 treatments = _hospitalService.GetTreatments();
+                labResults = _hospitalService.GetLabOrders();
             }
 
             ViewBag.SelectedPatient = selectedPatient;
             ViewBag.TreatmentHistory = treatments;
+            ViewBag.PatientLabResults = labResults;
 
             return View(new TreatmentPlan { PatientId = patientId ?? 0 });
         }
@@ -145,23 +205,53 @@ namespace CogMediHospitalManagementSystem.Controllers
             var (doctorId, doctorName) = GetCurrentDoctorInfo();
             plan.DoctorId = doctorId;
             plan.DoctorName = doctorName;
-            _hospitalService.CreateTreatmentPlan(plan);
 
-            // If OrderTest is filled, create a lab order
-            if (!string.IsNullOrWhiteSpace(plan.OrderTest))
+            try
             {
-                var order = new LabOrder
-                {
-                    PatientId = plan.PatientId,
-                    DoctorId = doctorId,
-                    TestName = plan.OrderTest,
-                    DoctorName = plan.DoctorName
-                };
-                _hospitalService.CreateLabOrder(order);
+                // Will throw InvalidOperationException if no COMPLETED lab order exists
+                _hospitalService.CreateTreatmentPlan(plan);
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Treatment", new { patientId = plan.PatientId });
             }
 
             TempData["SuccessMessage"] = "Treatment plan prescribed successfully!";
             return RedirectToAction("Treatment", new { patientId = plan.PatientId });
+        }
+
+        [HttpGet]
+        [Route("doctor/patient-history")]
+        public IActionResult PatientHistory(int? patientId)
+        {
+            var (doctorId, doctorName) = GetCurrentDoctorInfo();
+            var patients = _hospitalService.GetPatients()
+                .Where(p => p.Status == "ADMITTED" && (p.AssignedDoctorId == doctorId || (p.AssignedDoctorName != null && p.AssignedDoctorName.Equals(doctorName, StringComparison.OrdinalIgnoreCase))))
+                .ToList();
+            ViewBag.PatientsList = patients;
+
+            Patient? selectedPatient = null;
+            List<TreatmentPlan> treatments;
+            List<LabOrder> labOrders;
+
+            if (patientId.HasValue && patientId.Value > 0)
+            {
+                selectedPatient = _hospitalService.GetPatient(patientId.Value);
+                treatments = _hospitalService.GetTreatmentsForPatient(patientId.Value);
+                labOrders = _hospitalService.GetLabOrdersForPatient(patientId.Value);
+            }
+            else
+            {
+                treatments = _hospitalService.GetTreatments();
+                labOrders = _hospitalService.GetLabOrders();
+            }
+
+            ViewBag.Patient = selectedPatient;
+            ViewBag.Treatments = treatments;
+            ViewBag.LabOrders = labOrders;
+
+            return View();
         }
 
         [HttpGet]

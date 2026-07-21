@@ -1,0 +1,261 @@
+﻿@model CogMediHospitalManagementSystem.Models.LabOrder
+@{
+    ViewData["Title"] = "Order Lab Test";
+    var patientsList = ViewBag.PatientsList as List<CogMediHospitalManagementSystem.Models.Patient> ?? new List<CogMediHospitalManagementSystem.Models.Patient>();
+    var selectedPatient = ViewBag.SelectedPatient as CogMediHospitalManagementSystem.Models.Patient;
+}
+
+@section Styles {
+    <style>
+        /* Modern Layout & Card Styling */
+        .page-container {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .page-desc {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .lab-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        /* Form Controls */
+        .form-group-inline {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .custom-select {
+            padding: 10px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #1e293b;
+            background-color: #f8fafc;
+            min-width: 250px;
+            transition: all 0.2s;
+        }
+
+            .custom-select:focus {
+                outline: none;
+                border-color: #0ea5e9;
+                box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+                background-color: #ffffff;
+            }
+
+        .btn-primary-custom {
+            background-color: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+            .btn-primary-custom:hover {
+                background-color: #0284c7;
+            }
+
+        /* Patient Info Box */
+        .patient-banner {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .patient-icon-wrapper {
+            background-color: #22c55e;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .patient-name {
+            font-weight: 700;
+            color: #166534;
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+        }
+
+        .patient-details {
+            color: #15803d;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Layout Grid */
+        .lab-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        /* BULLETPROOF RAZOR ESCAPE FIX */
+        @("@") media (min-width: 992px) {
+            .lab-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Utilities */
+        .empty-state {
+            text-align: center;
+            padding: 64px 24px;
+            color: #64748b;
+        }
+
+        .workflow-alert {
+            background-color: #f8fafc;
+            border-left: 4px solid #0ea5e9;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            gap: 16px;
+            color: #334155;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+    </style>
+}
+
+<div class="page-container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2 class="page-title">Order Diagnostic Tests</h2>
+        <p class="page-desc">Select an active case to order laboratory scans before prescribing treatment.</p>
+    </div>
+
+    <!-- Active Case Selection Dropdown -->
+    <div class="lab-card">
+        <form method="get" asp-action="OrderLabTest" asp-controller="Doctor" class="form-group-inline">
+            <label class="form-label" style="margin: 0;">Active Case Selection:</label>
+            <select name="patientId" class="custom-select" onchange="this.form.submit()">
+                <option value="">-- Select Patient --</option>
+                @foreach (var p in patientsList)
+                {
+                    if (selectedPatient != null && selectedPatient.PatientId == p.PatientId)
+                    {
+                        <option value="@p.PatientId" selected>@p.Name (#@p.PatientId)</option>
+                    }
+                    else
+                    {
+                        <option value="@p.PatientId">@p.Name (#@p.PatientId)</option>
+                    }
+                }
+            </select>
+        </form>
+    </div>
+
+    @if (selectedPatient != null)
+    {
+        <div class="lab-grid">
+
+            <!-- Left Column: Form -->
+            <div class="lab-card" style="margin-bottom: 0;">
+                <h3 style="font-size: 1.1rem; color: #0ea5e9; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+                    <i data-lucide="flask-conical" style="width: 20px; height: 20px;"></i> Create Lab Order
+                </h3>
+
+                <!-- Patient Info Banner -->
+                <div class="patient-banner">
+                    <div class="patient-icon-wrapper">
+                        <i data-lucide="user" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <div>
+                        <h4 class="patient-name">@selectedPatient.Name</h4>
+                        <p class="patient-details">ID: #@selectedPatient.PatientId | Age: @selectedPatient.Age yrs | Admitted</p>
+                    </div>
+                </div>
+
+                <!-- Order Form -->
+                <form asp-action="OrderLabTest" asp-controller="Doctor" method="post">
+                    <input type="hidden" asp-for="PatientId" value="@selectedPatient.PatientId" />
+
+                    <div style="margin-bottom: 24px;">
+                        <label asp-for="TestName" class="form-label">Select Diagnostic Test <span style="color: #ef4444;">*</span></label>
+                        <select asp-for="TestName" class="custom-select" style="width: 100%;" required>
+                            <option value="">-- Choose a Test --</option>
+                            <option value="Blood CBC">Blood CBC</option>
+                            <option value="ECG">ECG</option>
+                            <option value="MRI Scan">MRI Scan</option>
+                            <option value="CT Scan">CT Scan</option>
+                            <option value="Chest X-Ray">Chest X-Ray</option>
+                            <option value="Lipid Profile">Lipid Profile</option>
+                            <option value="Urine Analysis">Urine Analysis</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primary-custom">
+                        <i data-lucide="send" style="width: 18px; height: 18px;"></i> Submit Lab Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Column: Information -->
+            <div>
+                <div class="workflow-alert">
+                    <i data-lucide="info" style="width: 24px; height: 24px; color: #0ea5e9; flex-shrink: 0;"></i>
+                    <div>
+                        <strong style="display: block; margin-bottom: 4px;">Workflow Note:</strong>
+                        Once you submit this order, it will be automatically routed to the Laboratory technician. You will be able to formulate the clinical treatment course on the <strong>Treatment</strong> page once the results are uploaded.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <!-- Empty State (No patient selected) -->
+        <div class="empty-state">
+            <i data-lucide="user-search" style="width: 80px; height: 80px; opacity: 0.2; margin-bottom: 16px; color: #0f172a;"></i>
+            <h5 style="font-weight: 600; color: #334155; font-size: 1.25rem; margin-bottom: 8px;">No Patient Selected</h5>
+            <p>Please select a patient from the dropdown menu above to begin ordering a diagnostic test.</p>
+        </div>
+    }
+</div>

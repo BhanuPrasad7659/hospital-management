@@ -35,6 +35,11 @@ namespace CogMediHospitalManagementSystem.Repositories
                 existing.Address = patient.Address;
                 existing.ContactNumber = patient.ContactNumber;
                 existing.Status = patient.Status;
+
+                // --> ADDED: Ensure Ward and BedNumber are preserved during updates <--
+                existing.Ward = patient.Ward;
+                existing.BedNumber = patient.BedNumber;
+
                 Update(existing);
                 SaveChanges();
             }
@@ -74,6 +79,20 @@ namespace CogMediHospitalManagementSystem.Repositories
             if (patient != null)
             {
                 patient.Status = status;
+                Update(patient);
+                SaveChanges();
+            }
+        }
+
+        // --> ADDED: The missing implementation to actually save the bed number to the patient <--
+        public void AssignBedToPatient(int patientId, string ward, string bedNumber)
+        {
+            var patient = GetById(patientId);
+            if (patient != null)
+            {
+                patient.Ward = ward;
+                patient.BedNumber = bedNumber;
+
                 Update(patient);
                 SaveChanges();
             }

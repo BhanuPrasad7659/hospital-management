@@ -38,7 +38,8 @@ namespace CogMediHospitalManagementSystem.Repositories
                 record.PharmacistName = pharmacistName;
                 Update(record);
 
-                var stock = _context.MedicineStocks.FirstOrDefault(m => m.MedicineName.Equals(record.MedicineName, StringComparison.OrdinalIgnoreCase));
+                // FIXED: Replaced StringComparison.OrdinalIgnoreCase with .ToLower() == .ToLower()
+                var stock = _context.MedicineStocks.FirstOrDefault(m => m.MedicineName.ToLower() == record.MedicineName.ToLower());
                 if (stock != null)
                 {
                     stock.Quantity = Math.Max(0, stock.Quantity - record.Quantity);

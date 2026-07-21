@@ -42,13 +42,21 @@ namespace CogMediHospitalManagementSystem.Models
 
         // Doctor Assignment Tracking using int DoctorId
         public int? AssignedDoctorId { get; set; }
-        
+
         [ForeignKey(nameof(AssignedDoctorId))]
         public virtual User? AssignedDoctor { get; set; }
 
         [StringLength(100)]
         [Display(Name = "Assigned Doctor")]
         public string AssignedDoctorName { get; set; } = string.Empty;
+
+        // --> NEW BED ASSIGNMENT PROPERTIES <--
+        [StringLength(100)]
+        public string Ward { get; set; } = string.Empty;
+
+        [StringLength(50)]
+        [Display(Name = "Bed Number")]
+        public string BedNumber { get; set; } = string.Empty;
 
         // Enum Helper Properties
         [NotMapped]
