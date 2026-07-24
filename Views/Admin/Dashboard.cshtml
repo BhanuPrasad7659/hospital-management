@@ -144,7 +144,8 @@
                             @foreach (var patient in Model.RecentAdmissions)
                             {
                                 <tr>
-                                    <td><strong>@patient.PatientId</strong></td>
+                                    <!-- Restored to match your actual Patient model properties -->
+                                    <td><strong>PT-@patient.PatientId</strong></td>
                                     <td>@patient.Name</td>
                                     <td>@patient.Age yrs / @patient.Gender</td>
                                     <td>
@@ -176,60 +177,20 @@
             </div>
             <div class="card-body">
                 <ul class="activity-timeline">
-                    @foreach (var log in Model.RecentActivities)
+                    @if (Model.RecentActivities != null)
                     {
-                        <li>
-                            <div class="activity-bullet"></div>
-                            <div class="activity-content">
-                                <p>@log</p>
-                                <span>Just now</span>
-                            </div>
-                        </li>
+                        @foreach (var log in Model.RecentActivities)
+                        {
+                            <li>
+                                <div class="activity-bullet"></div>
+                                <div class="activity-content">
+                                    <p>@log</p>
+                                    <span>Just now</span>
+                                </div>
+                            </li>
+                        }
                     }
                 </ul>
-            </div>
-        </div>
-
-    <!-- Staff Registry Panel (Admin Feature) -->
-    <div style="margin-top: 24px;">
-        <!-- Staff Registry Table -->
-        <div class="table-card">
-            <div class="card-header">
-                <div style="display: flex; align-items: center;">
-                    <i data-lucide="users" class="card-icon text-info" style="margin-right: 8px;"></i>
-                    <h4>Current Staff Directory</h4>
-                </div>
-                @{
-                    var staffList = ViewBag.StaffList as List<User> ?? new List<User>();
-                }
-                <span class="badge badge-primary">@staffList.Count Active Staff</span>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Full Name</th>
-                                <th>Username</th>
-                                <th>Assigned Role</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var staff in staffList)
-                            {
-                                <tr>
-                                    <td><strong>@staff.FullName</strong></td>
-                                    <td>@staff.Username</td>
-                                    <td>
-                                        <span class="badge @(staff.Role == "admin" ? "badge-danger" : staff.Role == "doctor" ? "badge-info" : staff.Role == "laboratory" ? "badge-primary" : staff.Role == "billing discharge" ? "badge-warning" : "badge-success")">
-                                            @staff.Role
-                                        </span>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>

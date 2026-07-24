@@ -9,9 +9,19 @@ namespace CogMediHospitalManagementSystem.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AdmissionId { get; set; }
-        
+
         [Required]
         public int PatientId { get; set; }
+
+        // NEW: Store Patient Name directly in DB
+        [StringLength(100)]
+        [Display(Name = "Patient Name")]
+        public string PatientName { get; set; } = string.Empty;
+
+        // NEW: Store Age directly in DB and enforce Age > 0
+        [Required]
+        [Range(1, 150, ErrorMessage = "Age must be greater than 0.")]
+        public int Age { get; set; }
 
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }
@@ -25,18 +35,16 @@ namespace CogMediHospitalManagementSystem.Models
         [Required]
         [StringLength(50)]
         [Display(Name = "Ward")]
-        public string Ward { get; set; } = string.Empty; // General, ICU, Pediatrics, etc.
+        public string Ward { get; set; } = string.Empty;
 
-        
         [StringLength(20)]
         [Display(Name = "Bed Number")]
         public string BedNumber { get; set; } = string.Empty;
 
         [Required]
         [StringLength(30)]
-        public string Status { get; set; } = "ADMITTED"; // ADMITTED, DISCHARGED
+        public string Status { get; set; } = "ADMITTED";
 
-        // Doctor Assignment Tracking using int DoctorId
         public int? AssignedDoctorId { get; set; }
 
         [ForeignKey(nameof(AssignedDoctorId))]

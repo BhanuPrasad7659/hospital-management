@@ -29,19 +29,25 @@
             <div class="login-card-body">
                 <form asp-action="LabLogin" asp-controller="Auth" method="post" id="loginForm" autocomplete="off">
                     <div asp-validation-summary="ModelOnly" class="text-danger-summary"></div>
-                    
+
                     <input type="hidden" asp-for="Role" value="laboratory" />
 
-                    <!-- Username -->
+                    <!-- Username (Pre-filled with dummy data) -->
                     <div class="form-group">
                         <label asp-for="Username"><i data-lucide="user" class="input-icon"></i> Username</label>
-                        <input asp-for="Username" type="text" placeholder="Enter technician username" autocomplete="off" id="usernameInput" />
+                        <input asp-for="Username" type="text" value="lab" placeholder="Enter technician username" autocomplete="off" id="usernameInput" />
                     </div>
 
-                    <!-- Password -->
+                    <!-- Password (Pre-filled with dummy data + Toggle) -->
                     <div class="form-group" style="margin-top: 15px;">
                         <label asp-for="Password"><i data-lucide="lock" class="input-icon"></i> Password</label>
-                        <input asp-for="Password" type="password" placeholder="Enter password (any data accepted)" autocomplete="new-password" id="passwordInput" />
+                        <div style="position: relative;">
+                            <input asp-for="Password" type="password" value="password" placeholder="Enter password" autocomplete="new-password" id="passwordInput" style="padding-right: 45px; width: 100%;" />
+                            <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; color: #64748b;">
+                                <span id="eyeIcon"><i data-lucide="eye" style="width: 20px; height: 20px;"></i></span>
+                                <span id="eyeOffIcon" style="display: none;"><i data-lucide="eye-off" style="width: 20px; height: 20px;"></i></span>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Remember Me -->
@@ -59,14 +65,6 @@
                         </button>
                     </div>
                 </form>
-                
-                <!-- Demo Quick login helper -->
-                <div class="demo-helper" style="margin-top: 15px;">
-                    <span class="demo-label">Interview / Demo Quick Access:</span>
-                    <button type="button" class="btn btn-secondary btn-block" onclick="triggerDemoLogin()">
-                        <i data-lucide="zap"></i> Auto-Fill & Login (lab)
-                    </button>
-                </div>
             </div>
 
             <!-- Card Footer -->
@@ -80,10 +78,20 @@
 
 @section Scripts {
     <script>
-        function triggerDemoLogin() {
-            document.getElementById('usernameInput').value = 'lab';
-            document.getElementById('passwordInput').value = 'lab123';
-            document.getElementById('loginForm').submit();
-        }
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const eyeOffIcon = document.getElementById('eyeOffIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.display = 'none';
+                eyeOffIcon.style.display = 'block';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.display = 'block';
+                eyeOffIcon.style.display = 'none';
+            }
+        });
     </script>
 }

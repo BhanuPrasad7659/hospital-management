@@ -9,9 +9,14 @@ namespace CogMediHospitalManagementSystem.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EhrId { get; set; }
-        
+
         [Required]
         public int PatientId { get; set; }
+
+        // NEW: Store Patient Name directly in DB
+        [StringLength(100)]
+        [Display(Name = "Patient Name")]
+        public string PatientName { get; set; } = string.Empty;
 
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }

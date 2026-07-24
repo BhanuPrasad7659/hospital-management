@@ -1,5 +1,5 @@
 @model BillingViewModel
-@inject CogMediHospitalManagementSystem.Services.HospitalService _hospitalService
+@inject CogMediHospitalManagementSystem.Services.Interfaces.IBillingService _billingService
 @{
     ViewData["Title"] = "Payments & Discharge Portal";
     var patientsList = ViewBag.PatientsList as List<Patient> ?? new List<Patient>();
@@ -166,6 +166,12 @@
                             @if (Model.Status == "PAID")
                             {
                                 <div class="divider"></div>
+
+                                <div style="margin-bottom: 20px;">
+                                    <a href="/billing/print-invoice?billingRecordId=@Model.BillingRecordId" target="_blank" class="btn btn-outline btn-block" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; border-color: #10b981; color: #10b981; padding: 12px; font-weight: 700; font-size: 14px;">
+                                        <i data-lucide="printer"></i> View & Print Paid Invoice Receipt
+                                    </a>
+                                </div>
                                 
                                 <div class="discharge-rbac-section">
                                     <div class="section-title text-success">
@@ -247,7 +253,7 @@
                             <tbody>
                                 @foreach (var pat in patientsList)
                                 {
-                                    var bill = _hospitalService.GetBillingForPatient(pat.PatientId);
+                                    var bill = _billingService.GetBillingForPatient(pat.PatientId);
                                     <tr>
                                         <td>
                                             <div class="pat-name">@pat.Name</div>

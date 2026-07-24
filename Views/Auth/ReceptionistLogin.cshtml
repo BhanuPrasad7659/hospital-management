@@ -29,14 +29,13 @@
             <div class="login-card-body">
                 <form asp-action="ReceptionistLogin" asp-controller="Auth" method="post" id="loginForm" autocomplete="off">
                     <div asp-validation-summary="ModelOnly" class="text-danger-summary"></div>
-                    
+
                     <input type="hidden" asp-for="Role" value="receptionist" />
 
                     <!-- Username / Receptionist Selection Dropdown -->
                     <div class="form-group">
                         <label asp-for="Username"><i data-lucide="user-check" class="input-icon"></i> Select Receptionist Profile</label>
                         <select asp-for="Username" id="usernameInput" required style="width: 100%; padding: 11px 14px; border-radius: var(--radius-md); border: 1.5px solid var(--border); background-color: var(--surface); color: var(--text-main); font-size: 14px; font-weight: 600; font-family: inherit; outline: none; cursor: pointer; transition: var(--transition-smooth);">
-                            <option value="">-- Choose Receptionist Staff --</option>
                             @if (ViewBag.Receptionists is List<User> recepList && recepList.Count > 0)
                             {
                                 @foreach (var r in recepList)
@@ -46,16 +45,16 @@
                             }
                             else
                             {
-                                <option value="receptionist">Sita Ramam (Front Desk Receptionist 1)</option>
+                                <option value="receptionist" selected>Sita Ramam (Front Desk Receptionist 1)</option>
                                 <option value="receptionist2">Ananya Rao (Admissions Desk Receptionist 2)</option>
                             }
                         </select>
                     </div>
 
-                    <!-- Password -->
+                    <!-- Password (Pre-filled with dummy data) -->
                     <div class="form-group" style="margin-top: 15px;">
                         <label asp-for="Password"><i data-lucide="lock" class="input-icon"></i> Password</label>
-                        <input asp-for="Password" type="password" placeholder="Enter password (any data accepted)" id="passwordInput" />
+                        <input asp-for="Password" type="password" value="password" placeholder="Enter password (any data accepted)" id="passwordInput" />
                     </div>
 
                     <!-- Remember Me -->
@@ -73,14 +72,6 @@
                         </button>
                     </div>
                 </form>
-                
-                <!-- Demo Quick login helper -->
-                <div class="demo-helper" style="margin-top: 15px;">
-                    <span class="demo-label">Interview / Demo Quick Access:</span>
-                    <button type="button" class="btn btn-secondary btn-block" onclick="triggerDemoLogin()">
-                        <i data-lucide="zap"></i> Auto-Fill & Login (Receptionist)
-                    </button>
-                </div>
             </div>
 
             <!-- Card Footer -->
@@ -91,18 +82,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        function triggerDemoLogin() {
-            const selectEl = document.getElementById('usernameInput');
-            if (selectEl && selectEl.options.length > 1) {
-                selectEl.selectedIndex = 1;
-            } else if (selectEl) {
-                selectEl.value = 'receptionist';
-            }
-            document.getElementById('passwordInput').value = 'recept123';
-            document.getElementById('loginForm').submit();
-        }
-    </script>
-}

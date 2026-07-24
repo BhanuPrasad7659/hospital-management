@@ -37,6 +37,9 @@ namespace CogMediHospitalManagementSystem.DTOs
 
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
         public string Email { get; set; } = string.Empty;
+
+        [StringLength(100)]
+        public string? Password { get; set; }
     }
 
     public class UserUpdateDto
@@ -56,5 +59,8 @@ namespace CogMediHospitalManagementSystem.DTOs
 
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
         public string Email { get; set; } = string.Empty;
+
+        [StringLength(100)]
+        public string? Password { get; set; }
     }
 }

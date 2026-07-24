@@ -29,19 +29,19 @@
             <div class="login-card-body">
                 <form asp-action="PharmacistLogin" asp-controller="Auth" method="post" id="loginForm" autocomplete="off">
                     <div asp-validation-summary="ModelOnly" class="text-danger-summary"></div>
-                    
+
                     <input type="hidden" asp-for="Role" value="pharmiacist" />
 
-                    <!-- Username -->
+                    <!-- Username (Pre-filled with dummy data) -->
                     <div class="form-group">
                         <label asp-for="Username"><i data-lucide="user" class="input-icon"></i> Username</label>
-                        <input asp-for="Username" type="text" placeholder="Enter pharmacist username" autocomplete="off" id="usernameInput" />
+                        <input asp-for="Username" type="text" value="pharmiacist" placeholder="Enter pharmacist username" autocomplete="off" id="usernameInput" />
                     </div>
 
-                    <!-- Password -->
+                    <!-- Password (Pre-filled with dummy data) -->
                     <div class="form-group" style="margin-top: 15px;">
                         <label asp-for="Password"><i data-lucide="lock" class="input-icon"></i> Password</label>
-                        <input asp-for="Password" type="password" placeholder="Enter password (any data accepted)" autocomplete="new-password" id="passwordInput" />
+                        <input asp-for="Password" type="password" value="password" placeholder="Enter password (any data accepted)" autocomplete="new-password" id="passwordInput" />
                     </div>
 
                     <!-- Remember Me -->
@@ -59,14 +59,6 @@
                         </button>
                     </div>
                 </form>
-                
-                <!-- Demo Quick login helper -->
-                <div class="demo-helper" style="margin-top: 15px;">
-                    <span class="demo-label">Interview / Demo Quick Access:</span>
-                    <button type="button" class="btn btn-secondary btn-block" onclick="triggerDemoLogin()">
-                        <i data-lucide="zap"></i> Auto-Fill & Login (pharmacist)
-                    </button>
-                </div>
             </div>
 
             <!-- Card Footer -->
@@ -77,13 +69,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        function triggerDemoLogin() {
-            document.getElementById('usernameInput').value = 'pharmiacist';
-            document.getElementById('passwordInput').value = 'pharm123';
-            document.getElementById('loginForm').submit();
-        }
-    </script>
-}

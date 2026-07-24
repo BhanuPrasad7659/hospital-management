@@ -1,7 +1,6 @@
 @{
     ViewData["Title"] = "Manage Specialized Doctors";
     var doctorsList = ViewBag.DoctorsList as List<User> ?? new List<User>();
-    var admittedPatients = ViewBag.AdmittedPatients as List<Patient> ?? new List<Patient>();
 }
 
 @section Styles {
@@ -13,18 +12,14 @@
     <div class="dashboard-header">
         <div class="header-text">
             <h2>Manage Specialized Doctors</h2>
-            <p>Hire new physicians, assign doctors to admitted patients, and overview the medical registry.</p>
-        </div>
-        <div class="header-date">
-            <i data-lucide="shield-check"></i>
-            <span>Registry Status: Active</span>
+            <p>Hire new physicians and overview the medical registry.</p>
         </div>
     </div>
 
-    <!-- Management Forms Grid (Two Columns) -->
-    <div class="details-grid">
-        <!-- Column 1: Hire Doctor Form -->
-        <div class="form-card" style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+    <!-- Management Forms Grid (Adjusted to Single Column for Hire Form) -->
+    <div class="details-grid" style="grid-template-columns: 1fr;">
+        <!-- Hire Doctor Form -->
+        <div class="form-card" style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); max-width: 900px;">
             <div class="card-header" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;">
                 <i data-lucide="user-plus" class="card-icon text-primary"></i>
                 <h4 style="margin: 0; font-size: 15px; font-weight: 700;">Hire New Specialized Doctor</h4>
@@ -35,10 +30,14 @@
                         <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Full Name</label>
                         <input type="text" name="fullName" placeholder="e.g. Dr. Priya Sharma" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
                     </div>
-                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
                         <div class="form-group">
                             <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Username</label>
                             <input type="text" name="username" placeholder="e.g. priya" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Password Setting</label>
+                            <input type="password" name="password" placeholder="Set password" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
                         </div>
                         <div class="form-group">
                             <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Specialty</label>
@@ -61,47 +60,7 @@
                     </div>
                 </div>
                 <div class="card-footer" style="padding: 16px 20px; border-top: 1px solid var(--border); background-color: #fcfdfe; display: flex; justify-content: flex-end;">
-                    <button type="submit" class="btn btn-primary"><i data-lucide="user-check"></i> Hire Physician</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Column 2: Assign Doctor Form -->
-        <div class="form-card" style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
-            <div class="card-header" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;">
-                <i data-lucide="user-cog" class="card-icon text-warning"></i>
-                <h4 style="margin: 0; font-size: 15px; font-weight: 700;">Assign Doctor to Admitted Patient</h4>
-            </div>
-            <form asp-action="AssignDoctor" asp-controller="Admin" method="post" style="display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; margin: 0;">
-                <div class="card-body" style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
-                    <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Select Admitted Patient</label>
-                        <select name="patientId" required style="width: 100%; padding: 10.5px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; background-color: var(--surface); color: var(--text-main);">
-                            <option value="">Choose patient...</option>
-                            @foreach (var pat in admittedPatients)
-                            {
-                                <option value="@pat.PatientId">@pat.Name (#@pat.PatientId) [Current: @(string.IsNullOrEmpty(pat.AssignedDoctorName) ? "None" : pat.AssignedDoctorName)]</option>
-                            }
-                        </select>
-                        @if (admittedPatients.Count == 0)
-                        {
-                            <small style="color: var(--text-muted); display: block; margin-top: 4px;">No patients are currently admitted in the wards.</small>
-                        }
-                    </div>
-
-                    <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Attending Specialized Doctor</label>
-                        <select name="doctorId" required style="width: 100%; padding: 10.5px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; background-color: var(--surface); color: var(--text-main);">
-                            <option value="">Choose doctor...</option>
-                            @foreach (var doc in doctorsList)
-                            {
-                                <option value="@doc.Id">@doc.FullName (@(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty))</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="card-footer" style="padding: 16px 20px; border-top: 1px solid var(--border); background-color: #fcfdfe; display: flex; justify-content: flex-end;">
-                    <button type="submit" class="btn btn-warning" @(admittedPatients.Count == 0 ? "disabled" : "")><i data-lucide="check-square"></i> Assign Doctor</button>
+                    <button type="submit" class="btn btn-primary"><i data-lucide="user-check"></i> Hire Doctor</button>
                 </div>
             </form>
         </div>
@@ -129,6 +88,7 @@
                                     <th>Username</th>
                                     <th>Specialty Department</th>
                                     <th>Contact Info</th>
+                                    <th>Remove</th>
                                     <th class="text-right">Action</th>
                                 </tr>
                             </thead>
@@ -143,6 +103,14 @@
                                         <td>
                                             <div style="font-size: 13px; color: var(--text-main); font-weight: 500;">@doc.ContactNumber</div>
                                             <div style="font-size: 11.5px; color: var(--text-muted);">@doc.Email</div>
+                                        </td>
+                                        <td>
+                                            <form asp-action="RemoveDoctor" asp-controller="Admin" method="post" style="margin: 0;" onsubmit="return confirm('Are you sure you want to remove Dr. @doc.FullName from the registry?');">
+                                                <input type="hidden" name="doctorId" value="@doc.Id" />
+                                                <button type="submit" class="btn btn-danger btn-xs" style="display: inline-flex; align-items: center; gap: 4px;">
+                                                    <i data-lucide="trash-2" style="width: 12px; height: 12px;"></i> Remove
+                                                </button>
+                                            </form>
                                         </td>
                                         <td class="text-right">
                                             <a href="/doctor/view-profile?doctorId=@doc.Id" class="btn btn-outline btn-xs" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">

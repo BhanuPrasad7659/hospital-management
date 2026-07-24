@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Services.Interfaces;
 using CogMediHospitalManagementSystem.Models;
 using System.Linq;
 
@@ -9,18 +9,20 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
     [Route("api/pharmacy")]
     public class PharmacyApiController : ControllerBase
     {
-        private readonly HospitalService _hospitalService;
+                private readonly IPharmacyService _pharmacyService;
+        private readonly IMedicineStockService _medicineStockService;
 
-        public PharmacyApiController(HospitalService hospitalService)
+        public PharmacyApiController(IPharmacyService pharmacyService, IMedicineStockService medicineStockService)
         {
-            _hospitalService = hospitalService;
+            _pharmacyService = pharmacyService;
+            _medicineStockService = medicineStockService;
         }
 
         // GET: api/pharmacy
         [HttpGet]
         public IActionResult GetPharmacyRecords()
         {
-            var records = _hospitalService.GetPharmacyRecords();
+            var records = _pharmacyService.GetPharmacyRecords();
             return Ok(records);
         }
 
@@ -28,7 +30,7 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpGet("{id}")]
         public IActionResult GetPharmacyRecord(int id)
         {
-            var record = _hospitalService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
+            var record = _pharmacyService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
             if (record == null) return NotFound($"Pharmacy record #{id} not found.");
             return Ok(record);
         }
@@ -42,15 +44,15 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
                 return BadRequest("MedicineName is required.");
             }
 
-            _hospitalService.UpdateMedicineStock(request.MedicineName, request.Amount);
-            return Ok(new { MedicineName = request.MedicineName, NewStock = _hospitalService.MedicineStock.GetValueOrDefault(request.MedicineName, 0) });
+            _medicineStockService.UpdateMedicineStock(request.MedicineName, request.Amount);
+            return Ok(new { MedicineName = request.MedicineName, NewStock = _medicineStockService.MedicineStock.GetValueOrDefault(request.MedicineName, 0) });
         }
 
         // PUT: api/pharmacy/dispense/{id}
         [HttpPut("dispense/{id}")]
         public IActionResult Dispense(int id, [FromQuery] string pharmacistName)
         {
-            var record = _hospitalService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
+            var record = _pharmacyService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
             if (record == null) return NotFound($"Pharmacy record #{id} not found.");
 
             if (record.Status == "DISPENSED")
@@ -58,13 +60,13 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
                 return BadRequest("Medicine already dispensed.");
             }
 
-            if (_hospitalService.MedicineStock.TryGetValue(record.MedicineName, out int stock) && stock < record.Quantity)
+            if (_medicineStockService.MedicineStock.TryGetValue(record.MedicineName, out int stock) && stock < record.Quantity)
             {
                 return BadRequest($"Insufficient stock for {record.MedicineName}. Available: {stock}. Required: {record.Quantity}.");
             }
 
-            _hospitalService.DispenseMedicine(id, pharmacistName ?? "Rahul Verma");
-            var updated = _hospitalService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
+            _pharmacyService.DispenseMedicine(id, pharmacistName ?? "Rahul Verma");
+            var updated = _pharmacyService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
             return Ok(updated);
         }
 
@@ -72,10 +74,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpDelete("{id}")]
         public IActionResult DeletePharmacyRecord(int id)
         {
-            var record = _hospitalService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
+            var record = _pharmacyService.GetPharmacyRecords().FirstOrDefault(r => r.PharmacyRecordId == id);
             if (record == null) return NotFound($"Pharmacy record #{id} not found.");
 
-            _hospitalService.DeletePharmacyRecord(id);
+            _pharmacyService.DeletePharmacyRecord(id);
             return NoContent();
         }
 

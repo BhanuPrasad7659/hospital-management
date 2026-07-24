@@ -13,6 +13,11 @@ namespace CogMediHospitalManagementSystem.Models
         [Required]
         public int PatientId { get; set; }
 
+        // NEW: Store Patient Name directly in DB
+        [StringLength(100)]
+        [Display(Name = "Patient Name")]
+        public string PatientName { get; set; } = string.Empty;
+
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }
 
@@ -42,7 +47,7 @@ namespace CogMediHospitalManagementSystem.Models
 
         [Required]
         [StringLength(30)]
-        public string Status { get; set; } = "PENDING"; // PENDING, PAID
+        public string Status { get; set; } = "PENDING";
 
         [DataType(DataType.DateTime)]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
@@ -52,13 +57,12 @@ namespace CogMediHospitalManagementSystem.Models
 
         [StringLength(50)]
         [Display(Name = "Payment Method")]
-        public string PaymentMethod { get; set; } = string.Empty; // e.g. UPI (PhonePe), UPI (GPay), Cash, Card
+        public string PaymentMethod { get; set; } = string.Empty;
 
         [StringLength(100)]
         [Display(Name = "Transaction ID")]
-        public string TransactionId { get; set; } = string.Empty; // e.g. TXN-98420194
-        
-        // Merged Discharge properties (RBAC)
+        public string TransactionId { get; set; } = string.Empty;
+
         public bool IsDischarged { get; set; } = false;
 
         [DataType(DataType.DateTime)]

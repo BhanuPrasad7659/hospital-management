@@ -33,6 +33,9 @@ namespace CogMediHospitalManagementSystem.Migrations
                     b.Property<DateTime>("AdmissionDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
                     b.Property<int?>("AssignedDoctorId")
                         .HasColumnType("int");
 
@@ -51,6 +54,11 @@ namespace CogMediHospitalManagementSystem.Migrations
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -105,6 +113,11 @@ namespace CogMediHospitalManagementSystem.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<DateTime?>("PaymentDate")
                         .HasColumnType("datetime2");
 
@@ -149,6 +162,11 @@ namespace CogMediHospitalManagementSystem.Migrations
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Remarks")
                         .IsRequired()
@@ -196,6 +214,11 @@ namespace CogMediHospitalManagementSystem.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<DateTime>("VisitDate")
                         .HasColumnType("datetime2");
 
@@ -206,57 +229,6 @@ namespace CogMediHospitalManagementSystem.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("EhrRecords");
-                });
-
-            modelBuilder.Entity("CogMediHospitalManagementSystem.Models.LabOrder", b =>
-                {
-                    b.Property<int>("LabOrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LabOrderId"));
-
-                    b.Property<int?>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DoctorName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Result")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("TechnicianName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("TestName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("LabOrderId");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("LabOrders");
                 });
 
             modelBuilder.Entity("CogMediHospitalManagementSystem.Models.MedicineStock", b =>
@@ -278,6 +250,57 @@ namespace CogMediHospitalManagementSystem.Migrations
                     b.HasKey("MedicineStockId");
 
                     b.ToTable("MedicineStocks");
+                });
+
+            modelBuilder.Entity("CogMediHospitalManagementSystem.Models.OrderTestLab", b =>
+                {
+                    b.Property<int>("LabOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LabOrderId"));
+
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DoctorName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Result")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TechnicianName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("TestName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("LabOrderId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("OrderTestLabs");
                 });
 
             modelBuilder.Entity("CogMediHospitalManagementSystem.Models.Patient", b =>
@@ -363,6 +386,11 @@ namespace CogMediHospitalManagementSystem.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("PharmacistName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -431,6 +459,11 @@ namespace CogMediHospitalManagementSystem.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<DateTime>("PrescribedDate")
                         .HasColumnType("datetime2");
 
@@ -466,12 +499,21 @@ namespace CogMediHospitalManagementSystem.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("DoctorUniqueId")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -552,19 +594,13 @@ namespace CogMediHospitalManagementSystem.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("CogMediHospitalManagementSystem.Models.LabOrder", b =>
+            modelBuilder.Entity("CogMediHospitalManagementSystem.Models.OrderTestLab", b =>
                 {
-                    b.HasOne("CogMediHospitalManagementSystem.Models.User", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId");
-
                     b.HasOne("CogMediHospitalManagementSystem.Models.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Doctor");
 
                     b.Navigation("Patient");
                 });

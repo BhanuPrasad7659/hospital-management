@@ -13,7 +13,7 @@ namespace CogMediHospitalManagementSystem.Data
         public DbSet<Patient> Patients { get; set; } = null!;
         public DbSet<Admission> Admissions { get; set; } = null!;
         public DbSet<EhrRecord> EhrRecords { get; set; } = null!;
-        public DbSet<LabOrder> LabOrders { get; set; } = null!;
+        public DbSet<OrderTestLab> OrderTestLabs { get; set; } = null!;
         public DbSet<TreatmentPlan> TreatmentPlans { get; set; } = null!;
         public DbSet<PharmacyRecord> PharmacyRecords { get; set; } = null!;
         public DbSet<BillingRecord> BillingRecords { get; set; } = null!;

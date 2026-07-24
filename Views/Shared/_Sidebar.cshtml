@@ -1,5 +1,3 @@
-
-
 <aside class="app-sidebar" id="appSidebar">
     <!-- Sidebar Branding -->
     <a href="/" class="sidebar-brand" style="text-decoration: none;">
@@ -29,10 +27,6 @@
                 <li class="@(Context.Request.Path.Value?.Contains("/doctor/ehr") == true ? "active" : "")">
                     <a href="/doctor/ehr"><i data-lucide="folder-heart"></i> <span>EHR Records</span></a>
                 </li>
-                <!-- NEW: Order Lab Test (Doctor/Admin) -->
-                <li class="@(Context.Request.Path.Value?.Contains("/doctor/order-lab-test") == true ? "active" : "")">
-                    <a href="/doctor/order-lab-test"><i data-lucide="flask-conical"></i> <span>Order Lab Test</span></a>
-                </li>
                 <!-- Treatment (Doctor) -->
                 <li class="@(Context.Request.Path.Value?.Contains("/doctor/treatment") == true ? "active" : "")">
                     <a href="/doctor/treatment"><i data-lucide="stethoscope"></i> <span>Treatment</span></a>
@@ -56,6 +50,10 @@
                 <!-- Manage Doctors (Admin only) -->
                 <li class="@(Context.Request.Path.Value?.Contains("/admin/doctors") == true ? "active" : "")">
                     <a href="/admin/doctors"><i data-lucide="heart-pulse"></i> <span>Manage Doctors</span></a>
+                </li>
+                <!-- Manage Operational Staff (Admin only) -->
+                <li class="@(Context.Request.Path.Value?.Contains("/admin/staff") == true ? "active" : "")">
+                    <a href="/admin/staff"><i data-lucide="users-2"></i> <span>Manage Staff</span></a>
                 </li>
             }
             else if (User.IsInRole("receptionist"))

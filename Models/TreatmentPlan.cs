@@ -13,6 +13,11 @@ namespace CogMediHospitalManagementSystem.Models
         [Required]
         public int PatientId { get; set; }
 
+        // NEW: Store Patient Name directly in DB
+        [StringLength(100)]
+        [Display(Name = "Patient Name")]
+        public string PatientName { get; set; } = string.Empty;
+
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }
 
@@ -32,15 +37,15 @@ namespace CogMediHospitalManagementSystem.Models
 
         [StringLength(500)]
         [Display(Name = "Medication")]
-        public string Medication { get; set; } = string.Empty; // e.g., "Paracetamol 500mg"
+        public string Medication { get; set; } = string.Empty;
 
         [StringLength(100)]
         [Display(Name = "Duration")]
-        public string Duration { get; set; } = string.Empty; // e.g., "5 Days"
+        public string Duration { get; set; } = string.Empty;
 
         [StringLength(500)]
         [Display(Name = "Instructions")]
-        public string Instructions { get; set; } = string.Empty; // e.g., "Take twice a day after meals"
+        public string Instructions { get; set; } = string.Empty;
 
         [DataType(DataType.DateTime)]
         [Display(Name = "Prescribed Date")]
@@ -52,6 +57,6 @@ namespace CogMediHospitalManagementSystem.Models
 
         [StringLength(100)]
         [Display(Name = "Order Test")]
-        public string? OrderTest { get; set; } // Optional: If filled, triggers lab order creation
+        public string? OrderTest { get; set; }
     }
 }

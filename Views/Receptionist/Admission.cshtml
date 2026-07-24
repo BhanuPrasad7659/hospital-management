@@ -31,12 +31,15 @@
                         <div class="form-group">
                             <label for="Name">Full Name</label>
                             <input asp-for="Name" type="text" placeholder="Enter patient's full name" required />
+                            <span asp-validation-for="Name" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="Age">Age (Years)</label>
-                                <input asp-for="Age" type="number" min="0" max="130" placeholder="Age" required />
+                                <!-- NEW: min="1" and oninput script to absolutely prevent 0 from being typed -->
+                                <input asp-for="Age" type="number" min="1" max="130" placeholder="Age" required oninput="if(this.value !== '' && this.value < 1) this.value = '';" />
+                                <span asp-validation-for="Age" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
                             </div>
                             <div class="form-group">
                                 <label for="Gender">Gender</label>
@@ -46,17 +49,20 @@
                                     <option value="Female">Female</option>
                                     <option value="Other">Other</option>
                                 </select>
+                                <span asp-validation-for="Gender" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="ContactNumber">Contact Number</label>
                             <input asp-for="ContactNumber" type="tel" pattern="[0-9]{10}" maxlength="10" minlength="10" placeholder="10-digit phone number" required oninput="this.value=this.value.replace(/[^0-9]/g,''); if(this.value.length>10)this.value=this.value.slice(0,10);" />
+                            <span asp-validation-for="ContactNumber" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
                         </div>
 
                         <div class="form-group">
                             <label for="Address">Residential Address</label>
                             <input asp-for="Address" type="text" placeholder="City, Area" required />
+                            <span asp-validation-for="Address" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
                         </div>
                     </div>
                     <div class="form-footer">
@@ -244,7 +250,8 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="editAge">Age</label>
-                        <input type="number" name="Age" id="editAge" required />
+                        <!-- NEW: Enforce min="1" on edit modal as well -->
+                        <input type="number" name="Age" id="editAge" min="1" max="130" required oninput="if(this.value !== '' && this.value < 1) this.value = '';" />
                     </div>
                     <div class="form-group">
                         <label for="editGender">Gender</label>

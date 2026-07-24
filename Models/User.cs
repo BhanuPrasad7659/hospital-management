@@ -24,8 +24,17 @@ namespace CogMediHospitalManagementSystem.Models
         [StringLength(100)]
         [Display(Name = "Full Name")]
         public string FullName { get; set; } = string.Empty;
-        
-        // Doctor profile specific fields
+
+        [Required]
+        [StringLength(100)]
+        public string Password { get; set; } = "password";
+
+        // --- Doctor profile specific fields ---
+
+        [StringLength(20)]
+        [Display(Name = "Doctor ID")]
+        public string? DoctorUniqueId { get; set; } // Separate unique ID like D001, D002
+
         [StringLength(100)]
         public string Specialty { get; set; } = string.Empty;
 
@@ -42,7 +51,7 @@ namespace CogMediHospitalManagementSystem.Models
         [Display(Name = "Email Address")]
         public string Email { get; set; } = string.Empty;
 
-        // Enum Helper Property
+        // --- Enum Helper Property ---
         [NotMapped]
         public UserRole RoleEnum
         {

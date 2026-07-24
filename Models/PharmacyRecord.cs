@@ -13,10 +13,15 @@ namespace CogMediHospitalManagementSystem.Models
         [Required]
         public int PatientId { get; set; }
 
+        // NEW: Store Patient Name directly in DB
+        [StringLength(100)]
+        [Display(Name = "Patient Name")]
+        public string PatientName { get; set; } = string.Empty;
+
         [ForeignKey(nameof(PatientId))]
         public virtual Patient? Patient { get; set; }
 
-        public int? TreatmentPlanId { get; set; } // Reference to Doctor's prescription
+        public int? TreatmentPlanId { get; set; }
 
         [ForeignKey(nameof(TreatmentPlanId))]
         public virtual TreatmentPlan? TreatmentPlan { get; set; }
@@ -31,7 +36,7 @@ namespace CogMediHospitalManagementSystem.Models
 
         [Required]
         [StringLength(30)]
-        public string Status { get; set; } = "PENDING"; // PENDING, DISPENSED
+        public string Status { get; set; } = "PENDING";
 
         [DataType(DataType.DateTime)]
         public DateTime? DispensedDate { get; set; }

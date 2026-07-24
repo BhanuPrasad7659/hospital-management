@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Services.Interfaces;
 using CogMediHospitalManagementSystem.Models;
 using System.Linq;
 using System;
@@ -10,24 +10,26 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
     [Route("api/treatments")]
     public class TreatmentsApiController : ControllerBase
     {
-        private readonly HospitalService _hospitalService;
+                private readonly ITreatmentPlanService _treatmentPlanService;
+        private readonly IPatientService _patientService;
 
-        public TreatmentsApiController(HospitalService hospitalService)
+        public TreatmentsApiController(ITreatmentPlanService treatmentPlanService, IPatientService patientService)
         {
-            _hospitalService = hospitalService;
+            _treatmentPlanService = treatmentPlanService;
+            _patientService = patientService;
         }
 
         [HttpGet]
         public IActionResult GetTreatments()
         {
-            var treatments = _hospitalService.GetTreatments();
+            var treatments = _treatmentPlanService.GetTreatments();
             return Ok(treatments);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetTreatment(int id)
         {
-            var treatment = _hospitalService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
+            var treatment = _treatmentPlanService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
             if (treatment == null) return NotFound($"Treatment plan #{id} not found.");
             return Ok(treatment);
         }
@@ -35,7 +37,7 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpGet("patient/{patientId}")]
         public IActionResult GetTreatmentsForPatient(int patientId)
         {
-            var treatments = _hospitalService.GetTreatmentsForPatient(patientId);
+            var treatments = _treatmentPlanService.GetTreatmentsForPatient(patientId);
             return Ok(treatments);
         }
 
@@ -47,13 +49,13 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
                 return BadRequest("PatientId and TreatmentDescription are required.");
             }
 
-            var patient = _hospitalService.GetPatient(plan.PatientId);
+            var patient = _patientService.GetPatient(plan.PatientId);
             if (patient == null) return NotFound($"Patient #{plan.PatientId} not found.");
 
             try
             {
                 // NEW: Will catch the exception if lab test is not completed
-                var created = _hospitalService.CreateTreatmentPlan(plan);
+                var created = _treatmentPlanService.CreateTreatmentPlan(plan);
                 return CreatedAtAction(nameof(GetTreatment), new { id = created.TreatmentPlanId }, created);
             }
             catch (InvalidOperationException ex)
@@ -65,22 +67,22 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpPut("{id}")]
         public IActionResult UpdateTreatment(int id, [FromBody] TreatmentPlan planDetails)
         {
-            var treatment = _hospitalService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
+            var treatment = _treatmentPlanService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
             if (treatment == null) return NotFound($"Treatment plan #{id} not found.");
 
             planDetails.TreatmentPlanId = id;
-            _hospitalService.UpdateTreatmentPlan(planDetails);
-            var updated = _hospitalService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
+            _treatmentPlanService.UpdateTreatmentPlan(planDetails);
+            var updated = _treatmentPlanService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
             return Ok(updated);
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteTreatment(int id)
         {
-            var treatment = _hospitalService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
+            var treatment = _treatmentPlanService.GetTreatments().FirstOrDefault(t => t.TreatmentPlanId == id);
             if (treatment == null) return NotFound($"Treatment plan #{id} not found.");
 
-            _hospitalService.DeleteTreatmentPlan(id);
+            _treatmentPlanService.DeleteTreatmentPlan(id);
             return NoContent();
         }
     }

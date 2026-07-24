@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Services.Interfaces;
 using CogMediHospitalManagementSystem.Models;
 using CogMediHospitalManagementSystem.DTOs;
 using System.Linq;
@@ -10,18 +10,18 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
     [Route("api/patients")]
     public class PatientsApiController : ControllerBase
     {
-        private readonly HospitalService _hospitalService;
+                private readonly IPatientService _patientService;
 
-        public PatientsApiController(HospitalService hospitalService)
+        public PatientsApiController(IPatientService patientService)
         {
-            _hospitalService = hospitalService;
+            _patientService = patientService;
         }
 
         // GET: api/patients
         [HttpGet]
         public IActionResult GetPatients()
         {
-            var patients = _hospitalService.GetPatients();
+            var patients = _patientService.GetPatients();
             var dtos = patients.Select(p => p.ToDto());
             return Ok(dtos);
         }
@@ -30,7 +30,7 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpGet("{id}")]
         public IActionResult GetPatient(int id)
         {
-            var patient = _hospitalService.GetPatient(id);
+            var patient = _patientService.GetPatient(id);
             if (patient == null) return NotFound($"Patient with ID #{id} not found.");
             return Ok(patient.ToDto());
         }
@@ -45,7 +45,7 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
             }
 
             var patientEntity = requestDto.ToEntity();
-            var registered = _hospitalService.RegisterPatient(patientEntity);
+            var registered = _patientService.RegisterPatient(patientEntity);
             return CreatedAtAction(nameof(GetPatient), new { id = registered.PatientId }, registered.ToDto());
         }
 
@@ -53,13 +53,13 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpPut("{id}")]
         public IActionResult UpdatePatient(int id, [FromBody] PatientUpdateDto requestDto)
         {
-            var patient = _hospitalService.GetPatient(id);
+            var patient = _patientService.GetPatient(id);
             if (patient == null) return NotFound($"Patient with ID #{id} not found.");
 
             requestDto.UpdateEntity(patient);
-            _hospitalService.UpdatePatient(patient);
+            _patientService.UpdatePatient(patient);
             
-            var updated = _hospitalService.GetPatient(id);
+            var updated = _patientService.GetPatient(id);
             return Ok(updated?.ToDto());
         }
 
@@ -67,10 +67,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpDelete("{id}")]
         public IActionResult DeletePatient(int id)
         {
-            var patient = _hospitalService.GetPatient(id);
+            var patient = _patientService.GetPatient(id);
             if (patient == null) return NotFound($"Patient with ID #{id} not found.");
 
-            _hospitalService.DeletePatient(id);
+            _patientService.DeletePatient(id);
             return NoContent();
         }
     }

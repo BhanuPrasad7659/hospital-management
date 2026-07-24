@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Services.Interfaces;
 using CogMediHospitalManagementSystem.Models;
 using System.Linq;
 
@@ -9,18 +9,20 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
     [Route("api/admissions")]
     public class AdmissionsApiController : ControllerBase
     {
-        private readonly HospitalService _hospitalService;
+                private readonly IAdmissionService _admissionService;
+        private readonly IPatientService _patientService;
 
-        public AdmissionsApiController(HospitalService hospitalService)
+        public AdmissionsApiController(IAdmissionService admissionService, IPatientService patientService)
         {
-            _hospitalService = hospitalService;
+            _admissionService = admissionService;
+            _patientService = patientService;
         }
 
         // GET: api/admissions
         [HttpGet]
         public IActionResult GetAdmissions()
         {
-            var admissions = _hospitalService.GetAdmissions();
+            var admissions = _admissionService.GetAdmissions();
             return Ok(admissions);
         }
 
@@ -28,13 +30,13 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpGet("{id}")]
         public IActionResult GetAdmission(int id)
         {
-            var admission = _hospitalService.GetAdmission(id);
+            var admission = _admissionService.GetAdmission(id);
             if (admission == null) return NotFound($"Admission record #{id} not found.");
             return Ok(admission);
         }
 
         // POST: api/admissions
-        [HttpPost]
+        [HttpPost("post")]
         public IActionResult AdmitPatient([FromBody] ApiAdmissionRequest admissionRequest)
         {
             if (admissionRequest == null || admissionRequest.PatientId <= 0 || string.IsNullOrEmpty(admissionRequest.Ward) || string.IsNullOrEmpty(admissionRequest.BedNumber) || admissionRequest.AssignedDoctorId <= 0)
@@ -42,10 +44,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
                 return BadRequest("PatientId, Ward, BedNumber, and AssignedDoctorId are required.");
             }
 
-            var patient = _hospitalService.GetPatient(admissionRequest.PatientId);
+            var patient = _patientService.GetPatient(admissionRequest.PatientId);
             if (patient == null) return NotFound($"Patient #{admissionRequest.PatientId} not found.");
 
-            var created = _hospitalService.AdmitPatient(
+            var created = _admissionService.AdmitPatient(
                 admissionRequest.PatientId, 
                 admissionRequest.Ward, 
                 admissionRequest.BedNumber, 
@@ -58,12 +60,12 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpPut("{id}")]
         public IActionResult UpdateAdmission(int id, [FromBody] Admission admissionDetails)
         {
-            var admission = _hospitalService.GetAdmission(id);
+            var admission = _admissionService.GetAdmission(id);
             if (admission == null) return NotFound($"Admission record #{id} not found.");
 
             admissionDetails.AdmissionId = id;
-            _hospitalService.UpdateAdmission(admissionDetails);
-            var updated = _hospitalService.GetAdmission(id);
+            _admissionService.UpdateAdmission(admissionDetails);
+            var updated = _admissionService.GetAdmission(id);
             return Ok(updated);
         }
 
@@ -71,10 +73,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpDelete("{id}")]
         public IActionResult DeleteAdmission(int id)
         {
-            var admission = _hospitalService.GetAdmission(id);
+            var admission = _admissionService.GetAdmission(id);
             if (admission == null) return NotFound($"Admission record #{id} not found.");
 
-            _hospitalService.DeleteAdmission(id);
+            _admissionService.DeleteAdmission(id);
             return NoContent();
         }
 

@@ -1,26 +1,33 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CogMediHospitalManagementSystem.Models;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Services.Interfaces;
 using CogMediHospitalManagementSystem.ViewModels;
+using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace CogMediHospitalManagementSystem.Controllers
 {
     [Authorize(Roles = "admin,receptionist")]
     public class ReceptionistController : Controller
     {
-        private readonly HospitalService _hospitalService;
+                private readonly IAdmissionService _admissionService;
+        private readonly IPatientService _patientService;
+        private readonly IUserService _userService;
 
-        public ReceptionistController(HospitalService hospitalService)
+        public ReceptionistController(IAdmissionService admissionService, IPatientService patientService, IUserService userService)
         {
-            _hospitalService = hospitalService;
+            _admissionService = admissionService;
+            _patientService = patientService;
+            _userService = userService;
         }
 
         [Route("receptionist/dashboard")]
         public IActionResult Dashboard()
         {
-            var patients = _hospitalService.GetPatients();
-            
+            var patients = _patientService.GetPatients();
+
             var viewModel = new DashboardViewModel
             {
                 TotalPatients = patients.Count,
@@ -45,10 +52,10 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("receptionist/admission")]
         public IActionResult Admission()
         {
-            var patients = _hospitalService.GetPatients();
+            var patients = _patientService.GetPatients();
             ViewBag.PatientsList = patients;
-            ViewBag.DoctorsList = _hospitalService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
-            ViewBag.OccupiedBeds = _hospitalService.GetAdmissions().Where(a => a.Status == "ADMITTED").Select(a => a.BedNumber).ToList();
+            ViewBag.DoctorsList = _userService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
+            ViewBag.OccupiedBeds = _admissionService.GetAdmissions().Where(a => a.Status == "ADMITTED").Select(a => a.BedNumber).ToList();
             return View(new PatientViewModel());
         }
 
@@ -56,6 +63,12 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("receptionist/register")]
         public IActionResult Register(PatientViewModel model)
         {
+            // NEW: Explicit server-side validation to block 0 or negative ages
+            if (model.Age <= 0)
+            {
+                ModelState.AddModelError("Age", "Age must be strictly greater than 0.");
+            }
+
             if (ModelState.IsValid)
             {
                 var patient = new Patient
@@ -66,15 +79,19 @@ namespace CogMediHospitalManagementSystem.Controllers
                     Address = model.Address,
                     ContactNumber = model.ContactNumber
                 };
-                _hospitalService.RegisterPatient(patient);
+                _patientService.RegisterPatient(patient);
                 TempData["SuccessMessage"] = "Patient registered successfully! ID: #" + patient.PatientId;
                 return RedirectToAction("Admission");
             }
-            
-            var patients = _hospitalService.GetPatients();
+
+            // If we hit this, validation failed. Reload the page data so the dropdowns/tables don't break.
+            var patients = _patientService.GetPatients();
             ViewBag.PatientsList = patients;
-            ViewBag.DoctorsList = _hospitalService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
-            ViewBag.OccupiedBeds = _hospitalService.GetAdmissions().Where(a => a.Status == "ADMITTED").Select(a => a.BedNumber).ToList();
+            ViewBag.DoctorsList = _userService.GetUsers().Where(u => u.Role.Equals("doctor", StringComparison.OrdinalIgnoreCase)).ToList();
+            ViewBag.OccupiedBeds = _admissionService.GetAdmissions().Where(a => a.Status == "ADMITTED").Select(a => a.BedNumber).ToList();
+
+            TempData["ErrorMessage"] = "Please correct the highlighted errors.";
+
             return View("Admission", model);
         }
 
@@ -88,7 +105,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                 return RedirectToAction("Admission");
             }
 
-            var patient = _hospitalService.GetPatient(patientId);
+            var patient = _patientService.GetPatient(patientId);
             if (patient == null)
             {
                 TempData["ErrorMessage"] = "Patient not found.";
@@ -101,7 +118,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                 return RedirectToAction("Admission");
             }
 
-            _hospitalService.AdmitPatient(patientId, ward, bedNumber, doctorId);
+            _admissionService.AdmitPatient(patientId, ward, bedNumber, doctorId);
             TempData["SuccessMessage"] = $"Patient {patient.Name} admitted and assigned successfully!";
             return RedirectToAction("Admission");
         }
@@ -110,9 +127,15 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("receptionist/edit")]
         public IActionResult Edit(Patient patient)
         {
+            if (patient.Age <= 0)
+            {
+                TempData["ErrorMessage"] = "Failed to update patient details. Age must be greater than 0.";
+                return RedirectToAction("Admission");
+            }
+
             if (ModelState.IsValid)
             {
-                _hospitalService.UpdatePatient(patient);
+                _patientService.UpdatePatient(patient);
                 TempData["SuccessMessage"] = $"Patient {patient.Name} updated successfully!";
             }
             else
@@ -126,10 +149,10 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("receptionist/delete")]
         public IActionResult Delete(int patientId)
         {
-            var patient = _hospitalService.GetPatient(patientId);
+            var patient = _patientService.GetPatient(patientId);
             if (patient != null)
             {
-                _hospitalService.DeletePatient(patientId);
+                _patientService.DeletePatient(patientId);
                 TempData["SuccessMessage"] = "Patient record deleted successfully.";
             }
             else
@@ -144,7 +167,7 @@ namespace CogMediHospitalManagementSystem.Controllers
         public IActionResult Profile()
         {
             var username = User.Identity?.Name ?? "";
-            var receptionist = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            var receptionist = _userService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
             if (receptionist == null)
             {
                 return RedirectToAction("Dashboard");
@@ -157,14 +180,14 @@ namespace CogMediHospitalManagementSystem.Controllers
         public IActionResult UpdateProfile(string fullName, string contactNumber, string email)
         {
             var username = User.Identity?.Name ?? "";
-            
+
             if (string.IsNullOrEmpty(fullName))
             {
                 TempData["ErrorMessage"] = "Full Name is required.";
                 return RedirectToAction("Profile");
             }
 
-            _hospitalService.UpdateUserProfile(username, fullName, contactNumber ?? "", email ?? "");
+            _userService.UpdateUserProfile(username, fullName, contactNumber ?? "", email ?? "");
             TempData["SuccessMessage"] = "Profile updated successfully!";
             return RedirectToAction("Profile");
         }

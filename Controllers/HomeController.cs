@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using CogMediHospitalManagementSystem.Models;
 using CogMediHospitalManagementSystem.ViewModels;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Services.Interfaces;
 using System.Linq;
 using System;
 using System.Collections.Generic;
@@ -11,11 +11,13 @@ namespace CogMediHospitalManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly HospitalService _hospitalService;
+                private readonly IPatientService _patientService;
+        private readonly IUserService _userService;
 
-        public HomeController(HospitalService hospitalService)
+        public HomeController(IPatientService patientService, IUserService userService)
         {
-            _hospitalService = hospitalService;
+            _patientService = patientService;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -41,7 +43,7 @@ namespace CogMediHospitalManagementSystem.Controllers
 
             if (User.IsInRole("admin"))
             {
-                var patients = _hospitalService.GetPatients()
+                var patients = _patientService.GetPatients()
                     .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.ToString().Contains(query))
                     .Select(p => new
                     {
@@ -50,7 +52,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                         url = $"/receptionist/admission?search={p.PatientId}"
                     });
 
-                var staff = _hospitalService.GetUsers()
+                var staff = _userService.GetUsers()
                     .Where(u => u.FullName.Contains(query, StringComparison.OrdinalIgnoreCase) || u.Username.Contains(query, StringComparison.OrdinalIgnoreCase))
                     .Select(u => new
                     {
@@ -64,7 +66,7 @@ namespace CogMediHospitalManagementSystem.Controllers
             }
             else if (User.IsInRole("receptionist"))
             {
-                var patients = _hospitalService.GetPatients()
+                var patients = _patientService.GetPatients()
                     .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.ToString().Contains(query) || p.ContactNumber.Contains(query))
                     .Select(p => new
                     {
@@ -77,7 +79,7 @@ namespace CogMediHospitalManagementSystem.Controllers
             }
             else if (User.IsInRole("doctor"))
             {
-                var patients = _hospitalService.GetPatients()
+                var patients = _patientService.GetPatients()
                     .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.ToString().Contains(query))
                     .Select(p => new
                     {
@@ -90,7 +92,7 @@ namespace CogMediHospitalManagementSystem.Controllers
             }
             else if (User.IsInRole("billing discharge"))
             {
-                var patients = _hospitalService.GetPatients()
+                var patients = _patientService.GetPatients()
                     .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || p.PatientId.ToString().Contains(query))
                     .Select(p => new
                     {

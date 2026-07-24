@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Services.Interfaces;
 using CogMediHospitalManagementSystem.ViewModels;
 
 namespace CogMediHospitalManagementSystem.Controllers
@@ -8,20 +8,24 @@ namespace CogMediHospitalManagementSystem.Controllers
     [Authorize(Roles = "admin,pharmacist,pharmiacist")]
     public class PharmacistController : Controller
     {
-        private readonly HospitalService _hospitalService;
+                private readonly IPatientService _patientService;
+        private readonly IPharmacyService _pharmacyService;
+        private readonly IMedicineStockService _medicineStockService;
 
-        public PharmacistController(HospitalService hospitalService)
+        public PharmacistController(IPatientService patientService, IPharmacyService pharmacyService, IMedicineStockService medicineStockService)
         {
-            _hospitalService = hospitalService;
+            _patientService = patientService;
+            _pharmacyService = pharmacyService;
+            _medicineStockService = medicineStockService;
         }
 
         [Route("pharmacist/dashboard")]
         public IActionResult Dashboard()
         {
-            var records = _hospitalService.GetPharmacyRecords();
+            var records = _pharmacyService.GetPharmacyRecords();
             var pending = records.Count(r => r.Status == "PENDING");
             var dispensed = records.Count(r => r.Status == "DISPENSED");
-            var totalStock = _hospitalService.MedicineStock.Values.Sum();
+            var totalStock = _medicineStockService.MedicineStock.Values.Sum();
 
             var viewModel = new DashboardViewModel
             {
@@ -45,9 +49,9 @@ namespace CogMediHospitalManagementSystem.Controllers
         [Route("pharmacist/dispensing")]
         public IActionResult Dispensing()
         {
-            var records = _hospitalService.GetPharmacyRecords();
-            ViewBag.Patients = _hospitalService.GetPatients();
-            ViewBag.MedicineStock = _hospitalService.MedicineStock;
+            var records = _pharmacyService.GetPharmacyRecords();
+            ViewBag.Patients = _patientService.GetPatients();
+            ViewBag.MedicineStock = _medicineStockService.MedicineStock;
             return View(records);
         }
 
@@ -56,7 +60,7 @@ namespace CogMediHospitalManagementSystem.Controllers
         public IActionResult Dispense(int recordId)
         {
             var pharmacistName = User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value ?? "Rahul Verma";
-            var records = _hospitalService.GetPharmacyRecords();
+            var records = _pharmacyService.GetPharmacyRecords();
             var record = records.FirstOrDefault(r => r.PharmacyRecordId == recordId);
 
             if (record == null)
@@ -72,13 +76,13 @@ namespace CogMediHospitalManagementSystem.Controllers
             }
 
             // Check stock level
-            if (_hospitalService.MedicineStock.TryGetValue(record.MedicineName, out int stock) && stock < record.Quantity)
+            if (_medicineStockService.MedicineStock.TryGetValue(record.MedicineName, out int stock) && stock < record.Quantity)
             {
                 TempData["ErrorMessage"] = $"Insufficient stock for {record.MedicineName}. Available: {stock}. Required: {record.Quantity}.";
                 return RedirectToAction("Dispensing");
             }
 
-            _hospitalService.DispenseMedicine(recordId, pharmacistName);
+            _pharmacyService.DispenseMedicine(recordId, pharmacistName);
             TempData["SuccessMessage"] = $"Successfully dispensed {record.MedicineName} ({record.Quantity} units) to patient.";
             return RedirectToAction("Dispensing");
         }
@@ -93,7 +97,7 @@ namespace CogMediHospitalManagementSystem.Controllers
                 return RedirectToAction("Dispensing");
             }
 
-            _hospitalService.UpdateMedicineStock(medicineName, amount);
+            _medicineStockService.UpdateMedicineStock(medicineName, amount);
             string actionText = amount >= 0 ? "added to" : "deducted from";
             TempData["SuccessMessage"] = $"Successfully {actionText} stock for '{medicineName}' by {Math.Abs(amount)} units.";
             return RedirectToAction("Dispensing");

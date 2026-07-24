@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Services.Interfaces;
 using CogMediHospitalManagementSystem.Models;
 using CogMediHospitalManagementSystem.DTOs;
 using System.Linq;
@@ -10,18 +10,18 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
     [Route("api/users")]
     public class UsersApiController : ControllerBase
     {
-        private readonly HospitalService _hospitalService;
+                private readonly IUserService _userService;
 
-        public UsersApiController(HospitalService hospitalService)
+        public UsersApiController(IUserService userService)
         {
-            _hospitalService = hospitalService;
+            _userService = userService;
         }
 
         // GET: api/users
         [HttpGet]
         public IActionResult GetUsers()
         {
-            var users = _hospitalService.GetUsers();
+            var users = _userService.GetUsers();
             var dtos = users.Select(u => u.ToDto());
             return Ok(dtos);
         }
@@ -30,7 +30,7 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpGet("{id:int}")]
         public IActionResult GetUser(int id)
         {
-            var user = _hospitalService.GetUserById(id);
+            var user = _userService.GetUserById(id);
             if (user == null) return NotFound($"User #{id} not found.");
             return Ok(user.ToDto());
         }
@@ -39,7 +39,7 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpGet("by-username/{username}")]
         public IActionResult GetUserByUsername(string username)
         {
-            var user = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
+            var user = _userService.GetUsers().FirstOrDefault(u => u.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
             if (user == null) return NotFound($"User '{username}' not found.");
             return Ok(user.ToDto());
         }
@@ -53,13 +53,13 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
                 return BadRequest("Request body is missing.");
             }
 
-            _hospitalService.AssignStaff(requestDto.FullName, requestDto.Username, requestDto.Role);
+            _userService.AssignStaff(requestDto.FullName, requestDto.Username, requestDto.Role, requestDto.Password ?? "password");
             
-            var createdUser = _hospitalService.GetUsers().FirstOrDefault(u => u.Username.Equals(requestDto.Username, System.StringComparison.OrdinalIgnoreCase));
+            var createdUser = _userService.GetUsers().FirstOrDefault(u => u.Username.Equals(requestDto.Username, System.StringComparison.OrdinalIgnoreCase));
             
             if (createdUser != null && requestDto.Role.Equals("doctor", System.StringComparison.OrdinalIgnoreCase))
             {
-                _hospitalService.UpdateDoctorProfile(
+                _userService.UpdateDoctorProfile(
                     createdUser.Id, 
                     requestDto.Specialty ?? "", 
                     requestDto.Biography ?? "", 
@@ -75,35 +75,37 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpPut("{id:int}")]
         public IActionResult UpdateDoctorProfile(int id, [FromBody] UserUpdateDto requestDto)
         {
-            var user = _hospitalService.GetUserById(id);
+            var user = _userService.GetUserById(id);
             if (user == null) return NotFound($"User #{id} not found.");
 
             if (user.Role.Equals("doctor", System.StringComparison.OrdinalIgnoreCase))
             {
-                _hospitalService.UpdateDoctorProfile(
+                _userService.UpdateDoctorProfile(
                     id, 
                     requestDto.Specialty ?? "", 
                     requestDto.Biography ?? "", 
                     requestDto.ContactNumber ?? "", 
                     requestDto.Email ?? ""
                 );
-                _hospitalService.AssignStaff(
+                _userService.AssignStaff(
                     !string.IsNullOrEmpty(requestDto.FullName) ? requestDto.FullName : user.FullName, 
                     user.Username, 
-                    user.Role
+                    user.Role,
+                    !string.IsNullOrEmpty(requestDto.Password) ? requestDto.Password : user.Password
                 );
                 
-                var updatedDoctor = _hospitalService.GetUserById(id);
+                var updatedDoctor = _userService.GetUserById(id);
                 return Ok(updatedDoctor?.ToDto());
             }
 
-            _hospitalService.AssignStaff(
+            _userService.AssignStaff(
                 !string.IsNullOrEmpty(requestDto.FullName) ? requestDto.FullName : user.FullName, 
                 user.Username, 
-                !string.IsNullOrEmpty(requestDto.Role) ? requestDto.Role : user.Role
+                !string.IsNullOrEmpty(requestDto.Role) ? requestDto.Role : user.Role,
+                !string.IsNullOrEmpty(requestDto.Password) ? requestDto.Password : user.Password
             );
             
-            var updatedUser = _hospitalService.GetUserById(id);
+            var updatedUser = _userService.GetUserById(id);
             return Ok(updatedUser?.ToDto());
         }
 
@@ -111,10 +113,10 @@ namespace CogMediHospitalManagementSystem.Controllers.Api
         [HttpDelete("{id:int}")]
         public IActionResult DeleteUser(int id)
         {
-            var user = _hospitalService.GetUserById(id);
+            var user = _userService.GetUserById(id);
             if (user == null) return NotFound($"User #{id} not found.");
 
-            _hospitalService.DeleteUser(id);
+            _userService.DeleteUser(id);
             return NoContent();
         }
     }

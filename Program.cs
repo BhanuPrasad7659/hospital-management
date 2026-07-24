@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using CogMediHospitalManagementSystem.Data;
-using CogMediHospitalManagementSystem.Repositories;
-using CogMediHospitalManagementSystem.Services;
+using CogMediHospitalManagementSystem.Repositories.Interfaces;
+using CogMediHospitalManagementSystem.Repositories.implementation;
+using CogMediHospitalManagementSystem.Services.Interfaces;
+using CogMediHospitalManagementSystem.Services.implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,15 +21,25 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IAdmissionRepository, AdmissionRepository>();
 builder.Services.AddScoped<IEhrRepository, EhrRepository>();
-builder.Services.AddScoped<ILabOrderRepository, LabOrderRepository>();
+// UPDATED REPOSITORY REGISTRATION HERE
+builder.Services.AddScoped<IOrderTestLabRepository, OrderTestLabRepository>();
 builder.Services.AddScoped<ITreatmentPlanRepository, TreatmentPlanRepository>();
 builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
 builder.Services.AddScoped<IBillingRepository, BillingRepository>();
 builder.Services.AddScoped<IDischargeRepository, DischargeRepository>();
 builder.Services.AddScoped<IMedicineStockRepository, MedicineStockRepository>();
 
-// Register HospitalService as Scoped
-builder.Services.AddScoped<HospitalService>();
+// Register Individual Services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IAdmissionService, AdmissionService>();
+builder.Services.AddScoped<IEhrService, EhrService>();
+builder.Services.AddScoped<IOrderTestLabService, OrderTestLabService>();
+builder.Services.AddScoped<ITreatmentPlanService, TreatmentPlanService>();
+builder.Services.AddScoped<IMedicineStockService, MedicineStockService>();
+builder.Services.AddScoped<IPharmacyService, PharmacyService>();
+builder.Services.AddScoped<IBillingService, BillingService>();
+builder.Services.AddScoped<IDischargeService, DischargeService>();
 
 // Configure Cookie-based Authentication for Role-Based Access Control (RBAC)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -45,6 +57,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<HospitalDbContext>();
+    context.Database.Migrate();
     DbInitializer.Initialize(context);
 }
 
@@ -59,6 +72,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

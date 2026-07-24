@@ -29,14 +29,13 @@
             <div class="login-card-body">
                 <form asp-action="BillingLogin" asp-controller="Auth" method="post" id="loginForm" autocomplete="off">
                     <div asp-validation-summary="ModelOnly" class="text-danger-summary"></div>
-                    
+
                     <input type="hidden" asp-for="Role" value="billing discharge" />
 
                     <!-- Username / Billing Officer Selection Dropdown -->
                     <div class="form-group">
                         <label asp-for="Username"><i data-lucide="user-check" class="input-icon"></i> Select Billing Officer Profile</label>
                         <select asp-for="Username" id="usernameInput" required style="width: 100%; padding: 11px 14px; border-radius: var(--radius-md); border: 1.5px solid var(--border); background-color: var(--surface); color: var(--text-main); font-size: 14px; font-weight: 600; font-family: inherit; outline: none; cursor: pointer; transition: var(--transition-smooth);">
-                            <option value="">-- Choose Billing Officer --</option>
                             @if (ViewBag.BillingOfficers is List<User> billList && billList.Count > 0)
                             {
                                 @foreach (var b in billList)
@@ -46,16 +45,22 @@
                             }
                             else
                             {
-                                <option value="billing">Ramesh Varma (Senior Billing Officer 1)</option>
+                                <option value="billing" selected>Ramesh Varma (Senior Billing Officer 1)</option>
                                 <option value="billing2">Kavita Reddy (Discharge Clearance Officer 2)</option>
                             }
                         </select>
                     </div>
 
-                    <!-- Password -->
+                    <!-- Password (Pre-filled with dummy data + Toggle) -->
                     <div class="form-group" style="margin-top: 15px;">
                         <label asp-for="Password"><i data-lucide="lock" class="input-icon"></i> Password</label>
-                        <input asp-for="Password" type="password" placeholder="Enter password (any data accepted)" id="passwordInput" />
+                        <div style="position: relative;">
+                            <input asp-for="Password" type="password" value="password" placeholder="Enter password" id="passwordInput" style="padding-right: 45px; width: 100%;" />
+                            <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; color: #64748b;">
+                                <span id="eyeIcon"><i data-lucide="eye" style="width: 20px; height: 20px;"></i></span>
+                                <span id="eyeOffIcon" style="display: none;"><i data-lucide="eye-off" style="width: 20px; height: 20px;"></i></span>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Remember Me -->
@@ -73,14 +78,6 @@
                         </button>
                     </div>
                 </form>
-                
-                <!-- Demo Quick login helper -->
-                <div class="demo-helper" style="margin-top: 15px;">
-                    <span class="demo-label">Interview / Demo Quick Access:</span>
-                    <button type="button" class="btn btn-secondary btn-block" onclick="triggerDemoLogin()">
-                        <i data-lucide="zap"></i> Auto-Fill & Login (Billing)
-                    </button>
-                </div>
             </div>
 
             <!-- Card Footer -->
@@ -94,15 +91,20 @@
 
 @section Scripts {
     <script>
-        function triggerDemoLogin() {
-            const selectEl = document.getElementById('usernameInput');
-            if (selectEl && selectEl.options.length > 1) {
-                selectEl.selectedIndex = 1;
-            } else if (selectEl) {
-                selectEl.value = 'billing';
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const eyeOffIcon = document.getElementById('eyeOffIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.display = 'none';
+                eyeOffIcon.style.display = 'block';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.display = 'block';
+                eyeOffIcon.style.display = 'none';
             }
-            document.getElementById('passwordInput').value = 'bill123';
-            document.getElementById('loginForm').submit();
-        }
+        });
     </script>
 }

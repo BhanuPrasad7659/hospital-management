@@ -1,0 +1,103 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register System Administrator";
+    ViewData["HideShell"] = true;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth/admin-login.css" asp-append-version="true" />
+}
+
+<div class="login-page admin-theme">
+    <div class="login-bg-overlay"></div>
+    <div class="login-card-container">
+        <div class="login-card">
+            <!-- Card Header -->
+            <div class="login-card-header">
+                <a href="/" style="text-decoration: none; color: white; display: flex; flex-direction: column; align-items: center;">
+                    <div class="logo-circle">
+                        <i data-lucide="user-plus" class="icon-lg"></i>
+                    </div>
+                    <div class="hospital-branding">
+                        <h2>CogMedi Hospital</h2>
+                        <span>Admin Account Registration</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Form Body -->
+            <div class="login-card-body">
+                <form asp-action="AdminRegister" asp-controller="Auth" method="post" id="registerForm" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger-summary"></div>
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label asp-for="FullName"><i data-lucide="user-check" class="input-icon"></i> Full Name</label>
+                        <input asp-for="FullName" type="text" placeholder="Enter your full name" required autocomplete="off" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label asp-for="Username"><i data-lucide="user" class="input-icon"></i> Username</label>
+                        <input asp-for="Username" type="text" placeholder="Choose a username" required autocomplete="off" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label asp-for="Password"><i data-lucide="lock" class="input-icon"></i> Password</label>
+                        <div style="position: relative;">
+                            <input asp-for="Password" type="password" placeholder="Choose a password" required autocomplete="new-password" id="passwordInput" style="padding-right: 45px; width: 100%;" />
+                            <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; color: #64748b;">
+                                <span id="eyeIcon"><i data-lucide="eye" style="width: 20px; height: 20px;"></i></span>
+                                <span id="eyeOffIcon" style="display: none;"><i data-lucide="eye-off" style="width: 20px; height: 20px;"></i></span>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group" style="margin-top: 15px; margin-bottom: 20px;">
+                        <label asp-for="ConfirmPassword"><i data-lucide="shield-check" class="input-icon"></i> Confirm Password</label>
+                        <input asp-for="ConfirmPassword" type="password" placeholder="Confirm your password" required autocomplete="new-password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit Action -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Register Account <i data-lucide="chevron-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="login-card-footer">
+                <a href="/login/admin"><i data-lucide="chevron-left" class="icon-sm"></i> Back to Login</a>
+                <span>Secure SSL 256-Bit</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const eyeOffIcon = document.getElementById('eyeOffIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.display = 'none';
+                eyeOffIcon.style.display = 'block';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.display = 'block';
+                eyeOffIcon.style.display = 'none';
+            }
+        });
+    </script>
+}
