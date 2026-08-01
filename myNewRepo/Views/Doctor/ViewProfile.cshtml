@@ -1,0 +1,78 @@
+@model User
+@{
+    ViewData["Title"] = "Physician Profile - " + Model.FullName;
+    var initials = "U";
+    if (!string.IsNullOrWhiteSpace(Model.FullName))
+    {
+        var parts = Model.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length > 0)
+        {
+            initials = string.Join("", parts.Select(n => n[0])).ToUpper();
+        }
+    }
+    if (initials.Length > 2) initials = initials.Substring(0, 2);
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/settings/settings.css" asp-append-version="true" />
+}
+
+<div class="settings-page-container">
+    <div class="page-title-section">
+        <h2>Physician Profile Card</h2>
+        <p>Official qualifications and specialty coordinates for @Model.FullName.</p>
+    </div>
+
+    <div class="settings-layout">
+        
+        <aside class="settings-sidebar" style="padding: 20px;">
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
+                <div class="pc-avatar" style="width: 80px; height: 80px; font-size: 24px; margin: 0 auto; background-color: var(--primary);">
+                    @initials
+                </div>
+                <div>
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">@Model.FullName</h3>
+                    <span class="badge badge-info" style="font-size: 12px; padding: 4px 8px; border-radius: 4px;">@Model.Specialty</span>
+                </div>
+                <hr style="width: 100%; border: 0; border-top: 1px solid var(--border); margin: 10px 0;" />
+                <div style="font-size: 13px; color: var(--text-muted); width: 100%; text-align: left;">
+                    <div style="margin-bottom: 8px;"><strong>Status:</strong> <span class="badge badge-success">Active Duty</span></div>
+                    <div style="margin-bottom: 8px;"><strong>Role:</strong> Medical Practitioner</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="settings-content-panel">
+            <div class="settings-tab-content active">
+                <div class="card-header" style="padding: 20px; border-bottom: 1px solid var(--border);">
+                    <h4 style="font-size: 16px; font-weight: 700;">Clinical Registry Details</h4>
+                </div>
+                <div class="card-body" style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <span style="font-size: 11.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Specialty Department</span>
+                            <div style="font-size: 15px; font-weight: 700; color: var(--primary); margin-top: 4px;">@Model.Specialty</div>
+                        </div>
+                        <div>
+                            <span style="font-size: 11.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Contact Phone</span>
+                            <div style="font-size: 14px; font-weight: 600; margin-top: 4px; color: var(--text-main);">@Model.ContactNumber</div>
+                        </div>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid var(--border); margin: 10px 0;" />
+                    <div>
+                        <span style="font-size: 11.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Official Email Address</span>
+                        <div style="font-size: 14px; font-weight: 600; margin-top: 4px; color: var(--text-main);">@Model.Email</div>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid var(--border); margin: 10px 0;" />
+                    <div>
+                        <span style="font-size: 11.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Physician Biography & Qualifications</span>
+                        <p style="font-size: 14px; line-height: 1.6; color: var(--text-main); margin-top: 6px; white-space: pre-line;">@(string.IsNullOrEmpty(Model.Biography) ? "No biography details registered yet." : Model.Biography)</p>
+                    </div>
+                </div>
+                <div class="card-footer" style="padding: 16px 20px; border-top: 1px solid var(--border); background-color: #fcfdfe; display: flex; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back()"><i data-lucide="arrow-left"></i> Go Back</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

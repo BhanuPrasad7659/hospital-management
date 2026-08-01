@@ -1,0 +1,86 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Billing Finance Dashboard";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/billing/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    
+    <div class="dashboard-header">
+        <div class="header-text">
+            <h2>Welcome back, @Model.UserDisplayName</h2>
+            <p>Billing Operations Desk - Pay bills, generate invoices, and clear discharges.</p>
+        </div>
+        <div class="header-date">
+            <i data-lucide="calendar"></i>
+            <span>@DateTime.Now.ToString("dd MMMM, yyyy")</span>
+        </div>
+    </div>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Total Revenue Collected</span>
+                <h3>₹@Model.TotalRevenue.ToString("N0")</h3>
+                <p class="card-subtext">Settled accounts</p>
+            </div>
+            <div class="metric-icon success"><i data-lucide="indian-rupee"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Pending Invoices</span>
+                <h3>@Model.ActiveCases</h3>
+                <p class="card-subtext">Outstanding balances</p>
+            </div>
+            <div class="metric-icon warning"><i data-lucide="receipt"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Settled Accounts</span>
+                <h3>@Model.ActiveTreatments</h3>
+                <p class="card-subtext">Cleared invoices</p>
+            </div>
+            <div class="metric-icon primary"><i data-lucide="clipboard-check"></i></div>
+        </div>
+    </div>
+
+    <div class="details-grid-billing">
+        <div class="action-card">
+            <h4>Quick Financial Actions</h4>
+            <div class="action-buttons">
+                <a href="/billing/payments" class="btn btn-primary btn-lg btn-block">
+                    <i data-lucide="credit-card"></i> Open Payments & Discharge Panel
+                </a>
+                <a href="/reports" class="btn btn-outline btn-lg btn-block">
+                    <i data-lucide="bar-chart-3"></i> View Revenue Reports
+                </a>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <div class="card-header">
+                <i data-lucide="history" class="card-icon text-info"></i>
+                <h4>Recent Financial Transactions</h4>
+            </div>
+            <div class="card-body">
+                <ul class="activity-timeline">
+                    @foreach (var log in Model.RecentActivities)
+                    {
+                        <li>
+                            <div class="activity-bullet"></div>
+                            <div class="activity-content">
+                                <p>@log</p>
+                                <span>Recent</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+@model CogMediHospitalManagementSystem.ViewModels.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="error-container">
+    <div class="error-card">
+        <i data-lucide="alert-circle" class="error-icon"></i>
+        <h1 class="text-danger">An error occurred.</h1>
+        <h2>An error occurred while processing your request.</h2>
+
+        @if (Model.ShowRequestId)
+        {
+            <p class="request-id">
+                <strong>Request ID:</strong> <code>@Model.RequestId</code>
+            </p>
+        }
+
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">Go to Homepage</a>
+            <a href="/Home/Roles" class="btn btn-secondary">Select Role Login</a>
+        </div>
+    </div>
+</div>

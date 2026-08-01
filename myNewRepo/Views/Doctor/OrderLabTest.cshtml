@@ -1,0 +1,233 @@
+@model CogMediHospitalManagementSystem.Models.OrderTestLab
+@{
+    ViewData["Title"] = "Order Lab Test";
+    var patientsList = ViewBag.PatientsList as List<CogMediHospitalManagementSystem.Models.Patient> ?? new List<CogMediHospitalManagementSystem.Models.Patient>();
+    var selectedPatient = ViewBag.SelectedPatient as CogMediHospitalManagementSystem.Models.Patient;
+}
+
+@section Styles {
+    <style>
+        .page-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .page-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .lab-card {
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group-inline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .custom-select {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #1e293b;
+            background-color: #f8fafc;
+            min-width: 200px;
+            transition: all 0.2s;
+        }
+
+            .custom-select:focus {
+                outline: none;
+                border-color: #0ea5e9;
+                box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+                background-color: #ffffff;
+            }
+
+        .btn-primary-custom {
+            background-color: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: auto;
+            min-width: 160px;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+
+            .btn-primary-custom:hover {
+                background-color: #0284c7;
+            }
+
+        .patient-banner {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            padding: 10px 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .patient-icon-wrapper {
+            background-color: #22c55e;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .patient-name {
+            font-weight: 700;
+            color: #166534;
+            margin: 0 0 2px 0;
+            font-size: 0.95rem;
+        }
+
+        .patient-details {
+            color: #15803d;
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: #64748b;
+        }
+    </style>
+}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h2 class="page-title">Order Diagnostic Tests</h2>
+        <p class="page-desc">Select an active case to order laboratory scans before prescribing treatment.</p>
+    </div>
+
+    <div class="lab-card">
+        <form method="get" asp-action="OrderLabTest" asp-controller="Doctor" class="form-group-inline">
+            <label class="form-label" style="margin: 0;">Active Case Selection:</label>
+            <select name="patientId" class="custom-select" onchange="this.form.submit()">
+                <option value="">-- Select Patient --</option>
+                @foreach (var p in patientsList)
+                {
+                    if (selectedPatient != null && selectedPatient.PatientId == p.PatientId)
+                    {
+                        <option value="@p.PatientId" selected>@p.Name (#@p.PatientId)</option>
+                    }
+                    else
+                    {
+                        <option value="@p.PatientId">@p.Name (#@p.PatientId)</option>
+                    }
+                }
+            </select>
+        </form>
+    </div>
+
+    @if (selectedPatient != null)
+    {
+        
+        <div class="lab-card" style="max-width: 500px; margin: 0 auto;">
+            <h3 style="font-size: 1rem; color: #0ea5e9; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                <i data-lucide="flask-conical" style="width: 18px; height: 18px;"></i> Create Lab Order
+            </h3>
+
+            <div class="patient-banner">
+                <div class="patient-icon-wrapper">
+                    <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+                </div>
+                <div>
+                    <h4 class="patient-name">@selectedPatient.Name</h4>
+                    <p class="patient-details">ID: #@selectedPatient.PatientId | Age: @selectedPatient.Age yrs | Admitted</p>
+                </div>
+            </div>
+
+            <form asp-action="OrderLabTest" asp-controller="Doctor" method="post">
+                <input type="hidden" asp-for="PatientId" value="@selectedPatient.PatientId" />
+
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="font-weight: 700;">Select Diagnostic Test(s) <span style="color: #ef4444;">*</span></label>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px;">
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #334155; margin: 0;">
+                            <input type="checkbox" name="selectedTests" value="Blood CBC" style="width: 16px; height: 16px; accent-color: #0ea5e9; cursor: pointer;" /> Blood CBC
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #334155; margin: 0;">
+                            <input type="checkbox" name="selectedTests" value="ECG" style="width: 16px; height: 16px; accent-color: #0ea5e9; cursor: pointer;" /> ECG
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #334155; margin: 0;">
+                            <input type="checkbox" name="selectedTests" value="MRI Scan" style="width: 16px; height: 16px; accent-color: #0ea5e9; cursor: pointer;" /> MRI Scan
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #334155; margin: 0;">
+                            <input type="checkbox" name="selectedTests" value="CT Scan" style="width: 16px; height: 16px; accent-color: #0ea5e9; cursor: pointer;" /> CT Scan
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #334155; margin: 0;">
+                            <input type="checkbox" name="selectedTests" value="Chest X-Ray" style="width: 16px; height: 16px; accent-color: #0ea5e9; cursor: pointer;" /> Chest X-Ray
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #334155; margin: 0;">
+                            <input type="checkbox" name="selectedTests" value="Lipid Profile" style="width: 16px; height: 16px; accent-color: #0ea5e9; cursor: pointer;" /> Lipid Profile
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #334155; margin: 0;">
+                            <input type="checkbox" name="selectedTests" value="Urine Analysis" style="width: 16px; height: 16px; accent-color: #0ea5e9; cursor: pointer;" /> Urine Analysis
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary-custom" style="width: 100%;">
+                    <i data-lucide="send" style="width: 16px; height: 16px;"></i> Submit Lab Order
+                </button>
+            </form>
+        </div>
+    }
+    else
+    {
+        
+        <div class="empty-state">
+            <i data-lucide="user-search" style="width: 80px; height: 80px; opacity: 0.2; margin-bottom: 16px; color: #0f172a;"></i>
+            <h5 style="font-weight: 600; color: #334155; font-size: 1.25rem; margin-bottom: 8px;">No Patient Selected</h5>
+            <p>Please select a patient from the dropdown menu above to begin ordering a diagnostic test.</p>
+        </div>
+    }
+</div>
+
+

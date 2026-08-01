@@ -1,0 +1,83 @@
+@model User
+@{
+    ViewData["Title"] = "My Professional Profile";
+    var initials = "U";
+    if (!string.IsNullOrWhiteSpace(Model.FullName))
+    {
+        var parts = Model.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length > 0)
+        {
+            initials = string.Join("", parts.Select(n => n[0])).ToUpper();
+        }
+    }
+    if (initials.Length > 2) initials = initials.Substring(0, 2);
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/settings/settings.css" asp-append-version="true" />
+}
+
+<div class="settings-page-container">
+    <div class="page-title-section">
+        <h2>My Professional Profile</h2>
+        <p>Manage your specialized department coordinates, physician bio description, and public contact handles.</p>
+    </div>
+
+    <div class="settings-layout">
+        
+        <aside class="settings-sidebar" style="padding: 20px;">
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;">
+                <div class="pc-avatar" style="width: 80px; height: 80px; font-size: 24px; margin: 0 auto;">
+                    @initials
+                </div>
+                <div>
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">@Model.FullName</h3>
+                    <span class="badge badge-info" style="font-size: 12px; padding: 4px 8px; border-radius: 4px;">@Model.Specialty</span>
+                </div>
+                <hr style="width: 100%; border: 0; border-top: 1px solid var(--border); margin: 10px 0;" />
+                <div style="font-size: 13px; color: var(--text-muted); width: 100%; text-align: left;">
+                    <div style="margin-bottom: 8px;"><strong>Username:</strong> <span style="font-family: monospace;">@Model.Username</span></div>
+                    <div style="margin-bottom: 8px;"><strong>Role:</strong> Medical Practitioner</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="settings-content-panel">
+            <div class="settings-tab-content active" id="profile-tab">
+                <div class="card-header" style="padding: 20px; border-bottom: 1px solid var(--border);">
+                    <h4 style="font-size: 16px; font-weight: 700;">Edit Professional Credentials</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Update details that are visible to administrative officers, reception desks, and patient reports.</p>
+                </div>
+                <form asp-action="UpdateProfile" asp-controller="Doctor" method="post">
+                    <div class="card-body" style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
+                        
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Medical Specialty</label>
+                                <input type="text" name="specialty" value="@Model.Specialty" placeholder="e.g. Cardiology, Pediatrics" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                            </div>
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Contact Phone</label>
+                                <input type="tel" name="contactNumber" value="@Model.ContactNumber" placeholder="e.g. 9876543210" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Email Address</label>
+                            <input type="email" name="email" value="@Model.Email" placeholder="e.g. doctor@cogmedi.com" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                        </div>
+
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Biography / Qualifications</label>
+                            <textarea name="biography" rows="5" placeholder="Briefly describe your credentials, education, and clinical focus..." style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; font-family: inherit; resize: vertical;">@Model.Biography</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer" style="padding: 16px 20px; border-top: 1px solid var(--border); background-color: #fcfdfe; display: flex; justify-content: flex-end;">
+                        <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Update Profile Credentials</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>

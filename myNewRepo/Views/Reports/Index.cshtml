@@ -1,0 +1,291 @@
+@model ReportViewModel
+@using CogMediHospitalManagementSystem.Repositories.Interfaces
+@{
+    ViewData["Title"] = "Hospital Performance Reports & Analytics";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/reports/reports.css" asp-append-version="true" />
+}
+
+<div class="reports-container">
+    <div class="page-title-section">
+        <h2>Performance Reports & Analytics</h2>
+        <p>Analyze key hospital performance indicators, financial revenues, and clinical throughput.</p>
+    </div>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Total Revenue</span>
+                <h3>₹@Model.TotalRevenue.ToString("N0")</h3>
+                <p class="card-subtext">Settled accounts</p>
+            </div>
+            <div class="metric-icon success"><i data-lucide="indian-rupee"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Total Admissions</span>
+                <h3>@Model.TotalAdmissions</h3>
+                <p class="card-subtext">In-patient entries</p>
+            </div>
+            <div class="metric-icon warning"><i data-lucide="bed-double"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Diagnostic Scans</span>
+                <h3>@Model.TotalLabTests</h3>
+                <p class="card-subtext">Lab orders processed</p>
+            </div>
+            <div class="metric-icon primary"><i data-lucide="microscope"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Dispensed Rxs</span>
+                <h3>@Model.TotalDispensedMedicines</h3>
+                <p class="card-subtext">Pharmacy drug checkouts</p>
+            </div>
+            <div class="metric-icon info"><i data-lucide="pill"></i></div>
+        </div>
+    </div>
+
+    <div class="export-card">
+        <div class="export-text">
+            <h4>Export Raw Hospital Data Records</h4>
+            <p>Download comprehensive logs containing patient demographics, EHR history lines, lab results, and financial bills.</p>
+        </div>
+        <div class="export-buttons">
+            <button class="btn btn-outline" onclick="triggerExport('PDF')">
+                <i data-lucide="file-text" class="text-danger"></i> Export as PDF Document
+            </button>
+            <button class="btn btn-outline" onclick="triggerExport('Excel')">
+                <i data-lucide="sheet" class="text-success"></i> Export as Excel Spreadsheet
+            </button>
+            <button class="btn btn-outline" onclick="triggerExport('CSV')">
+                <i data-lucide="file-code" class="text-primary"></i> Export as CSV Data Log
+            </button>
+        </div>
+    </div>
+
+    <div class="charts-grid-reports">
+        
+        <div class="chart-card">
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="trending-up" class="card-icon text-primary" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 600;">Financial Revenue Trends</h4>
+                </div>
+                <span class="badge badge-primary" style="font-size: 10px; padding: 3px 8px; background-color: rgba(2, 132, 199, 0.1); color: var(--primary);">6-Month Flow</span>
+            </div>
+            <div class="card-body">
+                <div class="chart-body">
+                    <canvas id="reportsRevenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="bed-double" class="card-icon text-warning" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 600;">Admissions by Department</h4>
+                </div>
+                <span class="badge badge-warning" style="font-size: 10px; padding: 3px 8px; background-color: rgba(245, 158, 11, 0.1); color: var(--warning);">Distribution</span>
+            </div>
+            <div class="card-body">
+                <div class="chart-body">
+                    <canvas id="reportsDeptChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="microscope" class="card-icon" style="width: 20px; height: 20px; margin-right: 0; color: #8b5cf6;"></i>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 600;">Diagnostic Test Volumes</h4>
+                </div>
+                <span class="badge" style="font-size: 10px; padding: 3px 8px; background-color: rgba(139, 92, 246, 0.1); color: #8b5cf6;">Lab Loads</span>
+            </div>
+            <div class="card-body">
+                <div class="chart-body">
+                    <canvas id="reportsLabChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reports-breakdown-grid">
+        
+        <div class="table-card">
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="receipt" class="card-icon text-success" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                    <h4 style="margin: 0;">Recent Settled Invoices</h4>
+                </div>
+            </div>
+            <div class="card-body" style="padding: 16px 20px;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Patient ID</th>
+                                <th>Settled Amount</th>
+                                <th>Payment Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.RecentPaidBills is List<BillingRecord> paidBills && paidBills.Count > 0)
+                            {
+                                @foreach (var bill in paidBills)
+                                {
+                                    <tr>
+                                        <td><strong>@bill.BillingRecordId</strong></td>
+                                        <td>@bill.PatientId</td>
+                                        <td class="text-success font-semibold" style="font-weight: 600;">₹@bill.TotalAmount.ToString("N0")</td>
+                                        <td>@((bill.PaymentDate ?? bill.CreatedDate).ToString("dd-MM-yyyy"))</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted" style="padding: 20px 0;">No paid invoices recorded.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="card-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="building-2" class="card-icon text-primary" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                    <h4 style="margin: 0;">Ward Capacity & Admissions</h4>
+                </div>
+            </div>
+            <div class="card-body" style="padding: 16px 20px;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ward Name</th>
+                                <th>Active Patients</th>
+                                <th>Total Discharges</th>
+                                <th>Total Admissions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.WardSummary is List<WardSummaryItem> wardStats && wardStats.Count > 0)
+                            {
+                                @foreach (var ward in wardStats)
+                                {
+                                    <tr>
+                                        <td><strong>@ward.WardName</strong></td>
+                                        <td><span class="badge badge-warning" style="padding: 3px 8px; font-size: 11px;">@ward.ActiveAdmissions Active</span></td>
+                                        <td><span class="badge badge-success" style="padding: 3px 8px; font-size: 11px;">@ward.TotalDischarged Discharged</span></td>
+                                        <td>@ward.TotalAdmissions</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted" style="padding: 20px 0;">No admissions stats recorded.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function triggerExport(format) {
+            alert(format + ' export triggered successfully! Compiling data sheets for download... (Mock demo)');
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctxRevenue = document.getElementById('reportsRevenueChart').getContext('2d');
+            new Chart(ctxRevenue, {
+                type: 'line',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.MonthlyRevenueLabels)),
+                    datasets: [{
+                        label: 'Revenue (₹)',
+                        data: @Html.Raw(Json.Serialize(Model.MonthlyRevenueValues)),
+                        borderColor: '#0284c7',
+                        backgroundColor: 'rgba(2, 132, 199, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            const ctxDept = document.getElementById('reportsDeptChart').getContext('2d');
+            new Chart(ctxDept, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.DepartmentLabels)),
+                    datasets: [{
+                        label: 'Admissions Count',
+                        data: @Html.Raw(Json.Serialize(Model.DepartmentValues)),
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            const ctxLab = document.getElementById('reportsLabChart').getContext('2d');
+            new Chart(ctxLab, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.LabTestLabels)),
+                    datasets: [{
+                        label: 'Tests Conducted',
+                        data: @Html.Raw(Json.Serialize(Model.LabTestValues)),
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: '#f1f5f9' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+}

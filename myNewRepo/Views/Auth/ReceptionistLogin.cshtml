@@ -1,0 +1,79 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Receptionist Admissions Portal Login";
+    ViewData["HideShell"] = true;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth/receptionist-login.css" asp-append-version="true" />
+}
+
+<div class="login-page receptionist-theme">
+    <div class="login-bg-overlay"></div>
+    <div class="login-card-container">
+        <div class="login-card">
+            
+            <div class="login-card-header">
+                <a href="/" style="text-decoration: none; color: white; display: flex; flex-direction: column; align-items: center;">
+                    <div class="logo-circle">
+                        <i data-lucide="user-plus" class="icon-lg"></i>
+                    </div>
+                    <div class="hospital-branding">
+                        <h2>CogMedi Hospital</h2>
+                        <span>Admissions & Receptionist Portal</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="login-card-body">
+                <form asp-action="ReceptionistLogin" asp-controller="Auth" method="post" id="loginForm" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="text-danger-summary"></div>
+
+                    <input type="hidden" asp-for="Role" value="receptionist" />
+
+                    <div class="form-group">
+                        <label asp-for="Username"><i data-lucide="user-check" class="input-icon"></i> Select Receptionist Profile</label>
+                        <select asp-for="Username" id="usernameInput" required style="width: 100%; padding: 11px 14px; border-radius: var(--radius-md); border: 1.5px solid var(--border); background-color: var(--surface); color: var(--text-main); font-size: 14px; font-weight: 600; font-family: inherit; outline: none; cursor: pointer; transition: var(--transition-smooth);">
+                            <option value="" disabled selected hidden>-- Select Receptionist --</option>
+                            @if (ViewBag.Receptionists is List<User> recepList && recepList.Count > 0)
+                            {
+                                @foreach (var r in recepList)
+                                {
+                                    <option value="@r.Username">@r.FullName</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="receptionist">Sita Ramam (Front Desk Receptionist 1)</option>
+                                <option value="receptionist2">Ananya Rao (Admissions Desk Receptionist 2)</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label asp-for="Password"><i data-lucide="lock" class="input-icon"></i> Password</label>
+                        <input asp-for="Password" type="password" placeholder="Enter password" id="passwordInput" required />
+                    </div>
+
+                    <div class="form-row" style="margin-bottom: 20px;">
+                        <div class="checkbox-group">
+                            <input asp-for="RememberMe" type="checkbox" id="rememberMe" />
+                            <label for="rememberMe">Remember Me</label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Secure Login <i data-lucide="shield-check"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="login-card-footer">
+                <a href="/Home/Roles"><i data-lucide="chevron-left" class="icon-sm"></i> Back to Portals</a>
+                <span>Secure SSL 256-Bit</span>
+            </div>
+        </div>
+    </div>
+</div>

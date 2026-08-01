@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CogMedi Hospital Management System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/common/theme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/common/layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/common/sidebar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/common/navbar.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    @if (User.Identity?.IsAuthenticated == true && ViewData["HideShell"] == null)
+    {
+        
+        <div class="app-container">
+            
+            @await Html.PartialAsync("_Sidebar")
+
+            <div class="main-canvas" id="mainCanvas">
+                
+                @await Html.PartialAsync("_TopNavbar")
+
+                <main class="content-pane">
+                    
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible" id="successAlert">
+                            <i data-lucide="check-circle" class="alert-icon"></i>
+                            <span class="alert-text">@TempData["SuccessMessage"]</span>
+                            <button class="alert-close" onclick="closeAlert('successAlert')">&times;</button>
+                        </div>
+                    }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible" id="errorAlert">
+                            <i data-lucide="alert-triangle" class="alert-icon"></i>
+                            <span class="alert-text">@TempData["ErrorMessage"]</span>
+                            <button class="alert-close" onclick="closeAlert('errorAlert')">&times;</button>
+                        </div>
+                    }
+                    
+                    @RenderBody()
+                </main>
+
+                @await Html.PartialAsync("_Footer")
+            </div>
+        </div>
+    }
+    else
+    {
+        
+        <div class="public-container">
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-floating" id="pubSuccessAlert">
+                    <i data-lucide="check-circle" class="alert-icon"></i>
+                    <span>@TempData["SuccessMessage"]</span>
+                    <button onclick="closeAlert('pubSuccessAlert')">&times;</button>
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-floating" id="pubErrorAlert">
+                    <i data-lucide="alert-triangle" class="alert-icon"></i>
+                    <span>@TempData["ErrorMessage"]</span>
+                    <button onclick="closeAlert('pubErrorAlert')">&times;</button>
+                </div>
+            }
+            
+            @RenderBody()
+        </div>
+    }
+
+    <script src="~/js/common/utilities.js" asp-append-version="true"></script>
+    <script src="~/js/common/sidebar.js" asp-append-version="true"></script>
+    <script src="~/js/common/navbar.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            lucide.createIcons();
+
+            setTimeout(function() {
+                const sAlert = document.getElementById('successAlert');
+                const eAlert = document.getElementById('errorAlert');
+                const psAlert = document.getElementById('pubSuccessAlert');
+                const peAlert = document.getElementById('pubErrorAlert');
+                if(sAlert) sAlert.style.opacity = '0';
+                if(eAlert) eAlert.style.opacity = '0';
+                if(psAlert) psAlert.style.opacity = '0';
+                if(peAlert) peAlert.style.opacity = '0';
+            }, 5000);
+        });
+        
+        function closeAlert(id) {
+            const alert = document.getElementById(id);
+            if(alert) alert.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

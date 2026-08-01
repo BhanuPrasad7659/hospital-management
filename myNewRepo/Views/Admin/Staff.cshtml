@@ -1,0 +1,121 @@
+@{
+    ViewData["Title"] = "Manage Operational Staff";
+    var staffList = ViewBag.StaffList as List<CogMediHospitalManagementSystem.Models.User> ?? new List<CogMediHospitalManagementSystem.Models.User>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    
+    <div class="dashboard-header">
+        <div class="header-text">
+            <h2>Manage Operational Staff</h2>
+            <p>Hire and manage receptionists, lab technicians, pharmacists, and billing officers.</p>
+        </div>
+        <div class="header-date">
+            <i data-lucide="users"></i>
+            <span>Staff Registry</span>
+        </div>
+    </div>
+
+    <div class="details-grid" style="grid-template-columns: 1fr; margin-bottom: 24px;">
+        <div class="form-card" style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+            <div class="card-header" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;">
+                <i data-lucide="user-plus" class="card-icon text-primary"></i>
+                <h4 style="margin: 0; font-size: 15px; font-weight: 700;">Hire New Staff Member</h4>
+            </div>
+            <form asp-action="HireStaff" asp-controller="Admin" method="post" id="hireStaffForm">
+                <div class="card-body" style="padding: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Full Name</label>
+                        <input type="text" name="fullName" placeholder="e.g. Rahul Verma" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                    </div>
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Username</label>
+                        <input type="text" name="username" placeholder="e.g. rahul_lab" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                    </div>
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Password Setting</label>
+                        <input type="password" name="password" placeholder="Set password" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                    </div>
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Assigned Department Role</label>
+                        <select name="role" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; background-color: var(--surface);">
+                            <option value="">Select Role...</option>
+                            <option value="receptionist">Receptionist (Front Desk)</option>
+                            <option value="laboratory">Laboratory Technician</option>
+                            <option value="pharmacist">Pharmacist</option>
+                            <option value="billing discharge">Billing & Discharge Officer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer" style="padding: 16px 20px; border-top: 1px solid var(--border); background-color: #fcfdfe; display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn btn-primary"><i data-lucide="user-check"></i> Hire Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="details-grid" style="grid-template-columns: 1fr;">
+        <div class="table-card" style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+            <div class="card-header" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i data-lucide="contact" class="card-icon text-info"></i>
+                    <h4 style="margin: 0; font-size: 15px; font-weight: 700;">Current Staff Directory</h4>
+                </div>
+                <span class="badge badge-primary">@staffList.Count Active Staff</span>
+            </div>
+            <div class="card-body" style="padding: 20px;">
+                @if (staffList.Count > 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Staff ID</th>
+                                    <th>Full Name</th>
+                                    <th>Username</th>
+                                    <th>Department Role</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var staff in staffList)
+                                {
+                                    <tr>
+                                        <td><code>#@staff.Id</code></td>
+                                        <td><strong>@staff.FullName</strong></td>
+                                        <td><code style="font-size: 13px;">@staff.Username</code></td>
+                                        <td>
+                                            <span class="badge @(staff.Role == "receptionist" ? "badge-info" : staff.Role == "laboratory" ? "badge-primary" : (staff.Role == "pharmacist" || staff.Role == "pharmiacist") ? "badge-success" : "badge-warning")">
+                                                @staff.Role.ToUpper()
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <form asp-action="RemoveStaff" asp-controller="Admin" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to remove @staff.FullName? This cannot be undone.');">
+                                                <input type="hidden" name="userId" value="@staff.Id" />
+                                                <button type="submit" class="btn btn-outline btn-xs" style="color: var(--danger); border-color: var(--danger);">
+                                                    <i data-lucide="trash-2" style="width: 12px; height: 12px;"></i> Remove
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state" style="text-align: center; padding: 40px 20px;">
+                        <p style="color: var(--text-muted);">No operational staff found in the directory.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

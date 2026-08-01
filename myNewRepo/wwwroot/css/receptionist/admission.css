@@ -1,0 +1,98 @@
+/* ==========================================
+   PATIENT REGISTRATION & ADMISSIONS STYLING
+   ========================================== */
+
+.admission-page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.page-title-section h2 {
+    font-size: 24px;
+    font-weight: 800;
+}
+.page-title-section p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+}
+
+/* Split-screen Grid */
+.admission-grid {
+    display: grid;
+    grid-template-columns: 0.75fr 1.25fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.forms-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Form Cards Header */
+.form-card .card-header, 
+.table-card .card-header {
+    background-color: #fafbfc;
+}
+
+.form-body {
+    padding: 20px;
+}
+
+.form-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    background-color: #fcfdfe;
+}
+
+/* Patient Directory List Styling */
+.pat-name {
+    font-weight: 600;
+    color: var(--secondary);
+    font-size: 14px;
+}
+.pat-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+.pat-phone, .pat-addr {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+.pat-phone i, .pat-addr i {
+    color: var(--text-light);
+}
+
+.actions-cell {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* Modal form overrides */
+.text-info-small {
+    display: block;
+    font-size: 11px;
+    color: var(--info);
+    margin-top: 4px;
+}
+
+@media (max-width: 1100px) {
+    .admission-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Scrollable Containers */
+.table-responsive-scrollable {
+    overflow-y: auto;
+    max-height: 480px;
+    border-bottom: 1px solid var(--border);
+}

@@ -1,0 +1,131 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Physician Clinic Dashboard";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/doctor/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    
+    <div class="dashboard-header">
+        <div class="header-text">
+            <h2>Welcome, @Model.UserDisplayName</h2>
+            <p>Clinical Practitioner Portal - Examine admitted patients and prescribe care plans.</p>
+        </div>
+        <div class="header-date">
+            <i data-lucide="calendar"></i>
+            <span>@DateTime.Now.ToString("dd MMMM, yyyy")</span>
+        </div>
+    </div>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Patients in Queue</span>
+                <h3>@Model.TotalPatients</h3>
+                <p class="card-subtext">Awaiting clinical examination</p>
+            </div>
+            <div class="metric-icon primary"><i data-lucide="users"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Active Cases</span>
+                <h3>@Model.ActiveCases</h3>
+                <p class="card-subtext">Currently under active supervision</p>
+            </div>
+            <div class="metric-icon warning"><i data-lucide="activity"></i></div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-info">
+                <span class="card-label">Prescriptions Active</span>
+                <h3>@Model.ActiveTreatments</h3>
+                <p class="card-subtext">Total courses prescribed</p>
+            </div>
+            <div class="metric-icon success"><i data-lucide="pill"></i></div>
+        </div>
+    </div>
+
+    <div class="details-grid-doctor">
+        
+        <div class="table-card">
+            <div class="card-header">
+                <i data-lucide="users" class="card-icon text-primary"></i>
+                <h4>Admitted Patient Clinical Examination Queue</h4>
+                <span class="badge badge-warning">Awaiting Examination</span>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentAdmissions != null && Model.RecentAdmissions.Count > 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Patient ID</th>
+                                    <th>Patient Name</th>
+                                    <th>Age / Gender</th>
+                                    <th>Clinical Status</th>
+                                    <th class="text-right">Clinic Workbenches</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var patient in Model.RecentAdmissions)
+                                {
+                                    <tr>
+                                        <td><strong>#@patient.PatientId</strong></td>
+                                        <td>@patient.Name</td>
+                                        <td>@patient.Age yrs / @patient.Gender</td>
+                                        <td><span class="badge badge-warning">@patient.Status</span></td>
+                                        <td class="text-right actions-cell">
+                                            <a href="/doctor/patient-history?patientId=@patient.PatientId" class="btn btn-outline btn-xs" title="Review History & Lab Results">
+                                                <i data-lucide="file-text"></i> Logs & Labs
+                                            </a>
+                                            <a href="/doctor/ehr?patientId=@patient.PatientId" class="btn btn-primary btn-xs">
+                                                <i data-lucide="folder-heart"></i> EHR
+                                            </a>
+                                            <a href="/doctor/treatment?patientId=@patient.PatientId" class="btn btn-success btn-xs">
+                                                <i data-lucide="stethoscope"></i> Prescribe
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <i data-lucide="users-2" class="empty-icon"></i>
+                        <p>All clear. No patients are currently admitted in the queue.</p>
+                        <span class="subtext">Admit patients from the Receptionist portal to populate this queue.</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <div class="card-header">
+                <i data-lucide="history" class="card-icon text-info"></i>
+                <h4>My Recent Clinical Activities</h4>
+            </div>
+            <div class="card-body">
+                <ul class="activity-timeline">
+                    @foreach (var log in Model.RecentActivities)
+                    {
+                        <li>
+                            <div class="activity-bullet"></div>
+                            <div class="activity-content">
+                                <p>@log</p>
+                                <span>Recent</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

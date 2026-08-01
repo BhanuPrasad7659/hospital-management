@@ -1,0 +1,378 @@
+@model CogMediHospitalManagementSystem.Models.TreatmentPlan
+@{
+    ViewData["Title"] = "Prescribe Care & Treatment Plans";
+    var patientsList = ViewBag.PatientsList as List<CogMediHospitalManagementSystem.Models.Patient> ?? new List<CogMediHospitalManagementSystem.Models.Patient>();
+    var selectedPatient = ViewBag.SelectedPatient as CogMediHospitalManagementSystem.Models.Patient;
+    var treatmentHistory = ViewBag.TreatmentHistory as List<CogMediHospitalManagementSystem.Models.TreatmentPlan> ?? new List<CogMediHospitalManagementSystem.Models.TreatmentPlan>();
+
+    var labResults = ViewBag.PatientLabResults as List<CogMediHospitalManagementSystem.Models.OrderTestLab> ?? new List<CogMediHospitalManagementSystem.Models.OrderTestLab>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/doctor/treatment.css" asp-append-version="true" />
+}
+
+<div class="treatment-page-container">
+    <div class="page-title-section" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <div>
+            <h2>Prescribe Care & Treatment Plans</h2>
+            <p>Formulate medical prescriptions and dosage instructions for your patients.</p>
+        </div>
+
+        <div>
+            @if (selectedPatient != null)
+            {
+                <a href="/doctor/patient-history?patientId=@selectedPatient.PatientId" class="btn btn-outline-primary" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 6px; text-decoration: none;">
+                    <i data-lucide="file-text"></i> View @selectedPatient.Name's Comprehensive Log
+                </a>
+            }
+            else
+            {
+                <a href="/doctor/patient-history" class="btn btn-outline-secondary" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 6px; text-decoration: none;">
+                    <i data-lucide="file-text"></i> View System Comprehensive Logs
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="filter-bar-card">
+        <form method="get" action="/doctor/treatment" class="filter-form">
+            <div class="filter-row">
+                <label for="patientId">Active Case Selection:</label>
+                <select name="patientId" onchange="this.form.submit()">
+                    <option value="">-- All Active Admitted Patients --</option>
+                    @foreach (var pat in patientsList)
+                    {
+                        <!option value="@pat.PatientId" @(selectedPatient?.PatientId == pat.PatientId ? "selected" : "")>
+                            @pat.Name (#@pat.PatientId)
+                        </!option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="treatment-grid">
+        
+        <div class="form-panel">
+            <div class="form-card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="stethoscope" class="card-icon text-primary" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                        <h4 style="margin: 0;">Create Treatment Course</h4>
+                    </div>
+                </div>
+                <form asp-action="AddTreatment" asp-controller="Doctor" method="post" id="treatmentForm">
+                    <div class="form-body">
+                        
+                        @if (selectedPatient != null)
+                        {
+                            <div class="selected-patient-box">
+                                <div class="sp-avatar"><i data-lucide="user"></i></div>
+                                <div class="sp-info">
+                                    <h5>@selectedPatient.Name</h5>
+                                    <span>ID: <strong>#@selectedPatient.PatientId</strong> | Age: @selectedPatient.Age yrs</span>
+                                </div>
+                                <input type="hidden" name="PatientId" value="@selectedPatient.PatientId" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label for="PatientId">Select Patient</label>
+                                <select asp-for="PatientId" required>
+                                    <option value="">Select patient...</option>
+                                    @foreach (var pat in patientsList)
+                                    {
+                                        <option value="@pat.PatientId">@pat.Name (#@pat.PatientId)</option>
+                                    }
+                                </select>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label for="Diagnosis">Condition / Diagnosis</label>
+                            <input asp-for="Diagnosis" type="text" placeholder="e.g. Viral Fever, Pneumonia, Appendicitis" value="@(Model.Diagnosis ?? ViewBag.ActiveDiagnosis ?? "")" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="TreatmentDescription">Clinical Treatment Course</label>
+                            <textarea asp-for="TreatmentDescription" rows="3" placeholder="e.g. Rest, hydration, post-op wound dressings, nebulizer inhalation..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: 600; color: var(--text-main); margin-bottom: 6px; display: block;">Prescribe Medications</label>
+                            @if (ViewBag.AvailableMedicines != null && ((List<string>)ViewBag.AvailableMedicines).Any())
+                            {
+                                <div style="margin-bottom: 10px; display: flex; gap: 8px;">
+                                    <input type="text" id="medSearch" placeholder="Search medicines..." style="padding: 8px 12px; font-size: 13.5px; border: 1px solid var(--border); border-radius: var(--radius-sm); width: 100%; box-sizing: border-box;" />
+                                </div>
+                                <div id="medChecklistContainer" style="display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; padding: 10px; background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); box-sizing: border-box;">
+                                    @foreach (var med in (List<string>)ViewBag.AvailableMedicines)
+                                    {
+                                        var isSpecialty = ViewBag.SpecialtyMedicines != null && ((List<string>)ViewBag.SpecialtyMedicines).Contains(med);
+                                        <label class="med-checkbox-item" data-medname="@med" data-specialty="@(isSpecialty ? "true" : "false")" style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 500; color: var(--text-main); cursor: pointer; margin: 0; padding: 6px; border-radius: var(--radius-sm); border: 1px solid transparent; transition: all 0.2s;">
+                                            <input type="checkbox" name="selectedMedicines" value="@med" style="width: 15px; height: 15px; accent-color: #0284c7; cursor: pointer;" />
+                                            <span>@med</span>
+                                            @if (isSpecialty)
+                                            {
+                                                <span class="badge badge-info" style="font-size: 9px; padding: 2px 6px; margin-left: auto; background-color: #e0f2fe; color: #0369a1; font-weight: 700; border-radius: 4px;">SPECIALTY</span>
+                                            }
+                                        </label>
+                                    }
+                                </div>
+                                <small class="text-muted-small" style="display: block; margin-top: 4px;">Select the checkbox of the medicines to prescribe. Recommended specialty and matching diagnosis items are highlighted and prioritized.</small>
+                            }
+                            else
+                            {
+                                <div style="padding: 12px; background: #fef2f2; border: 1px solid #fee2e2; border-radius: var(--radius-md); color: #991b1b; font-size: 12.5px; font-weight: 500;">
+                                    <i data-lucide="alert-circle" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i> No medicines are currently in stock! Please contact the pharmacist.
+                                </div>
+                            }
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="Duration">Duration</label>
+                                <input asp-for="Duration" type="text" placeholder="e.g. 5 Days, 2 Weeks" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="Instructions">Usage Instructions</label>
+                                <input asp-for="Instructions" type="text" placeholder="e.g. Take twice a day after meals" required />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i data-lucide="check-circle"></i> Issue Treatment Plan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="history-panel">
+            <div class="history-card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="scroll" class="card-icon text-success" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                        <h4 style="margin: 0;">
+                            @if (selectedPatient != null)
+                            {
+                                @($"Active Treatment & Prescriptions for {selectedPatient.Name}")
+                            }
+                            else
+                            {
+                                @("All System Prescriptions & Care Plans")
+                            }
+                        </h4>
+                    </div>
+                </div>
+
+                @if (labResults != null && labResults.Any())
+                {
+                    <div style="padding: 15px; background: #f0fdf4; border-bottom: 1px solid #bbf7d0;">
+                        <h5 style="margin: 0 0 10px 0; color: #166534; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="flask-conical" style="width:16px; height:16px;"></i> Laboratory Findings
+                        </h5>
+                        @foreach (var lab in labResults.Take(3))
+                        {
+                            var isDone = lab.Status == "COMPLETED";
+                            <div style="background: white; border-radius: 6px; padding: 10px; margin-bottom: 8px; border: 1px solid #dcfce7;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                    <strong>@lab.TestName</strong>
+                                    <span style="font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; background: @(isDone ? "#d1fae5" : "#fef3c7"); color: @(isDone ? "#065f46" : "#92400e");">
+                                        @lab.Status
+                                    </span>
+                                </div>
+                                @if (isDone)
+                                {
+                                    <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #1e293b; font-family: monospace;">
+                                        <strong>Result:</strong> @lab.Result
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: #64748b; font-style: italic;">Processing in laboratory...</p>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+
+                <div class="card-body">
+                    @if (treatmentHistory.Count > 0)
+                    {
+                        @foreach (var tx in treatmentHistory)
+                        {
+                            <div class="tx-record-box">
+                                <div class="tx-record-header">
+                                    <span class="tx-date">@tx.PrescribedDate.ToString("dd-MM-yyyy hh:mm tt")</span>
+                                    <span class="tx-doc">By: @tx.DoctorName</span>
+                                </div>
+                                <div class="tx-record-body">
+                                    @if (selectedPatient == null)
+                                    {
+                                        var patName = patientsList.FirstOrDefault(p => p.PatientId == tx.PatientId)?.Name ?? "Patient";
+                                        <div class="tx-patient">Patient: <strong>@patName (#@tx.PatientId)</strong></div>
+                                    }
+                                    <div class="tx-diagnosis">Condition: <strong>@tx.Diagnosis</strong></div>
+                                    <div class="tx-desc">
+                                        <h5>Clinical Care Course:</h5>
+                                        <p>@tx.TreatmentDescription</p>
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(tx.Medication))
+                                    {
+                                        <div class="tx-meds">
+                                            <h5>Prescribed Drugs:</h5>
+                                            <div class="meds-list">
+                                                @foreach (var med in tx.Medication.Split(','))
+                                                {
+                                                    <span class="med-tag"><i data-lucide="pill" class="icon-tiny"></i> @med.Trim()</span>
+                                                }
+                                            </div>
+                                            <p class="med-instruction"><strong>Instructions:</strong> @tx.Instructions | <strong>Duration:</strong> @tx.Duration</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i data-lucide="stethoscope" class="empty-icon"></i>
+                            <p>No active treatments prescribed yet.</p>
+                            @if (selectedPatient != null)
+                            {
+                                <span class="subtext">Formulate and prescribe the first treatment course for @selectedPatient.Name on the left.</span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const diagInput = document.getElementById('Diagnosis');
+            const searchInput = document.getElementById('medSearch');
+            const medItems = document.querySelectorAll('.med-checkbox-item');
+
+            // 1. Search filter logic
+            if (searchInput) {
+                searchInput.addEventListener('input', function () {
+                    const query = searchInput.value.toLowerCase().trim();
+                    medItems.forEach(item => {
+                        const medName = item.getAttribute('data-medname').toLowerCase();
+                        if (medName.includes(query)) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // 2. Diagnosis-based recommendation engine
+            const recommendationRules = [
+                { keywords: ['appendicitis', 'appendix'], recommendations: ['Amoxicillin 500mg', 'Diclofenac 50mg', 'Ranitidine 150mg', 'Paracetamol 650mg'] },
+                { keywords: ['pneumonia', 'lung', 'chest', 'breath'], recommendations: ['Azithromycin 500mg', 'Amoxicillin 500mg', 'Ranitidine 150mg', 'Cough Syrup Adults'] },
+                { keywords: ['hypertension', 'bp', 'high blood pressure', 'tension'], recommendations: ['Amlodipine 5mg', 'Lisinopril 10mg', 'Losartan 50mg', 'Metoprolol 50mg', 'Aspirin 81mg'] },
+                { keywords: ['fever', 'pyrexia', 'body pain', 'pain', 'temp', 'temperature'], recommendations: ['Paracetamol 650mg', 'Dolo 650mg', 'Ibuprofen 400mg', 'Paracetamol 120mg Syrup'] },
+                { keywords: ['cough', 'cold', 'sore throat', 'throat'], recommendations: ['Cough Syrup Adults', 'Cough Relief Pediatric', 'Cetirizine 10mg', 'Cetirizine 5mg Syrup'] },
+                { keywords: ['infection', 'bacterial'], recommendations: ['Amoxicillin 500mg', 'Azithromycin 500mg', 'Amoxicillin 250mg Suspension'] },
+                { keywords: ['kidney', 'swelling', 'edema'], recommendations: ['Furosemide 40mg', 'Spironolactone 25mg'] },
+                { keywords: ['acidity', 'acid', 'gastric', 'gerd'], recommendations: ['Pantoprazole 40mg', 'Omeprazole 20mg', 'Ranitidine 150mg'] },
+                { keywords: ['seizure', 'migraine', 'headache', 'neuro'], recommendations: ['Gabapentin 300mg', 'Levetiracetam 500mg', 'Donepezil 5mg', 'Sumatriptan 50mg'] }
+            ];
+
+            function updateRecommendations() {
+                if (!diagInput) return;
+                const diagValue = diagInput.value.toLowerCase().trim();
+                
+                // Collect all matched recommendations
+                const recommendedMeds = new Set();
+                recommendationRules.forEach(rule => {
+                    const matchesKeyword = rule.keywords.some(keyword => diagValue.includes(keyword));
+                    if (matchesKeyword) {
+                        rule.recommendations.forEach(med => recommendedMeds.add(med));
+                    }
+                });
+
+                // Update styling & move recommended to top of container
+                const container = document.getElementById('medChecklistContainer');
+                if (!container) return;
+
+                const itemsArray = Array.from(medItems);
+                
+                // Clear highlights
+                itemsArray.forEach(item => {
+                    item.style.backgroundColor = '';
+                    item.style.border = '';
+                    const recoBadge = item.querySelector('.reco-badge');
+                    if (recoBadge) recoBadge.remove();
+                });
+
+                // Apply recommendations
+                itemsArray.forEach(item => {
+                    const medName = item.getAttribute('data-medname');
+                    if (recommendedMeds.has(medName)) {
+                        item.style.backgroundColor = '#ecfdf5'; // light emerald bg
+                        item.style.border = '1px solid #a7f3d0';
+                        
+                        // Add badge if not already there
+                        const textSpan = item.querySelector('span'); // text span
+                        const recoBadge = document.createElement('span');
+                        recoBadge.className = 'reco-badge';
+                        recoBadge.style.fontSize = '9px';
+                        recoBadge.style.padding = '2px 6px';
+                        recoBadge.style.marginLeft = '6px';
+                        recoBadge.style.backgroundColor = '#d1fae5';
+                        recoBadge.style.color = '#065f46';
+                        recoBadge.style.fontWeight = '700';
+                        recoBadge.style.borderRadius = '4px';
+                        recoBadge.innerText = 'RECOMMENDED';
+                        item.insertBefore(recoBadge, item.querySelector('.badge-info') || null);
+                    }
+                });
+
+                // Sort items: recommended first, then specialty, then rest
+                itemsArray.sort((a, b) => {
+                    const aName = a.getAttribute('data-medname');
+                    const bName = b.getAttribute('data-medname');
+                    const aReco = recommendedMeds.has(aName) ? 1 : 0;
+                    const bReco = recommendedMeds.has(bName) ? 1 : 0;
+                    
+                    if (aReco !== bReco) return bReco - aReco;
+
+                    const aSpecialty = a.getAttribute('data-specialty') === 'true' ? 1 : 0;
+                    const bSpecialty = b.getAttribute('data-specialty') === 'true' ? 1 : 0;
+
+                    if (aSpecialty !== bSpecialty) return bSpecialty - aSpecialty;
+
+                    return aName.localeCompare(bName);
+                });
+
+                // Re-append sorted elements
+                itemsArray.forEach(item => container.appendChild(item));
+            }
+
+            if (diagInput) {
+                diagInput.addEventListener('input', updateRecommendations);
+                // Trigger initially if value pre-filled
+                if (diagInput.value) {
+                    updateRecommendations();
+                }
+            }
+        });
+    </script>
+}
+
+

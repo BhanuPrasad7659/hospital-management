@@ -1,0 +1,423 @@
+@model BillingRecord
+@{
+    ViewData["Title"] = "Print Paid Invoice Receipt";
+    ViewData["HideShell"] = true; 
+}
+
+@section Styles {
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --success: #10b981;
+            --border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .invoice-outer-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-light);
+        }
+
+        .invoice-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+        }
+
+        .hospital-info h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .hospital-info p {
+            margin: 4px 0 0 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .invoice-title-block {
+            text-align: right;
+        }
+
+        .invoice-title-block h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .invoice-title-block span {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .details-section h3 {
+            margin: 0 0 12px 0;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .patient-card {
+            background: var(--bg-light);
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .patient-card table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .patient-card td {
+            padding: 4px 0;
+            font-size: 14px;
+        }
+
+        .patient-card td.label {
+            color: var(--text-muted);
+            font-weight: 500;
+            width: 35%;
+        }
+
+        .patient-card td.val {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .meta-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .meta-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 14px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .meta-list li:last-child {
+            border-bottom: none;
+        }
+
+        .meta-list span {
+            color: var(--text-muted);
+        }
+
+        .meta-list strong {
+            color: var(--text-main);
+        }
+
+        .charges-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 35px;
+        }
+
+        .charges-table th {
+            background: var(--bg-light);
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: left;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .charges-table td {
+            padding: 16px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .charges-table tr.total-row td {
+            border-bottom: 2px solid var(--text-main);
+            border-top: 2px solid var(--border);
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        .charges-table td.amount {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .charges-table th.amount {
+            text-align: right;
+        }
+
+        .invoice-footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .terms-note {
+            width: 60%;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .signature-block {
+            text-align: center;
+            width: 30%;
+            border-top: 1px solid var(--text-muted);
+            padding-top: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        @@media print {
+            body {
+                background: white;
+                padding: 0;
+                color: black;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .invoice-outer-wrapper {
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .invoice-container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+}
+
+<div class="invoice-outer-wrapper">
+    
+    <div class="action-bar no-print">
+        <a href="/billing/payments?patientId=@Model.PatientId" class="btn btn-outline">
+            <i data-lucide="arrow-left"></i> Back to Payments Desk
+        </a>
+        <button onclick="window.print()" class="btn btn-primary">
+            <i data-lucide="printer"></i> Print Invoice Receipt
+        </button>
+    </div>
+
+    <div class="invoice-container">
+        
+        <div class="invoice-header">
+            <div class="hospital-info">
+                <h2>COGMEDI HOSPITAL</h2>
+                <p>
+                    12, Gachibowli Financial District<br />
+                    Hyderabad, Telangana - 500032<br />
+                    Tel: +91 40 4829 2839 | Email: billing@cogmedi.com
+                </p>
+            </div>
+            <div class="invoice-title-block">
+                <h1>INVOICE</h1>
+                <span>STATUS: @Model.Status.ToUpper()</span>
+            </div>
+        </div>
+
+        <div class="details-grid">
+            
+            <div class="details-section">
+                <h3>Patient Details (Bill To)</h3>
+                <div class="patient-card">
+                    <table>
+                        <tr>
+                            <td class="label">Patient Name:</td>
+                            <td class="val">@(string.IsNullOrWhiteSpace(Model.PatientName) ? Model.Patient?.Name : Model.PatientName)</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Patient ID:</td>
+                            <td class="val">PT-@Model.PatientId</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Age / Gender:</td>
+                            <td class="val">@Model.Patient?.Age yrs / @Model.Patient?.Gender</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Consultant:</td>
+                            <td class="val">@(Model.Patient?.AssignedDoctorName ?? "On Duty General Physician")</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="details-section">
+                <h3>Invoice Details</h3>
+                <ul class="meta-list">
+                    <li>
+                        <span>Invoice No:</span>
+                        <strong>INV-2026-@Model.BillingRecordId.ToString("D5")</strong>
+                    </li>
+                    <li>
+                        <span>Date Issued:</span>
+                        <strong>@Model.CreatedDate.ToString("dd-MM-yyyy hh:mm tt")</strong>
+                    </li>
+                    @if (Model.PaymentDate.HasValue)
+                    {
+                        <li>
+                            <span>Payment Date:</span>
+                            <strong>@Model.PaymentDate.Value.ToString("dd-MM-yyyy hh:mm tt")</strong>
+                        </li>
+                        <li>
+                            <span>Payment Mode:</span>
+                            <strong>@Model.PaymentMethod</strong>
+                        </li>
+                        <li>
+                            <span>Transaction Ref:</span>
+                            <strong><code>@Model.TransactionId</code></strong>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <table class="charges-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%">#</th>
+                    <th style="width: 65%">Service Description</th>
+                    <th style="width: 30%" class="amount">Charge Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Professional Physician Consultation Fees</td>
+                    <td class="amount">₹@Model.ConsultationFee.ToString("N2")</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Diagnostic Pathology Laboratory Services</td>
+                    <td class="amount">₹@Model.LabCharges.ToString("N2")</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Prescribed Pharmacy Medicines & Consumables</td>
+                    <td class="amount">₹@Model.MedicineCharges.ToString("N2")</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Inpatient Room Allocation & Nursing Service Rent</td>
+                    <td class="amount">₹@Model.RoomCharges.ToString("N2")</td>
+                </tr>
+                <tr class="total-row">
+                    <td></td>
+                    <td>Total Paid Amount</td>
+                    <td class="amount">₹@Model.TotalAmount.ToString("N2")</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="invoice-footer">
+            <div class="terms-note">
+                <strong>Important Note:</strong> This is a computer-generated paid receipt validation sheet. No manual signature is required for claim processing. For any clarification regarding details, please contact the Billing desk at CogMedi Hospital.
+            </div>
+            <div class="signature-block">
+                Authorized Desk
+            </div>
+        </div>
+    </div>
+</div>

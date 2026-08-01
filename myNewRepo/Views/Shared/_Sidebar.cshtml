@@ -1,0 +1,139 @@
+<aside class="app-sidebar" id="appSidebar">
+    
+    <a href="/" class="sidebar-brand" style="text-decoration: none;">
+        <div class="brand-logo">
+            <i data-lucide="activity" class="brand-icon"></i>
+        </div>
+        <div class="brand-text">
+            <h3>CogMedi</h3>
+            <span>Smart Healthcare</span>
+        </div>
+    </a>
+
+    <nav class="sidebar-nav">
+        <ul>
+            
+            @if (User.IsInRole("admin"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/admin/dashboard") == true ? "active" : "")">
+                    <a href="/admin/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/receptionist/admission") == true ? "active" : "")">
+                    <a href="/receptionist/admission"><i data-lucide="user-plus"></i> <span>Admission</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/ehr") == true ? "active" : "")">
+                    <a href="/doctor/ehr"><i data-lucide="folder-heart"></i> <span>EHR Records</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/treatment") == true ? "active" : "")">
+                    <a href="/doctor/treatment"><i data-lucide="stethoscope"></i> <span>Treatment</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/lab/orders") == true ? "active" : "")">
+                    <a href="/lab/orders"><i data-lucide="test-tube-2"></i> <span>Lab Orders</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/pharmacist/dispensing") == true ? "active" : "")">
+                    <a href="/pharmacist/dispensing"><i data-lucide="pill"></i> <span>Pharmacy</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/billing/payments") == true ? "active" : "")">
+                    <a href="/billing/payments"><i data-lucide="credit-card"></i> <span>Billing & Discharge</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/reports") == true ? "active" : "")">
+                    <a href="/reports"><i data-lucide="bar-chart-3"></i> <span>Reports</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/admin/doctors") == true ? "active" : "")">
+                    <a href="/admin/doctors"><i data-lucide="heart-pulse"></i> <span>Manage Doctors</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/admin/staff") == true ? "active" : "")">
+                    <a href="/admin/staff"><i data-lucide="users-2"></i> <span>Manage Staff</span></a>
+                </li>
+            }
+            else if (User.IsInRole("receptionist"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/receptionist/dashboard") == true ? "active" : "")">
+                    <a href="/receptionist/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/receptionist/admission") == true ? "active" : "")">
+                    <a href="/receptionist/admission"><i data-lucide="user-plus"></i> <span>Admission</span></a>
+                </li>
+                
+            }
+            else if (User.IsInRole("doctor"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/dashboard") == true ? "active" : "")">
+                    <a href="/doctor/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/ehr") == true ? "active" : "")">
+                    <a href="/doctor/ehr"><i data-lucide="folder-heart"></i> <span>EHR Records</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/order-lab-test") == true ? "active" : "")">
+                    <a href="/doctor/order-lab-test"><i data-lucide="flask-conical"></i> <span>Order Lab Test</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/treatment") == true ? "active" : "")">
+                    <a href="/doctor/treatment"><i data-lucide="stethoscope"></i> <span>Treatment</span></a>
+                </li>
+            }
+            else if (User.IsInRole("laboratory"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/lab/dashboard") == true ? "active" : "")">
+                    <a href="/lab/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/lab/orders") == true ? "active" : "")">
+                    <a href="/lab/orders"><i data-lucide="test-tube-2"></i> <span>Lab Orders</span></a>
+                </li>
+            }
+            else if (User.IsInRole("pharmacist") || User.IsInRole("pharmiacist"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/pharmacist/dashboard") == true ? "active" : "")">
+                    <a href="/pharmacist/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/pharmacist/dispensing") == true ? "active" : "")">
+                    <a href="/pharmacist/dispensing"><i data-lucide="pill"></i> <span>Pharmacy</span></a>
+                </li>
+            }
+            else if (User.IsInRole("billing discharge"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/billing/dashboard") == true ? "active" : "")">
+                    <a href="/billing/dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+                
+                <li class="@(Context.Request.Path.Value?.Contains("/billing/payments") == true ? "active" : "")">
+                    <a href="/billing/payments"><i data-lucide="credit-card"></i> <span>Billing & Discharge</span></a>
+                </li>
+            }
+
+            @if (User.IsInRole("doctor"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/doctor/profile") == true ? "active" : "")">
+                    <a href="/doctor/profile"><i data-lucide="user"></i> <span>My Profile</span></a>
+                </li>
+            }
+            else if (User.IsInRole("receptionist"))
+            {
+                <li class="@(Context.Request.Path.Value?.Contains("/receptionist/profile") == true ? "active" : "")">
+                    <a href="/receptionist/profile"><i data-lucide="user"></i> <span>My Profile</span></a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a href="/auth/logout" class="logout-btn">
+            <i data-lucide="log-out"></i>
+            <span>Sign Out</span>
+        </a>
+    </div>
+</aside>

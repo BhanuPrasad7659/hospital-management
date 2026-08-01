@@ -1,0 +1,156 @@
+@model EhrRecord
+@{
+    ViewData["Title"] = "Electronic Health Records (EHR)";
+    var patientsList = ViewBag.PatientsList as List<Patient> ?? new List<Patient>();
+    var selectedPatient = ViewBag.SelectedPatient as Patient;
+    var ehrRecords = ViewBag.EhrRecords as List<EhrRecord> ?? new List<EhrRecord>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/doctor/ehr.css" asp-append-version="true" />
+}
+
+<div class="ehr-page-container">
+    <div class="page-title-section">
+        <h2>Electronic Health Records (EHR)</h2>
+        <p>Document patient diagnoses, medical symptoms, and clinical findings.</p>
+    </div>
+
+    <div class="filter-bar-card">
+        <form method="get" action="/doctor/ehr" class="filter-form">
+            <div class="filter-row">
+                <label for="patientId">Active Case Selection:</label>
+                <select name="patientId" onchange="this.form.submit()">
+                    <option value="">-- All Active Admitted Patients --</option>
+                    @foreach (var pat in patientsList)
+                    {
+                        <!option value="@pat.PatientId" @(selectedPatient?.PatientId == pat.PatientId ? "selected" : "")>
+                            @pat.Name (#@pat.PatientId) - Status: @pat.Status
+                        </!option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="ehr-grid">
+        
+        <div class="form-panel">
+            <div class="form-card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="file-plus-2" class="card-icon text-primary" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                        <h4 style="margin: 0;">Create Electronic Health Record</h4>
+                    </div>
+                </div>
+                <form asp-action="AddEhr" asp-controller="Doctor" method="post">
+                    <div class="form-body">
+                        
+                        @if (selectedPatient != null)
+                        {
+                            <div class="selected-patient-box">
+                                <div class="sp-avatar"><i data-lucide="user"></i></div>
+                                <div class="sp-info">
+                                    <h5>@selectedPatient.Name</h5>
+                                    <span>ID: <strong>#@selectedPatient.PatientId</strong> | Age: @selectedPatient.Age yrs</span>
+                                </div>
+                                <input type="hidden" name="PatientId" value="@selectedPatient.PatientId" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label for="PatientId">Select Admitted Patient</label>
+                                <select asp-for="PatientId" required>
+                                    <option value="">Select patient...</option>
+                                    @foreach (var pat in patientsList)
+                                    {
+                                        <option value="@pat.PatientId">@pat.Name (#@pat.PatientId)</option>
+                                    }
+                                </select>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label for="Diagnosis">Clinical Diagnosis</label>
+                            <input asp-for="Diagnosis" type="text" placeholder="e.g. Viral Fever, Acute Appendicitis, Pneumonia" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="DoctorNotes">Clinical Notes / Medical Findings</label>
+                            <textarea asp-for="DoctorNotes" rows="6" placeholder="Enter detailed medical complaints, clinical observations, blood pressure, temperature, and recommended actions..." required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i data-lucide="save"></i> Log EHR Entry
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="history-panel">
+            <div class="timeline-card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="history" class="card-icon text-info" style="width: 20px; height: 20px; margin-right: 0;"></i>
+                        <h4 style="margin: 0;">
+                            @if (selectedPatient != null)
+                            {
+                                @($"Clinical History for {selectedPatient.Name}")
+                            }
+                            else
+                            {
+                                @("All System EHR History Logs")
+                            }
+                        </h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (ehrRecords.Count > 0)
+                    {
+                        <div class="timeline">
+                            @foreach (var record in ehrRecords)
+                            {
+                                <div class="timeline-item">
+                                    <div class="timeline-badge"><i data-lucide="clipboard-list"></i></div>
+                                    <div class="timeline-content-box">
+                                        <div class="tc-header">
+                                            <span class="tc-date">@record.VisitDate.ToString("dd-MM-yyyy hh:mm tt")</span>
+                                            <span class="tc-doctor"><i data-lucide="user-cog" class="icon-tiny"></i> @record.DoctorName</span>
+                                        </div>
+                                        <div class="tc-body">
+                                            @if (selectedPatient == null)
+                                            {
+                                                var patName = patientsList.FirstOrDefault(p => p.PatientId == record.PatientId)?.Name ?? "Patient";
+                                                <div class="tc-patient">Patient: <strong>@patName (#@record.PatientId)</strong></div>
+                                            }
+                                            <div class="tc-diagnosis"><i data-lucide="activity" class="icon-tiny text-primary"></i> Diagnosis: <strong>@record.Diagnosis</strong></div>
+                                            <div class="tc-notes">
+                                                <h5>Physician Findings:</h5>
+                                                <p>@record.DoctorNotes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i data-lucide="folder-search" class="empty-icon"></i>
+                            <p>No health history records found.</p>
+                            @if (selectedPatient != null)
+                            {
+                                <span class="subtext">Create the first EHR entry for @selectedPatient.Name on the left.</span>
+                            }
+                        </div>
+                    }
+                </div>
+        </div>
+    </div>
+</div>
+
+

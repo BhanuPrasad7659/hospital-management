@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CogMediHospitalManagementSystem.csproj" />
+  <Project Path="..\CogMediHospitalManagementSystemApi\CogMediHospitalManagementSystemApi.csproj" />
+</Solution>

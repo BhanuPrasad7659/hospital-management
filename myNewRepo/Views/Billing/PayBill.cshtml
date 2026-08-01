@@ -1,0 +1,341 @@
+@model BillingViewModel
+@{
+    ViewData["Title"] = "Pay the Bill - Financial Settlement";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/billing/paybill.css" asp-append-version="true" />
+}
+
+<div class="paybill-container">
+    
+    <div class="paybill-top-bar">
+        <div class="paybill-title-wrap">
+            <h2><i data-lucide="credit-card" class="text-primary"></i> Pay the Bill</h2>
+            <p>Select your preferred payment method to settle hospital charges in real-time.</p>
+        </div>
+        <a href="/billing/payments?patientId=@Model.PatientId" class="back-link">
+            <i data-lucide="arrow-left"></i> Back to Billing & Discharge
+        </a>
+    </div>
+
+    <input type="hidden" id="totalPayableAmount" value="@Model.TotalAmount" />
+
+    <div class="paybill-grid">
+        
+        <div class="bill-summary-card">
+            <div class="bill-summary-header">
+                <div class="hospital-badge">
+                    <i data-lucide="activity"></i>
+                    <div>
+                        <h3>CogMedi Hospital</h3>
+                        <span>Healthcare & Financial Desk</span>
+                    </div>
+                </div>
+                <div class="bill-status-tag">
+                    Invoice: #@Model.BillingRecordId
+                </div>
+            </div>
+
+            <div class="patient-info-strip">
+                <div class="info-item">
+                    <label>Patient Name</label>
+                    <span>@Model.PatientName</span>
+                </div>
+                <div class="info-item">
+                    <label>Patient ID</label>
+                    <span>#@Model.PatientId</span>
+                </div>
+                <div class="info-item">
+                    <label>Age / Gender</label>
+                    <span>@(Model.Patient?.Age ?? 0) yrs / @(Model.Patient?.Gender ?? "N/A")</span>
+                </div>
+                <div class="info-item">
+                    <label>Clinical Status</label>
+                    <span class="text-warning">@(Model.Patient?.Status ?? "ADMITTED")</span>
+                </div>
+            </div>
+
+            <div class="itemized-charges-list">
+                <h4><i data-lucide="file-text"></i> Statement Breakdown</h4>
+                
+                <div class="charge-row">
+                    <span>Physician Consultation Fee</span>
+                    <strong>₹@Model.ConsultationFee.ToString("N2")</strong>
+                </div>
+                <div class="charge-row">
+                    <span>Diagnostic Laboratory Charges</span>
+                    <strong>₹@Model.LabCharges.ToString("N2")</strong>
+                </div>
+                <div class="charge-row">
+                    <span>Prescribed Pharmacy Charges</span>
+                    <strong>₹@Model.MedicineCharges.ToString("N2")</strong>
+                </div>
+                <div class="charge-row">
+                    <span>Ward & Room Service Charges</span>
+                    <strong>₹@Model.RoomCharges.ToString("N2")</strong>
+                </div>
+            </div>
+
+            <div class="total-payable-banner">
+                <div class="total-label">
+                    <span>Total Amount Payable</span>
+                    <small>Includes all tax & hospital fees</small>
+                </div>
+                <div class="total-amount-display">
+                    ₹@Model.TotalAmount.ToString("N2")
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-card">
+            <div class="checkout-header">
+                <h3><i data-lucide="shield-check" class="text-success"></i> Select Payment Method</h3>
+                <p>Choose UPI, Cash, or Credit/Debit Card to process payment instantly.</p>
+            </div>
+
+            <div class="method-tabs">
+                <button type="button" class="tab-btn active" data-mode="UPI">
+                    <i data-lucide="qr-code"></i> UPI Payment
+                </button>
+                <button type="button" class="tab-btn" data-mode="CASH">
+                    <i data-lucide="banknote"></i> Cash
+                </button>
+                <button type="button" class="tab-btn" data-mode="CARD">
+                    <i data-lucide="credit-card"></i> Card
+                </button>
+            </div>
+
+            <div class="checkout-body">
+                <form id="payBillForm" asp-action="ProcessBillPayment" asp-controller="Billing" method="post">
+                    <input type="hidden" name="billingRecordId" value="@Model.BillingRecordId" />
+                    <input type="hidden" name="paymentMode" id="paymentModeInput" value="UPI" />
+
+                    <div class="method-panel active" id="upi-panel">
+                        
+                        <div class="upi-app-selector-box">
+                            <label for="upiAppSelect"><i data-lucide="smartphone"></i> Select UPI Application / Provider:</label>
+                            <select name="upiApp" id="upiAppSelect" class="upi-dropdown">
+                                <option value="PhonePe">PhonePe (UPI)</option>
+                                <option value="Google Pay (GPay)">Google Pay (GPay)</option>
+                                <option value="Paytm">Paytm UPI</option>
+                                <option value="BHIM UPI">BHIM UPI</option>
+                                <option value="Slice">Slice UPI</option>
+                            </select>
+
+                            <div class="upi-logo-grid">
+                                <div class="upi-logo-card selected" data-app="PhonePe">
+                                    <svg viewBox="0 0 100 100" width="30" height="30">
+                                        <circle cx="50" cy="50" r="45" fill="#5f259f"/>
+                                        <path d="M40 25 h15 a15 15 0 0 1 0 30 h-15 z M40 55 v20 M48 40 l15 25" stroke="#ffffff" stroke-width="8" fill="none" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>PhonePe</span>
+                                </div>
+                                <div class="upi-logo-card" data-app="Google Pay (GPay)">
+                                    <svg viewBox="0 0 100 100" width="30" height="30">
+                                        <rect width="100" height="100" rx="20" fill="#ffffff" stroke="#e2e8f0"/>
+                                        <path d="M25 50 a25 25 0 0 1 45 -12" stroke="#ea4335" stroke-width="10" fill="none"/>
+                                        <path d="M70 38 a25 25 0 0 1 0 24" stroke="#4285f4" stroke-width="10" fill="none"/>
+                                        <path d="M70 62 a25 25 0 0 1 -45 -12" stroke="#34a853" stroke-width="10" fill="none"/>
+                                        <path d="M25 50 h25" stroke="#fbbc05" stroke-width="10" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>GPay</span>
+                                </div>
+                                <div class="upi-logo-card" data-app="Paytm">
+                                    <svg viewBox="0 0 100 100" width="30" height="30">
+                                        <rect width="100" height="100" rx="20" fill="#002e6e"/>
+                                        <text x="50" y="62" font-family="sans-serif" font-weight="900" font-size="28" fill="#00baf2" text-anchor="middle">paytm</text>
+                                    </svg>
+                                    <span>Paytm</span>
+                                </div>
+                                <div class="upi-logo-card" data-app="BHIM UPI">
+                                    <svg viewBox="0 0 100 100" width="30" height="30">
+                                        <rect width="100" height="100" rx="20" fill="#0083ca"/>
+                                        <path d="M30 25 L50 75 L70 25" stroke="#ff9933" stroke-width="12" fill="none" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>BHIM</span>
+                                </div>
+                                <div class="upi-logo-card" data-app="Slice">
+                                    <svg viewBox="0 0 100 100" width="30" height="30">
+                                        <rect width="100" height="100" rx="20" fill="#8b5cf6"/>
+                                        <path d="M30 30 L70 70 M30 70 L70 30" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>Slice</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="upi-mode-toggle">
+                            <div class="mode-option active" data-target="qr">
+                                <i data-lucide="qr-code"></i> Scan QR Code
+                            </div>
+                            <div class="mode-option" data-target="vpa">
+                                <i data-lucide="at-sign"></i> Enter UPI ID (VPA)
+                            </div>
+                        </div>
+
+                        <div id="upi-qr-section" class="qr-display-box">
+                            <div class="qr-code-wrapper">
+                                
+                                <svg viewBox="0 0 200 200">
+                                    <rect width="200" height="200" fill="#ffffff" />
+                                    
+                                    <rect x="10" y="10" width="50" height="50" fill="#0f172a" />
+                                    <rect x="20" y="20" width="30" height="30" fill="#ffffff" />
+                                    <rect x="25" y="25" width="20" height="20" fill="#0f172a" />
+
+                                    <rect x="140" y="10" width="50" height="50" fill="#0f172a" />
+                                    <rect x="150" y="20" width="30" height="30" fill="#ffffff" />
+                                    <rect x="155" y="25" width="20" height="20" fill="#0f172a" />
+
+                                    <rect x="10" y="140" width="50" height="50" fill="#0f172a" />
+                                    <rect x="20" y="150" width="30" height="30" fill="#ffffff" />
+                                    <rect x="25" y="155" width="20" height="20" fill="#0f172a" />
+
+                                    <rect x="70" y="15" width="12" height="12" fill="#0284c7" />
+                                    <rect x="90" y="15" width="12" height="12" fill="#0f172a" />
+                                    <rect x="115" y="15" width="12" height="12" fill="#0284c7" />
+
+                                    <rect x="70" y="35" width="12" height="12" fill="#0f172a" />
+                                    <rect x="115" y="35" width="12" height="12" fill="#0f172a" />
+
+                                    <rect x="15" y="70" width="12" height="12" fill="#0f172a" />
+                                    <rect x="35" y="70" width="12" height="12" fill="#0284c7" />
+                                    <rect x="55" y="70" width="12" height="12" fill="#0f172a" />
+                                    <rect x="75" y="70" width="12" height="12" fill="#0f172a" />
+
+                                    <rect x="100" y="80" width="15" height="15" fill="#0284c7" />
+                                    <rect x="125" y="70" width="12" height="12" fill="#0f172a" />
+                                    <rect x="145" y="70" width="12" height="12" fill="#0284c7" />
+                                    <rect x="165" y="70" width="12" height="12" fill="#0f172a" />
+
+                                    <rect x="70" y="115" width="12" height="12" fill="#0f172a" />
+                                    <rect x="90" y="115" width="12" height="12" fill="#0284c7" />
+                                    <rect x="115" y="115" width="12" height="12" fill="#0f172a" />
+
+                                    <rect x="70" y="145" width="12" height="12" fill="#0284c7" />
+                                    <rect x="95" y="145" width="12" height="12" fill="#0f172a" />
+                                    <rect x="120" y="145" width="12" height="12" fill="#0284c7" />
+
+                                    <rect x="145" y="120" width="12" height="12" fill="#0f172a" />
+                                    <rect x="165" y="145" width="12" height="12" fill="#0f172a" />
+                                    <rect x="145" y="165" width="12" height="12" fill="#0284c7" />
+                                    <rect x="165" y="165" width="12" height="12" fill="#0f172a" />
+                                </svg>
+
+                                <div class="qr-app-icon-overlay" id="qrAppOverlay">PhonePe</div>
+                            </div>
+                            <div class="qr-scan-text">
+                                Scan using <span id="selectedAppLabel">PhonePe</span> or any UPI App
+                            </div>
+                            <div class="qr-timer-badge">
+                                <i data-lucide="clock"></i> Dynamic QR code active for payment of ₹@Model.TotalAmount.ToString("N2")
+                            </div>
+                        </div>
+
+                        <div id="upi-vpa-section" class="vpa-input-group" style="display: none;">
+                            <label for="upiIdInput">Enter Virtual Payment Address (UPI ID):</label>
+                            <div class="vpa-field-row">
+                                <input type="text" name="upiId" id="upiIdInput" class="vpa-input" placeholder="e.g. mobile@ybl, user@gpay, name@paytm" />
+                                <button type="button" class="btn-verify-vpa" id="btnVerifyVpa">Verify VPA</button>
+                            </div>
+                            <div class="vpa-verified-status" id="vpaStatus">
+                                <i data-lucide="check-circle-2"></i> UPI VPA Verified (CogMedi Billing Authorized Desk)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="method-panel" id="cash-panel">
+                        <div class="cash-calculator-box">
+                            <div class="form-group-cash">
+                                <label for="cashReceivedInput">Cash Tendered by Patient / Attendant:</label>
+                                <div class="cash-input-wrap">
+                                    <span class="cash-prefix">₹</span>
+                                    <input type="number" name="cashReceived" id="cashReceivedInput" class="cash-input" value="@Model.TotalAmount.ToString("0")" step="100" />
+                                </div>
+                            </div>
+
+                            <div class="quick-cash-pills">
+                                <span class="cash-pill" data-mode="exact">Exact Amount</span>
+                                <span class="cash-pill" data-add="500">+ ₹500</span>
+                                <span class="cash-pill" data-add="1000">+ ₹1,000</span>
+                                <span class="cash-pill" data-add="2000">+ ₹2,000</span>
+                                <span class="cash-pill" data-add="5000">+ ₹5,000</span>
+                            </div>
+
+                            <div class="change-display-banner" id="changeBanner">
+                                <span class="change-label">CHANGE TO RETURN TO PATIENT</span>
+                                <span class="change-amount" id="changeAmountDisplay">₹ 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="method-panel" id="card-panel">
+                        <div class="card-brand-bar">
+                            <span>Supported Payment Networks:</span>
+                            <div class="card-logos-inline">
+                                <div class="card-logo-badge">VISA</div>
+                                <div class="card-logo-badge">Mastercard</div>
+                                <div class="card-logo-badge">RuPay</div>
+                                <div class="card-logo-badge">Amex</div>
+                            </div>
+                        </div>
+
+                        <div class="card-form-grid">
+                            <div class="form-group-card full-width">
+                                <label for="cardNumberInput">Card Number</label>
+                                <div class="card-input-wrap">
+                                    <input type="text" name="cardNumber" id="cardNumberInput" placeholder="4532 •••• •••• 8942" />
+                                    <div class="detected-brand-icon" id="detectedBrand">DETECTING</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-card full-width">
+                                <label for="cardHolderInput">Cardholder Name</label>
+                                <input type="text" id="cardHolderInput" placeholder="Full Name as on Card" value="@Model.PatientName" class="vpa-input" />
+                            </div>
+
+                            <div class="form-group-card">
+                                <label for="expiryInput">Expiry Date</label>
+                                <input type="text" id="expiryInput" placeholder="MM / YY" maxlength="5" class="vpa-input" />
+                            </div>
+
+                            <div class="form-group-card">
+                                <label for="cvvInput">CVV / CVC Code</label>
+                                <input type="password" id="cvvInput" placeholder="•••" maxlength="4" class="vpa-input" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-pay-now">
+                        <i data-lucide="lock"></i> Pay the Bill & Settle (₹@Model.TotalAmount.ToString("N2"))
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="payment-processing-modal-overlay" id="paymentModalOverlay">
+    <div class="modal-content-box">
+        <div class="spinner-ring"></div>
+        <h3>Processing Payment...</h3>
+        <p>Please do not close or refresh this page. Authorizing real-time transaction with CogMedi Payment Gateway.</p>
+
+        <div class="process-step-list">
+            <div class="step-item active" id="step1">
+                <span class="step-dot"></span> 1. Connecting to Secure Bank Gateway...
+            </div>
+            <div class="step-item" id="step2">
+                <span class="step-dot"></span> 2. Authorizing ₹@Model.TotalAmount.ToString("N2") Transfer...
+            </div>
+            <div class="step-item" id="step3">
+                <span class="step-dot"></span> 3. Payment Verified! Settling Account...
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/billing/paybill.js" asp-append-version="true"></script>
+}

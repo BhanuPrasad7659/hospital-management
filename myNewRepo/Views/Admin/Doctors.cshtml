@@ -1,0 +1,136 @@
+@{
+    ViewData["Title"] = "Manage Specialized Doctors";
+    var doctorsList = ViewBag.DoctorsList as List<User> ?? new List<User>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard-container">
+    
+    <div class="dashboard-header">
+        <div class="header-text">
+            <h2>Manage Specialized Doctors</h2>
+            <p>Hire new physicians and overview the medical registry.</p>
+        </div>
+    </div>
+
+    <div class="details-grid" style="grid-template-columns: 1fr;">
+        
+        <div class="form-card" style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); max-width: 900px;">
+            <div class="card-header" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;">
+                <i data-lucide="user-plus" class="card-icon text-primary"></i>
+                <h4 style="margin: 0; font-size: 15px; font-weight: 700;">Hire New Specialized Doctor</h4>
+            </div>
+            <form asp-action="HireDoctor" asp-controller="Admin" method="post" id="hireDoctorForm">
+                <div class="card-body" style="padding: 20px; display: flex; flex-direction: column; gap: 15px;">
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Full Name</label>
+                        <input type="text" name="fullName" placeholder="e.g. Dr. Priya Sharma" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                    </div>
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Username</label>
+                            <input type="text" name="username" placeholder="e.g. priya" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Password Setting</label>
+                            <input type="password" name="password" placeholder="Set password" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Specialty</label>
+                            <input type="text" name="specialty" placeholder="e.g. Pediatrics" required style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                        </div>
+                    </div>
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Contact Number</label>
+                            <input type="tel" name="contactNumber" placeholder="10-digit phone" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Email Address</label>
+                            <input type="email" name="email" placeholder="e.g. priya@cogmedi.com" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px;">Biography / Background</label>
+                        <textarea name="biography" rows="3" placeholder="Physician credentials, education..." style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; font-family: inherit; resize: vertical;"></textarea>
+                    </div>
+                </div>
+                <div class="card-footer" style="padding: 16px 20px; border-top: 1px solid var(--border); background-color: #fcfdfe; display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn btn-primary"><i data-lucide="user-check"></i> Hire Doctor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="details-grid" style="grid-template-columns: 1fr; margin-top: 24px;">
+        <div class="table-card" style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+            <div class="card-header" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i data-lucide="users" class="card-icon text-info"></i>
+                    <h4 style="margin: 0; font-size: 15px; font-weight: 700;">Specialized Doctors Directory Registry</h4>
+                </div>
+                <span class="badge badge-primary">@doctorsList.Count Active Doctors</span>
+            </div>
+            <div class="card-body" style="padding: 20px;">
+                @if (doctorsList.Count > 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Doctor ID</th>
+                                    <th>Full Name</th>
+                                    <th>Username</th>
+                                    <th>Specialty Department</th>
+                                    <th>Contact Info</th>
+                                    <th>Remove</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var doc in doctorsList)
+                                {
+                                    <tr>
+                                        <td><code>#@doc.Id</code></td>
+                                        <td><strong>@doc.FullName</strong></td>
+                                        <td><code style="font-size: 13px;">@doc.Username</code></td>
+                                        <td><span class="badge badge-info">@(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty)</span></td>
+                                        <td>
+                                            <div style="font-size: 13px; color: var(--text-main); font-weight: 500;">@doc.ContactNumber</div>
+                                            <div style="font-size: 11.5px; color: var(--text-muted);">@doc.Email</div>
+                                        </td>
+                                        <td>
+                                            <form asp-action="RemoveDoctor" asp-controller="Admin" method="post" style="margin: 0;" onsubmit="return confirm('Are you sure you want to remove Dr. @doc.FullName from the registry?');">
+                                                <input type="hidden" name="doctorId" value="@doc.Id" />
+                                                <button type="submit" class="btn btn-danger btn-xs" style="display: inline-flex; align-items: center; gap: 4px;">
+                                                    <i data-lucide="trash-2" style="width: 12px; height: 12px;"></i> Remove
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="/doctor/view-profile?doctorId=@doc.Id" class="btn btn-outline btn-xs" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                                <i data-lucide="user" style="width: 12px; height: 12px;"></i> Profile
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state" style="text-align: center; padding: 40px 20px;">
+                        <i data-lucide="alert-circle" style="font-size: 40px; color: var(--text-muted); opacity: 0.5;"></i>
+                        <p style="margin-top: 12px; color: var(--text-muted);">No doctors found in the directory.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

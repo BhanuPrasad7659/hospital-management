@@ -1,0 +1,80 @@
+@using System.Security.Claims
+
+<header class="top-navbar">
+    
+    <div class="navbar-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggle" onclick="toggleSidebar()">
+            <i data-lucide="menu"></i>
+        </button>
+
+        <nav class="breadcrumb-nav">
+            <span class="breadcrumb-item">CogMedi</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item active">
+                @{
+                    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+                    var action = ViewContext.RouteData.Values["action"]?.ToString();
+                    @($"{controller} / {action}")
+                }
+            </span>
+        </nav>
+    </div>
+
+    <div class="navbar-center">
+        @if (User.IsInRole("admin") || User.IsInRole("receptionist") || User.IsInRole("doctor") || User.IsInRole("billing discharge"))
+        {
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" placeholder="Search patients, EHRs, lab records..." id="globalSearch" autocomplete="off" />
+                <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+            </div>
+        }
+    </div>
+
+    <div class="navbar-right">
+
+        <div class="nav-profile-wrapper" id="profileWrapper">
+            <button class="nav-profile-btn" onclick="toggleDropdown('profileDropdown')">
+                <div class="avatar">
+                    @{
+                        var fullName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "User";
+                        var initials = "U";
+                        if (!string.IsNullOrWhiteSpace(fullName))
+                        {
+                            var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                            if (parts.Length > 0)
+                            {
+                                initials = string.Join("", parts.Select(n => n[0])).ToUpper();
+                            }
+                        }
+                        if (initials.Length > 2) initials = initials.Substring(0, 2);
+                        @initials
+                    }
+                </div>
+                <div class="profile-meta">
+                    <span class="user-name">@fullName</span>
+                    <span class="user-role">@User.FindFirst(ClaimTypes.Role)?.Value</span>
+                </div>
+                <i data-lucide="chevron-down" class="chevron-icon"></i>
+            </button>
+
+            <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                <div class="dropdown-header">
+                    <h4>@fullName</h4>
+                    <span>@User.Identity?.Name</span>
+                </div>
+                <ul>
+                    @{
+                        var profileUrl = "/settings";
+                        if (User.IsInRole("doctor")) { profileUrl = "/doctor/profile"; }
+                        else if (User.IsInRole("receptionist")) { profileUrl = "/receptionist/profile"; }
+                    }
+                    <li><a href="@profileUrl"><i data-lucide="user"></i> My Profile</a></li>
+                    <li><a href="/settings"><i data-lucide="settings"></i> Settings</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/auth/logout" class="text-danger"><i data-lucide="log-out"></i> Sign Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>

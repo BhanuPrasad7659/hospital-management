@@ -1,0 +1,75 @@
+/* ==========================================
+   LABORATORY DIAGNOSTIC ORDERS STYLING
+   ========================================== */
+
+.lab-orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.page-title-section h2 { font-size: 24px; font-weight: 800; }
+.page-title-section p { font-size: 13.5px; color: var(--text-muted); }
+
+/* Test Name Badge Pill */
+.test-name-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--primary-light);
+    color: var(--primary);
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(2, 132, 199, 0.1);
+}
+
+/* Result Display Box */
+.result-text-box {
+    background-color: #fafbfc;
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    max-width: 320px;
+}
+.result-text-box p {
+    font-size: 12.5px;
+    color: var(--text-main);
+    font-weight: 500;
+    line-height: 1.4;
+}
+.result-text-box span {
+    font-size: 10px;
+    color: var(--text-light);
+    display: block;
+    margin-top: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Modal specific tweaks */
+.modal-patient-info {
+    background-color: var(--background);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+.modal-patient-info p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+.modal-patient-info p:last-child {
+    margin-bottom: 0;
+}
+.modal-patient-info strong {
+    color: var(--secondary);
+}
+
+/* Scrollable Test Queue Container */
+.table-responsive-scrollable {
+    overflow-y: auto;
+    max-height: 480px;
+    border-bottom: 1px solid var(--border);
+}

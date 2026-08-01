@@ -1,0 +1,99 @@
+@{
+    ViewData["Title"] = "Select Employee Role Portal";
+    ViewData["HideShell"] = true;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home/roles.css" asp-append-version="true" />
+}
+
+<div class="roles-selection-page">
+    
+    <div class="top-bar">
+        <a href="/" class="back-home-link">
+            <i data-lucide="arrow-left"></i> Back to Homepage
+        </a>
+    </div>
+
+    <div class="roles-header">
+        <div class="hospital-logo">
+            <i data-lucide="activity" class="brand-icon"></i>
+        </div>
+        <h2>CogMedi Employee Portals</h2>
+        <p>Select your operational department below to log in to your secure, role-based clinical dashboard.</p>
+    </div>
+
+    <div class="roles-grid">
+        
+        <div class="role-card admin-theme">
+            <div class="role-icon-wrapper">
+                <i data-lucide="shield-alert"></i>
+            </div>
+            <h3>admin</h3>
+            <p>Configure hospital systems, audit logs, inspect revenue analytics, and manage department settings.</p>
+            <a href="/login/admin" class="btn btn-role">
+                Open Admin Portal <i data-lucide="chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="role-card receptionist-theme">
+            <div class="role-icon-wrapper">
+                <i data-lucide="user-plus"></i>
+            </div>
+            <h3>receptionist</h3>
+            <p>Register new patients, manage outpatient entries, allocate ward beds, and coordinate admissions.</p>
+            <a href="/login/receptionist" class="btn btn-role">
+                Open Admissions <i data-lucide="chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="role-card doctor-theme">
+            <div class="role-icon-wrapper">
+                <i data-lucide="heart-pulse"></i>
+            </div>
+            <h3>doctor</h3>
+            <p>Access EHR patient charts, write clinical diagnoses, prescribe treatments, and manage clinical care.</p>
+            <a href="/login/doctor" class="btn btn-role">
+                Open Clinic Desk <i data-lucide="chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="role-card lab-theme">
+            <div class="role-icon-wrapper">
+                <i data-lucide="microscope"></i>
+            </div>
+            <h3>laboratory</h3>
+            <p>Track ordered laboratory diagnostic tests, process biological samples, and upload findings reports.</p>
+            <a href="/login/laboratory" class="btn btn-role">
+                Open Diagnostics <i data-lucide="chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="role-card pharmacist-theme">
+            <div class="role-icon-wrapper">
+                <i data-lucide="pill"></i>
+            </div>
+            <h3>pharmiacist</h3>
+            <p>Inspect active prescription sheets, manage medicine stocks, and dispense drugs to outpatients.</p>
+            <a href="/login/pharmiacist" class="btn btn-role">
+                Open Dispensary <i data-lucide="chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="role-card billing-theme">
+            <div class="role-icon-wrapper">
+                <i data-lucide="receipt"></i>
+            </div>
+            <h3>billing discharge</h3>
+            <p>Generate hospital invoices, collect fees, log payments, and execute patient discharge clearance.</p>
+            <a href="/login/billing" class="btn btn-role">
+                Open Billing Desk <i data-lucide="chevron-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="roles-footer">
+        <p><strong>Security Notice:</strong> All operations on this server are encrypted and audited. Unauthorized access attempts will be logged.</p>
+        <span>CogMedi Smart Healthcare. Better Care.</span>
+    </div>
+</div>

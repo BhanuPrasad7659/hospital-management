@@ -1,0 +1,559 @@
+@model PatientViewModel
+@{
+    ViewData["Title"] = "Patient Admissions Portal";
+    var patientsList = ViewBag.PatientsList as List<Patient> ?? new List<Patient>();
+    var registeredOnly = patientsList.Where(p => p.Status == "REGISTERED").ToList();
+    var occupiedBedsList = ViewBag.OccupiedBeds as List<string> ?? new List<string>();
+    var occupiedBedsJson = System.Text.Json.JsonSerializer.Serialize(occupiedBedsList);
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/receptionist/admission.css" asp-append-version="true" />
+}
+
+<div class="admission-page-container">
+    <div class="page-title-section">
+        <h2>Patient Registration & Admissions</h2>
+        <p>Create database records for new patients and admit them to hospital wards.</p>
+    </div>
+
+    <div class="admission-grid">
+        
+        <div class="forms-column">
+            
+            <div class="form-card">
+                <div class="card-header">
+                    <i data-lucide="user-plus" class="card-icon text-primary"></i>
+                    <h4>Register New Patient Profile</h4>
+                </div>
+                <form asp-action="Register" asp-controller="Receptionist" method="post" id="registerPatientForm">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="Name">Full Name</label>
+                            <input asp-for="Name" type="text" placeholder="Enter patient's full name" required />
+                            <span asp-validation-for="Name" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="Age">Age (Years)</label>
+                                
+                                <input asp-for="Age" type="number" min="1" max="130" placeholder="Age" required oninput="if(this.value !== '' && this.value < 1) this.value = '';" />
+                                <span asp-validation-for="Age" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Gender">Gender</label>
+                                <select asp-for="Gender" required>
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ContactNumber">Contact Number</label>
+                            <input asp-for="ContactNumber" type="tel" pattern="[0-9]{10}" maxlength="10" minlength="10" placeholder="10-digit phone number" required oninput="this.value=this.value.replace(/[^0-9]/g,''); if(this.value.length>10)this.value=this.value.slice(0,10);" />
+                            <span asp-validation-for="ContactNumber" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Address">Residential Address</label>
+                            <input asp-for="Address" type="text" placeholder="City, Area" required />
+                            <span asp-validation-for="Address" class="text-danger" style="font-size: 12px; display: block; margin-top: 4px;"></span>
+                        </div>
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i data-lucide="save"></i> Save Patient Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-card">
+                <div class="card-header">
+                    <i data-lucide="bed-double" class="card-icon text-warning"></i>
+                    <h4>Admit Registered Patient</h4>
+                </div>
+                <form asp-action="Admit" asp-controller="Receptionist" method="post" id="admitForm">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="patientId">Select Patient</label>
+                            <select name="patientId" required>
+                                <option value="">Select a registered patient...</option>
+                                @foreach (var pat in registeredOnly)
+                                {
+                                    <option value="@pat.PatientId">@pat.Name (#@pat.PatientId)</option>
+                                }
+                            </select>
+                            @if (registeredOnly.Count == 0)
+                            {
+                                <small class="text-info-small">No registered patients awaiting admission. Register one above first!</small>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label for="doctorId">Assign Attending Physician</label>
+                            <select name="doctorId" required>
+                                <option value="">Select Doctor...</option>
+                                @foreach (var doc in ViewBag.DoctorsList as List<User> ?? new List<User>())
+                                {
+                                    <option value="@doc.Id">
+                                        @doc.FullName - @(string.IsNullOrEmpty(doc.Specialty) ? "General Practice" : doc.Specialty) [@(doc.Specialty == "Cardiology" ? "Cardiology Wing" : doc.Specialty == "Pediatrics" ? "Pediatrics Wing" : "General Ward")]
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="wardSelect">Ward / Wing</label>
+                                <select name="ward" id="wardSelect" required>
+                                    <option value="">Select Ward</option>
+                                    <option value="General Ward">General Ward</option>
+                                    <option value="ICU">ICU</option>
+                                    <option value="Pediatrics Wing">Pediatrics Wing</option>
+                                    <option value="Cardiology Wing">Cardiology Wing</option>
+                                    <option value="Emergency Ward">Emergency Ward</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="bedNumberSelect">Bed Number</label>
+                                <select name="bedNumber" id="bedNumberSelect" required>
+                                    <option value="">Select Ward first...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-warning btn-block" @(registeredOnly.Count == 0 ? "disabled" : "")>
+                            <i data-lucide="check-square"></i> Admit & Allocate Bed
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="directory-column">
+            <div class="table-card">
+                <div class="card-header">
+                    <i data-lucide="users" class="card-icon text-info"></i>
+                    <h4>Patient Registry Directory</h4>
+                    <span class="badge badge-primary">@patientsList.Count Total Patients</span>
+                </div>
+                <div class="card-body">
+                    @if (patientsList.Count > 0)
+                    {
+                        <div class="table-responsive table-responsive-scrollable">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Patient ID</th>
+                                        <th>Demographics</th>
+                                        <th>Location / Bed</th>
+                                        <th>Contact & Address</th>
+                                        <th>Status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="patientTableBody">
+                                    @foreach (var pat in patientsList)
+                                    {
+                                        <tr>
+                                            <td><strong>#@pat.PatientId</strong></td>
+                                            <td>
+                                                <div class="pat-name">@pat.Name</div>
+                                                <div class="pat-meta">@pat.Age yrs / @pat.Gender</div>
+                                                @if (pat.Status == "ADMITTED" && !string.IsNullOrEmpty(pat.AssignedDoctorName))
+                                                {
+                                                    <div style="font-size: 11px; margin-top: 4px; color: var(--text-muted);">
+                                                        <i data-lucide="user" style="width:11px; height:11px; display:inline-block; vertical-align:middle; margin-right:2px; color:var(--primary);"></i>
+                                                        Physician: <a href="/doctor/view-profile?doctorId=@(pat.AssignedDoctorId ?? 0)" style="color: var(--primary); text-decoration: underline; font-weight: 500;">@pat.AssignedDoctorName</a>
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (pat.Status == "ADMITTED" && !string.IsNullOrEmpty(pat.BedNumber))
+                                                {
+                                                    <strong style="color: var(--primary); font-size: 13px;">@pat.BedNumber</strong>
+                                                    <div style="font-size: 11px; color: var(--text-muted);">@pat.Ward</div>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color: var(--text-muted); font-size: 12px;">N/A</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="pat-phone"><i data-lucide="phone" class="icon-tiny"></i> @pat.ContactNumber</div>
+                                                <div class="pat-addr"><i data-lucide="map-pin" class="icon-tiny"></i> @pat.Address</div>
+                                            </td>
+                                            <td>
+                                                <span class="badge @(pat.Status == "ADMITTED" ? "badge-warning" : pat.Status == "DISCHARGED" ? "badge-success" : "badge-info")">
+                                                    @pat.Status
+                                                </span>
+                                            </td>
+                                            <td class="text-right actions-cell">
+                                                <button type="button" class="btn-icon text-success" onclick="openPrintCard('@pat.PatientId', '@pat.Name', @pat.Age, '@pat.Gender', '@pat.ContactNumber', '@pat.Address', '@pat.Status', '@pat.AssignedDoctorName')" title="Print Patient Card">
+                                                    <i data-lucide="printer"></i>
+                                                </button>
+
+                                                <button type="button" class="btn-icon text-primary" onclick="openEditForm(@pat.PatientId, '@pat.Name', @pat.Age, '@pat.Gender', '@pat.ContactNumber', '@pat.Address', '@pat.Status')">
+                                                    <i data-lucide="edit-3"></i>
+                                                </button>
+
+                                                <form asp-action="Delete" asp-controller="Receptionist" method="post" class="inline-form" onsubmit="return confirm('Are you sure you want to delete patient @pat.Name? This will wipe their medical records.')">
+                                                    <input type="hidden" name="patientId" value="@pat.PatientId" />
+                                                    <button type="submit" class="btn-icon text-danger">
+                                                        <i data-lucide="trash-2"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i data-lucide="folder-open" class="empty-icon"></i>
+                            <p>No patient records found in the database. Register a patient on the left to begin.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="editModal">
+    <div class="modal-overlay" onclick="closeEditModal()"></div>
+    <div class="modal-card">
+        <div class="modal-header">
+            <h4>Update Patient Profile</h4>
+            <button class="modal-close" onclick="closeEditModal()">&times;</button>
+        </div>
+        <form asp-action="Edit" asp-controller="Receptionist" method="post">
+            <div class="modal-body">
+                <input type="hidden" name="PatientId" id="editPatientId" />
+                <input type="hidden" name="Status" id="editStatus" />
+
+                <div class="form-group">
+                    <label for="editName">Full Name</label>
+                    <input type="text" name="Name" id="editName" required />
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editAge">Age</label>
+                        
+                        <input type="number" name="Age" id="editAge" min="1" max="130" required oninput="if(this.value !== '' && this.value < 1) this.value = '';" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editGender">Gender</label>
+                        <select name="Gender" id="editGender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editContactNumber">Contact Number</label>
+                    <input type="tel" name="ContactNumber" id="editContactNumber" required />
+                </div>
+                <div class="form-group">
+                    <label for="editAddress">Residential Address</label>
+                    <input type="text" name="Address" id="editAddress" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal" id="printCardModal">
+    <div class="modal-overlay" onclick="closePrintCardModal()"></div>
+    <div class="modal-card" style="max-width: 480px;">
+        <div class="modal-header">
+            <h4>Patient Identification Card</h4>
+            <button class="modal-close" onclick="closePrintCardModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="printCardBody" style="padding: 20px;">
+            <div id="patientCardContainer" style="border: 2px solid var(--primary); border-radius: var(--radius-lg); padding: 20px; background-color: var(--surface); box-shadow: var(--shadow-sm); position: relative; font-family: 'Inter', sans-serif; box-sizing: border-box;">
+                <div style="position: absolute; right: 15px; top: 15px; opacity: 0.05; color: var(--primary); pointer-events: none;">
+                    <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
+                </div>
+                <div style="border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <div style="background-color: var(--primary); color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; flex-shrink: 0;">
+                        H
+                    </div>
+                    <div>
+                        <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--primary); letter-spacing: 0.5px;">CogMedi Hospital</h5>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Official Patient ID Card</span>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; font-size: 13px;">
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Patient ID</span>
+                        <strong id="cardPatientId" style="font-size: 14px; color: var(--text-main);"></strong>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Full Name</span>
+                        <strong id="cardName" style="font-size: 14px; color: var(--text-main);"></strong>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Age / Gender</span>
+                        <span id="cardAgeGender" style="font-weight: 600; color: var(--text-main);"></span>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Contact Number</span>
+                        <span id="cardContact" style="font-weight: 600; color: var(--text-main);"></span>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Address</span>
+                        <span id="cardAddress" style="font-weight: 600; color: var(--text-main);"></span>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Status</span>
+                        <span id="cardStatus" class="badge" style="display: inline-block; margin-top: 2px;"></span>
+                    </div>
+                    <div>
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; display: block;">Attending Doctor</span>
+                        <strong id="cardDoctor" style="color: var(--secondary); font-size: 13px;"></strong>
+                    </div>
+                </div>
+                <div style="border-top: 1px dashed var(--border); padding-top: 12px; text-align: center;">
+                    <div style="letter-spacing: 5px; font-family: monospace; font-size: 14px; color: var(--text-muted); font-weight: bold; background: repeating-linear-gradient(90deg, #1e293b 0px, #1e293b 2px, transparent 2px, transparent 6px); height: 25px; width: 180px; margin: 0 auto 4px auto; opacity: 0.8;"></div>
+                    <span style="font-size: 9px; color: var(--text-light); text-transform: uppercase;">Scan barcode for electronic medical record</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closePrintCardModal()">Close</button>
+            <button type="button" class="btn btn-primary" onclick="printCard()"><i data-lucide="printer"></i> Print Card</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const bedsByWard = {
+                "General Ward": ["G-01", "G-02", "G-03", "G-04", "G-05", "G-06", "G-07", "G-08", "G-09", "G-10", "G-11", "G-12", "G-13", "G-14", "G-15"],
+                "ICU": ["ICU-01", "ICU-02", "ICU-03", "ICU-04", "ICU-05", "ICU-06", "ICU-07", "ICU-08"],
+                "Pediatrics Wing": ["PED-01", "PED-02", "PED-03", "PED-04", "PED-05", "PED-06"],
+                "Cardiology Wing": ["CARD-01", "CARD-02", "CARD-03", "CARD-04", "CARD-05", "CARD-06"],
+                "Emergency Ward": ["ER-01", "ER-02", "ER-03", "ER-04", "ER-05", "ER-06"]
+            };
+
+            const occupiedBeds = @Html.Raw(occupiedBedsJson);
+            const wardSelect = document.getElementById("wardSelect");
+            const bedSelect = document.getElementById("bedNumberSelect");
+
+            function updateBedOptions() {
+                if (!wardSelect || !bedSelect) return;
+
+                const selectedWard = wardSelect.value;
+                bedSelect.innerHTML = ""; 
+
+                if (!selectedWard || !bedsByWard[selectedWard]) {
+                    const opt = document.createElement("option");
+                    opt.value = "";
+                    opt.textContent = "Select Ward first...";
+                    bedSelect.appendChild(opt);
+                    return;
+                }
+
+                const defaultOpt = document.createElement("option");
+                defaultOpt.value = "";
+                defaultOpt.textContent = `Select Bed in ${selectedWard}...`;
+                bedSelect.appendChild(defaultOpt);
+
+                const beds = bedsByWard[selectedWard];
+                beds.forEach(bed => {
+                    const opt = document.createElement("option");
+                    opt.value = bed;
+
+                    if (occupiedBeds.includes(bed)) {
+                        opt.textContent = `${bed} (Occupied)`;
+                        opt.disabled = true;
+                    } else {
+                        opt.textContent = `${bed} (Available)`;
+                    }
+                    bedSelect.appendChild(opt);
+                });
+            }
+
+            if (wardSelect) {
+                wardSelect.addEventListener("change", updateBedOptions);
+            }
+
+            updateBedOptions();
+
+            window.openEditForm = function(id, name, age, gender, contact, address, status) {
+                document.getElementById('editPatientId').value = id;
+                document.getElementById('editName').value = name;
+                document.getElementById('editAge').value = age;
+                document.getElementById('editGender').value = gender;
+                document.getElementById('editContactNumber').value = contact;
+                document.getElementById('editAddress').value = address;
+                document.getElementById('editStatus').value = status;
+                document.getElementById('editModal').classList.add('active');
+            };
+
+            window.closeEditModal = function() {
+                document.getElementById('editModal').classList.remove('active');
+            };
+
+            window.openPrintCard = function(id, name, age, gender, contact, address, status, doctor) {
+                document.getElementById('cardPatientId').innerText = '#' + id;
+                document.getElementById('cardName').innerText = name;
+                document.getElementById('cardAgeGender').innerText = age + " Years / " + gender;
+                document.getElementById('cardContact').innerText = contact;
+                document.getElementById('cardAddress').innerText = address;
+
+                const cardStatus = document.getElementById('cardStatus');
+                cardStatus.innerText = status;
+                cardStatus.className = 'badge ' + (status === 'ADMITTED' ? 'badge-warning' : status === 'DISCHARGED' ? 'badge-success' : 'badge-info');
+
+                document.getElementById('cardDoctor').innerText = doctor ? doctor : "None Assigned";
+                document.getElementById('printCardModal').classList.add('active');
+            };
+
+            window.closePrintCardModal = function() {
+                document.getElementById('printCardModal').classList.remove('active');
+            };
+
+            window.printCard = function() {
+                const cardContent = document.getElementById('patientCardContainer').outerHTML;
+                const printWindow = window.open('', '_blank', 'height=500,width=600');
+                printWindow.document.write('<html><head><title>Print Patient Card</title>');
+                printWindow.document.write('<style>');
+                printWindow.document.write('body { font-family: "Inter", sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #fff; }');
+                printWindow.document.write(':root { --primary: #0284c7; --secondary: #0f172a; --text-main: #1e293b; --text-muted: #64748b; --text-light: #94a3b8; --border: #e2e8f0; --radius-lg: 8px; --surface: #ffffff; }');
+                printWindow.document.write('.badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block; }');
+                printWindow.document.write('.badge-warning { background-color: #fef3c7; color: #d97706; }');
+                printWindow.document.write('.badge-success { background-color: #d1fae5; color: #059669; }');
+                printWindow.document.write('.badge-info { background-color: #e0f2fe; color: #0284c7; }');
+                printWindow.document.write('</sty' + 'le></he' + 'ad><bo' + 'dy>');
+                printWindow.document.write(cardContent);
+                printWindow.document.write('</bo' + 'dy></ht' + 'ml>');
+                printWindow.document.close();
+                printWindow.focus();
+                setTimeout(function() {
+                    printWindow.print();
+                    printWindow.close();
+                }, 250);
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchVal = urlParams.get('search');
+            if (searchVal) {
+                const searchLower = searchVal.toLowerCase();
+                const rows = document.querySelectorAll("#patientTableBody tr");
+                rows.forEach(row => {
+                    const idText = row.cells[0]?.textContent?.toLowerCase() || "";
+                    const nameText = row.querySelector(".pat-name")?.textContent?.toLowerCase() || "";
+                    const phoneText = row.querySelector(".pat-phone")?.textContent?.toLowerCase() || "";
+
+                    if (idText.includes(searchLower) || nameText.includes(searchLower) || phoneText.includes(searchLower)) {
+                        row.style.display = "";
+                        row.style.backgroundColor = "rgba(2, 132, 199, 0.08)";
+                        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            }
+
+            const registerForm = document.getElementById("registerPatientForm");
+            if (registerForm) {
+                registerForm.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    const nameInput = registerForm.querySelector("[name='Name']");
+                    const ageInput = registerForm.querySelector("[name='Age']");
+                    const genderSelect = registerForm.querySelector("[name='Gender']");
+                    const contactInput = registerForm.querySelector("[name='ContactNumber']");
+                    const addressInput = registerForm.querySelector("[name='Address']");
+
+                    const payload = {
+                        name: nameInput ? nameInput.value : "",
+                        age: parseInt(ageInput ? ageInput.value : "0"),
+                        gender: genderSelect ? genderSelect.value : "",
+                        contactNumber: contactInput ? contactInput.value : "",
+                        address: addressInput ? addressInput.value : ""
+                    };
+
+                    fetch("/api/receptionist/patients", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            return res.text().then(text => { throw new Error(text || "Failed to register patient."); });
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        alert("Patient profile registered successfully via Receptionist API!");
+                        window.location.reload();
+                    })
+                    .catch(err => {
+                        alert(err.message);
+                    });
+                });
+            }
+
+            const admitForm = document.getElementById("admitForm");
+            if (admitForm) {
+                admitForm.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    const patientIdSelect = admitForm.querySelector("[name='patientId']");
+                    const doctorIdSelect = admitForm.querySelector("[name='doctorId']");
+                    const wardSelect = admitForm.querySelector("[name='ward']");
+                    const bedNumberSelect = admitForm.querySelector("[name='bedNumber']");
+
+                    const payload = {
+                        patientId: parseInt(patientIdSelect ? patientIdSelect.value : "0"),
+                        assignedDoctorId: parseInt(doctorIdSelect ? doctorIdSelect.value : "0"),
+                        ward: wardSelect ? wardSelect.value : "",
+                        bedNumber: bedNumberSelect ? bedNumberSelect.value : ""
+                    };
+
+                    fetch("/api/receptionist/admissions", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            return res.text().then(text => { throw new Error(text || "Failed to admit patient."); });
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        alert("Patient admitted successfully via Receptionist API!");
+                        window.location.reload();
+                    })
+                    .catch(err => {
+                        alert(err.message);
+                    });
+                });
+            }
+        });
+    </script>
+}
