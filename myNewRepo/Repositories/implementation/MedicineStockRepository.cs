@@ -15,12 +15,18 @@ namespace CogMediHospitalManagementSystem.Repositories.implementation
 
         public Dictionary<string, int> GetStockDictionary()
         {
-            return GetAll().ToDictionary(m => m.MedicineName, m => m.Quantity);
+            // Groups by MedicineName and sums the quantities of any duplicate records
+            return GetAll()
+                .GroupBy(m => m.MedicineName)
+                .ToDictionary(g => g.Key, g => g.Sum(m => m.Quantity));
         }
 
         public Dictionary<string, decimal> GetPriceDictionary()
         {
-            return GetAll().ToDictionary(m => m.MedicineName, m => m.Price);
+            // Groups by MedicineName and takes the price from the first record to prevent duplicate key crashes
+            return GetAll()
+                .GroupBy(m => m.MedicineName)
+                .ToDictionary(g => g.Key, g => g.First().Price);
         }
 
         public void UpdateStock(string medicineName, int amount)
