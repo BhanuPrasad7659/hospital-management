@@ -1,0 +1,797 @@
+[
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.AdminApiController",
+    "Method": "GetUsers",
+    "RelativePath": "api/admin/users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.AdminApiController",
+    "Method": "CreateUser",
+    "RelativePath": "api/admin/users",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestDto",
+        "Type": "CogMediHospitalManagementSystem.DTOs.UserCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.AdminApiController",
+    "Method": "GetUser",
+    "RelativePath": "api/admin/users/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.AdminApiController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/admin/users/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "requestDto",
+        "Type": "CogMediHospitalManagementSystem.DTOs.UserUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.AdminApiController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/admin/users/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.AuthApiController",
+    "Method": "Login",
+    "RelativePath": "api/auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CogMediHospitalManagementSystemApi.Controllers.AuthApiController\u002BLoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.AuthApiController",
+    "Method": "Register",
+    "RelativePath": "api/auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CogMediHospitalManagementSystemApi.Controllers.AuthApiController\u002BRegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.BillingApiController",
+    "Method": "GetBillingRecords",
+    "RelativePath": "api/billing",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.BillingApiController",
+    "Method": "GenerateBill",
+    "RelativePath": "api/billing",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CogMediHospitalManagementSystemApi.Controllers.BillingApiController\u002BBillGenerationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.BillingApiController",
+    "Method": "GetBillingRecord",
+    "RelativePath": "api/billing/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.BillingApiController",
+    "Method": "DeleteBillingRecord",
+    "RelativePath": "api/billing/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.BillingApiController",
+    "Method": "DischargePatient",
+    "RelativePath": "api/billing/discharge/{patientId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "remarks",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.BillingApiController",
+    "Method": "GetBillingForPatient",
+    "RelativePath": "api/billing/patient/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.BillingApiController",
+    "Method": "ProcessPayment",
+    "RelativePath": "api/billing/pay/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "GetEhrRecords",
+    "RelativePath": "api/doctor/ehr",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "CreateEhr",
+    "RelativePath": "api/doctor/ehr",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "record",
+        "Type": "CogMediHospitalManagementSystem.Models.EhrRecord",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "GetEhrForPatient",
+    "RelativePath": "api/doctor/ehr/patient/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "OrderLabTests",
+    "RelativePath": "api/doctor/lab-orders",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController\u002BApiOrderLabRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "GetTreatments",
+    "RelativePath": "api/doctor/treatments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "CreateTreatment",
+    "RelativePath": "api/doctor/treatments",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "plan",
+        "Type": "CogMediHospitalManagementSystem.Models.TreatmentPlan",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "GetTreatment",
+    "RelativePath": "api/doctor/treatments/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "UpdateTreatment",
+    "RelativePath": "api/doctor/treatments/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "planDetails",
+        "Type": "CogMediHospitalManagementSystem.Models.TreatmentPlan",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "DeleteTreatment",
+    "RelativePath": "api/doctor/treatments/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.DoctorApiController",
+    "Method": "GetTreatmentsForPatient",
+    "RelativePath": "api/doctor/treatments/patient/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.HomeApiController",
+    "Method": "GetHospitalStats",
+    "RelativePath": "api/home/stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.LabApiController",
+    "Method": "GetLabOrders",
+    "RelativePath": "api/lab/orders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.LabApiController",
+    "Method": "CreateLabOrder",
+    "RelativePath": "api/lab/orders",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "order",
+        "Type": "CogMediHospitalManagementSystem.Models.OrderTestLab",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.LabApiController",
+    "Method": "GetLabOrder",
+    "RelativePath": "api/lab/orders/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.LabApiController",
+    "Method": "UpdateLabOrder",
+    "RelativePath": "api/lab/orders/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDetails",
+        "Type": "CogMediHospitalManagementSystem.Models.OrderTestLab",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.LabApiController",
+    "Method": "DeleteLabOrder",
+    "RelativePath": "api/lab/orders/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.LabApiController",
+    "Method": "GetLabOrdersForPatient",
+    "RelativePath": "api/lab/orders/patient/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.PharmacistApiController",
+    "Method": "Dispense",
+    "RelativePath": "api/pharmacist/dispense/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "pharmacistName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.PharmacistApiController",
+    "Method": "GetPrices",
+    "RelativePath": "api/pharmacist/prices",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.PharmacistApiController",
+    "Method": "GetPharmacyRecords",
+    "RelativePath": "api/pharmacist/records",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.PharmacistApiController",
+    "Method": "GetPharmacyRecord",
+    "RelativePath": "api/pharmacist/records/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.PharmacistApiController",
+    "Method": "DeletePharmacyRecord",
+    "RelativePath": "api/pharmacist/records/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.PharmacistApiController",
+    "Method": "GetStock",
+    "RelativePath": "api/pharmacist/stock",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.PharmacistApiController",
+    "Method": "UpdateStock",
+    "RelativePath": "api/pharmacist/stock",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CogMediHospitalManagementSystemApi.Controllers.PharmacistApiController\u002BStockUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "GetAdmissions",
+    "RelativePath": "api/receptionist/admissions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "AdmitPatient",
+    "RelativePath": "api/receptionist/admissions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "admissionRequest",
+        "Type": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController\u002BApiAdmissionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "GetAdmission",
+    "RelativePath": "api/receptionist/admissions/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "UpdateAdmission",
+    "RelativePath": "api/receptionist/admissions/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "admissionDetails",
+        "Type": "CogMediHospitalManagementSystem.Models.Admission",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "DeleteAdmission",
+    "RelativePath": "api/receptionist/admissions/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "GetPatients",
+    "RelativePath": "api/receptionist/patients",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "RegisterPatient",
+    "RelativePath": "api/receptionist/patients",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestDto",
+        "Type": "CogMediHospitalManagementSystem.DTOs.PatientCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "GetPatient",
+    "RelativePath": "api/receptionist/patients/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "UpdatePatient",
+    "RelativePath": "api/receptionist/patients/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "requestDto",
+        "Type": "CogMediHospitalManagementSystem.DTOs.PatientUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReceptionistApiController",
+    "Method": "DeletePatient",
+    "RelativePath": "api/receptionist/patients/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.ReportsApiController",
+    "Method": "GetAnalytics",
+    "RelativePath": "api/reports/analytics",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.HomeApiController",
+    "Method": "Search",
+    "RelativePath": "api/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.SettingsApiController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/settings/change-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CogMediHospitalManagementSystemApi.Controllers.SettingsApiController\u002BChangePasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CogMediHospitalManagementSystemApi.Controllers.SettingsApiController",
+    "Method": "SaveHospital",
+    "RelativePath": "api/settings/save-hospital",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CogMediHospitalManagementSystemApi.Controllers.SettingsApiController\u002BHospitalSettingsRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

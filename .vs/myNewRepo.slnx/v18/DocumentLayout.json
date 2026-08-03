@@ -3,12 +3,36 @@
   "WorkspaceRootPath": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\DataProtectionKeys\\key-e10bb8b9-1c8a-4721-a0b2-c14093f444b3.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DataProtectionKeys\\key-e10bb8b9-1c8a-4721-a0b2-c14093f444b3.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:myNewRepo\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Repositories\\implementation\\MedicineStockRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:myNewRepo\\Repositories\\implementation\\MedicineStockRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Repositories\\implementation\\PharmacyRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:myNewRepo\\Repositories\\implementation\\PharmacyRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\CogMediHospitalManagementSystemApi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CogMediHospitalManagementSystemApi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:myNewRepo\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\CogMediHospitalManagementSystemApi\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CogMediHospitalManagementSystemApi\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,19 +51,97 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "key-e10bb8b9-1c8a-4721-a0b2-c14093f444b3.xml",
+              "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\DataProtectionKeys\\key-e10bb8b9-1c8a-4721-a0b2-c14093f444b3.xml",
+              "RelativeDocumentMoniker": "DataProtectionKeys\\key-e10bb8b9-1c8a-4721-a0b2-c14093f444b3.xml",
+              "ToolTip": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\DataProtectionKeys\\key-e10bb8b9-1c8a-4721-a0b2-c14093f444b3.xml",
+              "RelativeToolTip": "DataProtectionKeys\\key-e10bb8b9-1c8a-4721-a0b2-c14093f444b3.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2026-08-03T03:54:09.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "myNewRepo\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "myNewRepo\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAAEAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-03T03:51:38.899Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AgIAAJoFAAAAAAAAAAAAAJAFAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-08-03T03:48:27.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PharmacyRepository.cs",
+              "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Repositories\\implementation\\PharmacyRepository.cs",
+              "RelativeDocumentMoniker": "myNewRepo\\Repositories\\implementation\\PharmacyRepository.cs",
+              "ToolTip": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Repositories\\implementation\\PharmacyRepository.cs",
+              "RelativeToolTip": "myNewRepo\\Repositories\\implementation\\PharmacyRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-03T03:35:38.93Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\CogMediHospitalManagementSystemApi\\appsettings.json",
+              "RelativeDocumentMoniker": "CogMediHospitalManagementSystemApi\\appsettings.json",
+              "ToolTip": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\CogMediHospitalManagementSystemApi\\appsettings.json",
+              "RelativeToolTip": "CogMediHospitalManagementSystemApi\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-08-02T09:47:06.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\CogMediHospitalManagementSystemApi\\Program.cs",
+              "RelativeDocumentMoniker": "CogMediHospitalManagementSystemApi\\Program.cs",
+              "ToolTip": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\CogMediHospitalManagementSystemApi\\Program.cs",
+              "RelativeToolTip": "CogMediHospitalManagementSystemApi\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-02T04:39:33.277Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MedicineStockRepository.cs",
               "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Repositories\\implementation\\MedicineStockRepository.cs",
               "RelativeDocumentMoniker": "myNewRepo\\Repositories\\implementation\\MedicineStockRepository.cs",
               "ToolTip": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Repositories\\implementation\\MedicineStockRepository.cs",
               "RelativeToolTip": "myNewRepo\\Repositories\\implementation\\MedicineStockRepository.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAgwDEAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAswCUAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-01T10:24:00.57Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\appsettings.json",
               "RelativeDocumentMoniker": "myNewRepo\\appsettings.json",
@@ -52,7 +154,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\CogMedi\\cogmedi-final\\myNewRepo\\myNewRepo\\Program.cs",
               "RelativeDocumentMoniker": "myNewRepo\\Program.cs",

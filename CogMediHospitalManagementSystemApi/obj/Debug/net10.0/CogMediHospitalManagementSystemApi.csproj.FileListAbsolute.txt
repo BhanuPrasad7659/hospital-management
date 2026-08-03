@@ -159,3 +159,4 @@ C:\CogMedi\cogmedi-final\myNewRepo\CogMediHospitalManagementSystemApi\obj\Debug\
 C:\CogMedi\cogmedi-final\myNewRepo\CogMediHospitalManagementSystemApi\obj\Debug\net10.0\CogMediHospitalManagementSystemApi.pdb
 C:\CogMedi\cogmedi-final\myNewRepo\CogMediHospitalManagementSystemApi\obj\Debug\net10.0\CogMediHospitalManagementSystemApi.genruntimeconfig.cache
 C:\CogMedi\cogmedi-final\myNewRepo\CogMediHospitalManagementSystemApi\obj\Debug\net10.0\ref\CogMediHospitalManagementSystemApi.dll
+C:\CogMedi\cogmedi-final\myNewRepo\CogMediHospitalManagementSystemApi\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

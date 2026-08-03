@@ -2,10 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\CogMediHospitalManagementSystemApi",
+    "\\CogMediHospitalManagementSystemApi\\Controllers",
+    "\\DataProtectionKeys",
     "\\myNewRepo",
+    "\\myNewRepo\\Controllers",
     "\\myNewRepo\\Repositories",
     "\\myNewRepo\\Repositories\\implementation"
   ],
-  "SelectedNode": "\\myNewRepo\\Repositories\\implementation\\MedicineStockRepository.cs",
+  "SelectedNode": "\\myNewRepo\\CogMediHospitalManagementSystem.slnx",
   "PreviewInSolutionExplorer": false
 }

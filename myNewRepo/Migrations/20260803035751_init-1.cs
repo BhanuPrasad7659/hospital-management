@@ -1,12 +1,14 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace CogMediHospitalManagementSystem.Migrations
 {
-    public partial class patientname : Migration
+    /// <inheritdoc />
+    public partial class init1 : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -16,7 +18,8 @@ namespace CogMediHospitalManagementSystem.Migrations
                     MedicineStockId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicineName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,6 +35,7 @@ namespace CogMediHospitalManagementSystem.Migrations
                     Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Role = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DoctorUniqueId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Specialty = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Biography = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
@@ -79,6 +83,7 @@ namespace CogMediHospitalManagementSystem.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<int>(type: "int", nullable: false),
                     PatientName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
                     AdmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DischargeDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Ward = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -342,6 +347,7 @@ namespace CogMediHospitalManagementSystem.Migrations
                 column: "PatientId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
